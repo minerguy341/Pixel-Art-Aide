@@ -18,7 +18,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from aide.grid import Pxg, parse_color, to_image, to_text
+from aide.grid import Pxg, parse_color, save_texture, to_image, to_text
 
 SESSION = Path(__file__).resolve().parents[1]
 
@@ -136,7 +136,7 @@ def main() -> None:
         ]:
             pxg = build(base, tier, kind)
             (SESSION / "src" / f"{stem}.pxg").write_text(to_text(pxg, comments))
-            to_image(pxg).save(SESSION / "out" / f"{stem}.png")
+            save_texture(to_image(pxg), SESSION / "out" / f"{stem}.png")
             print(stem)
 
 

@@ -13,9 +13,14 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="aide", description="Pixel-Art-Aide toolkit")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    p = sub.add_parser("render", help="render a .pxg source to a 1x PNG")
+    p = sub.add_parser("render", help="render a .pxg source to a 1x PNG (alpha-bled)")
     p.add_argument("src")
     p.add_argument("-o", "--out", help="output PNG (default: alongside src)")
+    p.add_argument("--no-bleed", action="store_true", help="skip alpha-bleed of transparent pixels")
+
+    p = sub.add_parser("bleed", help="alpha-bleed transparent pixels of an existing PNG (mipmap fix)")
+    p.add_argument("src")
+    p.add_argument("-o", "--out", help="output PNG (default: overwrite src)")
 
     p = sub.add_parser("preview", help="render a review sheet (1x, upscaled, gridded, tiled)")
     p.add_argument("src", help=".pxg or .png")
@@ -53,13 +58,20 @@ def main(argv: list[str] | None = None) -> int:
     from aide import analyze as an
     from aide import compare as cmp
     from aide import styles as st
-    from aide.grid import from_image, load_pxg, load_texture, to_image, to_text
+    from aide.grid import from_image, load_pxg, load_texture, save_texture, to_image, to_text
     from aide.render import preview_sheet
     from PIL import Image
 
     if args.cmd == "render":
         out = Path(args.out) if args.out else Path(args.src).with_suffix(".png")
-        to_image(load_pxg(args.src)).save(out)
+        save_texture(to_image(load_pxg(args.src)), out, bleed=not args.no_bleed)
+        print(out)
+
+    elif args.cmd == "bleed":
+        from aide.bleed import alpha_bleed
+
+        out = Path(args.out) if args.out else Path(args.src)
+        alpha_bleed(load_texture(args.src)).save(out)
         print(out)
 
     elif args.cmd == "preview":

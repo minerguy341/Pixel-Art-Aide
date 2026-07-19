@@ -261,3 +261,119 @@ future craft research is geared toward Minecraft/voxel texture work.
   Does NOTHING in unmodified 1.21.1 — never a default deliverable
 - Source: shaderLABS "LabPBR Material Standard" —
   https://shaderlabs.org/wiki/LabPBR_Material_Standard
+
+---
+
+# Researched lessons — 2026-07-19 (Minecraft engine / texture pipeline)
+
+Third research batch, **all 16 approved by the user**, who directed that they
+be applied to revise every texture shipped so far (done: alpha-bleed on all,
+un-darkened bottom faces, block renderer corrected). Vanilla 1.21.1 unless a
+[MOD] flag says otherwise. pack_format for 1.21.1 = 34.
+
+## 2026-07-19 — don't bake directional gradients into blocks
+- Rule: the engine multiplies each face BEFORE your shading shows —
+  top 1.0, bottom 0.5, N/S 0.8, E/W 0.6. Paint side/bottom textures at FULL
+  brightness and near-symmetric; one side texture renders at 0.8 on two walls
+  and 0.6 on the other two. Pre-darkening double-darkens. `"shade": false`
+  opts a face out. (Fixed our orrery/worktable bottoms; blockrender.py now
+  uses the exact 1.0/0.8/0.6 multipliers.)
+- Source: greyminecraftcoder "Lighting" http://greyminecraftcoder.blogspot.com/2020/04/lighting-1144.html ; MC Wiki "Light" https://minecraft.wiki/w/Light
+
+## 2026-07-19 — alpha-bleed transparent pixels
+- Rule: fill every alpha-0 pixel with the RGB of its nearest opaque neighbor
+  (keep alpha 0). Mipmaps average in the RGB *under* transparent pixels; black
+  there (our .pxg `none`) gives distant cutouts dark halos. Now automatic in
+  `save_texture`/`aide render` and `aide bleed`; applied to all shipped art.
+- Source: MC Wiki "Texture atlas" https://minecraft.wiki/w/Texture_atlas
+
+## 2026-07-19 — no isolated 1px details on cutouts
+- Rule: the first mip halving averages away 1px features, and 1px-thin cutout
+  limbs drop below the alpha threshold and vanish at distance; keep meaningful
+  detail >=2px, thicken thin stems. (Our leaf/sapling 1px shimmer accents are
+  kept deliberately — sparse accents, acceptable to fade at range.)
+- Source: MC Wiki "Texture atlas" (mipmap section, as above)
+
+## 2026-07-19 — cutout alpha stays binary
+- Rule: `cutout`/`cutout_mipped` layers hard-threshold alpha, so partial alpha
+  won't soften leaf edges — it just gets clipped and, with mipmaps, fringes.
+  Author hard edges + rely on alpha-bleed; reserve real translucency for the
+  `translucent` layer (stained glass, water). (Analyzer already flags partial
+  alpha.)
+- Source: MC Wiki "Texture atlas" / render-layer notes
+
+## 2026-07-19 — author tinted textures in grayscale
+- Rule: tint is a MULTIPLY (texture RGB × tint color); paint grass green and
+  the biome multiply doubles it wrong. Store tinted textures gray/neutral so
+  the multiply supplies the hue. Vanilla-tinted: grass, leaves, plants, vines,
+  water, redstone, leather, potions, map, spawn eggs, firework stars. A model
+  face receives tint only via `"tintindex"`. (Validates our grayscale
+  wand_base tint template.) [MOD] custom per-block colormaps = OptiFine-only.
+- Source: MC Wiki "Color" https://minecraft.wiki/w/Color ; ResourcePackCreator https://resourcepackcreator.com/biome-tint
+
+## 2026-07-19 — per-face UV, snapped to the grid
+- Rule: Java block/item models are per-face UV only; snap every UV to the
+  pixel grid or it samples between texels and blurs. (Box UV is a Bedrock/
+  entity feature, not Java JSON models.)
+- Source: Blockbench "Box vs Per-Face UV" https://blockbench.org/box-uv-vs-per‑face-uv-in-blockbench-which-method-should-you-use/
+
+## 2026-07-19 — set texture_size to the real resolution
+- Rule: model UV space is 0-16 by default; a non-16 texture needs
+  `"texture_size":[w,h]` or texel density is inconsistent across faces.
+- Source: Blockbench UV docs https://blockbench.org/blockbench-uv-editor-tutorial-basics-to-advanced/
+
+## 2026-07-19 — non-overlapping UV islands (+1px gutter)
+- Rule: give every model face its own UV region; two faces on one rectangle
+  edit together and stretch/smear (our wand case), and touching islands bleed
+  at edges/mip levels. (This is the general form of the wand UV-remap fix.)
+- Source: Blockbench "How to UV Map" https://blockbench.org/how-to-uv-map-in-blockbench/
+
+## 2026-07-19 — pack_format 34 + namespaced layout for 1.21.1
+- Rule: `"pack_format": 34` = 1.21/1.21.1 exactly (datapack numbers are a
+  separate scale). `pack.mcmeta` + `pack.png` at root, then
+  `assets/<namespace>/textures/block|item/` (singular since 1.13).
+- Source: MC Wiki "Pack format" https://minecraft.wiki/w/Pack_format ; MineVinyl https://www.minevinyl.com/guides/pack-format-explained
+
+## 2026-07-19 — world sprites stay power-of-two square
+- Rule: all block/item textures stitch into one atlas with up to 4 mip levels;
+  non-POT/non-square block sprites break clean mip halving and can blur the
+  whole atlas. (Animated frames stack vertically but each frame stays
+  POT-square.)
+- Source: MC Wiki "Texture atlas" (as above)
+
+## 2026-07-19 — GUI textures are exempt from POT
+- Rule: GUI/screen sprites are blitted, not stitched/mipmapped, so HD widgets
+  and non-POT sizes are fine; only world textures need POT. (Relevant to the
+  future HD aspect-icon workflow.)
+- Source: MC Wiki "Resource pack" https://minecraft.wiki/w/Resource_pack
+
+## 2026-07-19 — nine_slice for stretchable GUI panels
+- Rule: 1.21's GUI sprite system slices a sprite into fixed corners + tiled
+  edges/center via `"type":"nine_slice"` + `border`, so a small panel scales
+  to any window without distorting the border. (1.20.2+ system; applies to
+  1.21.1.)
+- Source: MC Wiki "Java Edition GUI textures" https://minecraft.wiki/w/Java_Edition_GUI_textures
+
+## 2026-07-19 — no coplanar faces at identical depth
+- Rule: two overlapping quads at the same depth z-fight and flicker; offset an
+  overlay element ~0.001-0.01 block, or delete the hidden face.
+- Source: MC Wiki "Model" https://minecraft.wiki/w/Model
+
+## 2026-07-19 — north is the model's default facing
+- Rule: the north face is the reference orientation (UV [0,0] = top-left);
+  blockstate `y` rotations turn the model from that baseline. Author the
+  "front" on the north face or account for the rotation.
+- Source: MC Wiki "Model" (as above)
+
+## 2026-07-19 — emissive _e overlays are OptiFine-only [MOD]
+- Rule: vanilla 1.21.1 has NO per-texture block emissive system. `<base>_e.png`
+  fullbright overlays are OptiFine-only (ETF on Fabric replicates). Don't ship
+  `_e` expecting vanilla glow — use the in-texture glow-by-contrast approach
+  for base packs.
+- Source: OptiFine "Emissive Textures" https://optifine.readthedocs.io/emissive_textures.html
+
+## 2026-07-19 — point each block model's particle slot at its texture
+- Rule: break/step/landing particles sample the model's `"particle"` texture
+  slot; omit or mis-set it and particles show the wrong/missing (purple)
+  color. Point `particle` at the main face texture.
+- Source: MC Wiki "Model" (textures -> particle, as above)

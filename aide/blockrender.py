@@ -11,7 +11,10 @@ from __future__ import annotations
 
 from PIL import Image, ImageDraw
 
-SHADES = (1.0, 0.82, 0.62)  # top, left, right
+# Exact vanilla directional face multipliers (Minecraft "diffuse lighting"):
+# top Y+ = 1.0, N/S = 0.8, E/W = 0.6, bottom = 0.5. The iso view shows the top
+# plus one N/S side (left) and one E/W side (right).
+SHADES = (1.0, 0.8, 0.6)  # top, left (N/S), right (E/W)
 
 
 def _shade(c, f: float):

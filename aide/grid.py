@@ -177,3 +177,13 @@ def load_texture(path: str | Path) -> Image.Image:
     if p.suffix.lower() == ".pxg":
         return to_image(load_pxg(p))
     return Image.open(p).convert("RGBA")
+
+
+def save_texture(img: Image.Image, path: str | Path, bleed: bool = True) -> None:
+    """Save a texture PNG, alpha-bleeding transparent pixels by default so the
+    result is mipmap-correct in Minecraft (see aide.bleed). Alpha is unchanged,
+    so 1x appearance is identical — this only fixes distant/mipped rendering."""
+    from aide.bleed import alpha_bleed
+
+    out = alpha_bleed(img) if bleed else img
+    out.save(path)

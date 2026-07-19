@@ -159,12 +159,65 @@ canvas with a 1px margin; 11 leaves room for glow/outline effects.
 
 ## Minecraft format rules
 
-- Block/item textures: power-of-two square PNGs, RGBA.
-- Prefer **binary alpha** (0 or 255). Semi-transparency needs special render
-  layers for blocks and looks wrong on items. (`alpha.partial` metric.)
+- Block/item textures: **power-of-two square** PNGs, RGBA (16, 32, 64…).
+  Everything stitches into one atlas with up to 4 mip levels; a non-POT block
+  sprite breaks clean mip halving and can blur the whole atlas. GUI textures
+  are exempt (blitted, not stitched) — HD/non-POT widgets are fine.
+- Prefer **binary alpha** (0 or 255). `cutout`/`cutout_mipped` layers hard-
+  threshold alpha, so partial alpha won't soften edges — it fringes. Real
+  translucency (glass, water) is the `translucent` layer. (`alpha.partial`.)
+- **Alpha-bleed is automatic** on export (`save_texture`/`aide render`): every
+  transparent pixel carries its nearest opaque neighbor's RGB so mipmaps don't
+  grow dark halos at distance. Never hand-author black under transparency.
+- **No isolated 1px detail on cutouts**: the first mip average erases 1px
+  features and thin stems drop below the alpha threshold at range. Keep
+  meaningful detail ≥2px; sparse 1px *accents* (a shimmer speck) are an
+  accepted exception — they're meant to fade at distance.
 - House value rule for block albedo: keep luminance ~25–80% so blocks sit
   next to vanilla without glowing or reading as a hole. Accents may exceed it
   deliberately.
+
+## Directional face shading (the engine pre-shades for you)
+
+Minecraft multiplies each face by a fixed constant **before** your texture's
+own shading shows: **top 1.0 · bottom 0.5 · N/S 0.8 · E/W 0.6**.
+
+- **Do not bake a top-to-bottom gradient into a block** — it double-shades.
+- Paint side and bottom textures at **full brightness**, near-symmetric; one
+  side texture serves all four walls (rendered at 0.8 on two, 0.6 on two), so
+  a pre-darkened or asymmetric side reads inconsistently.
+- `aide block` previews use these exact multipliers (top 1.0 / left 0.8 /
+  right 0.6), so an iso preview matches how the block shades in-game.
+
+## Tinting (grayscale-for-tint)
+
+- A tinted texture is **multiplied** by its tint color, so author it in
+  **grayscale / neutral** and let the tint supply the hue. Painting the hue in
+  too doubles it (wrong, oversaturated). Our wand `wand_base` is grayscale for
+  exactly this — the client tints rod/caps per material.
+- A model face receives tint only if it declares `"tintindex"`. Vanilla-tinted
+  slots: grass, leaves, plants, vines, water, redstone, leather, potions, map,
+  spawn eggs, firework stars.
+
+## Model / UV notes (when a texture maps onto a custom model)
+
+- Java models are **per-face UV**, snapped to the pixel grid (off-grid blurs).
+- Give every face its **own non-overlapping UV region** (+1px gutter) — two
+  faces on one rectangle edit together and smear (the wand-model bug).
+- Non-16 textures need `"texture_size":[w,h]` or texel density drifts.
+- Point each block model's **`particle`** slot at its main texture, or break
+  particles render the wrong/missing (purple) color.
+- North is the model's default facing; author the "front" there or account for
+  the blockstate `y` rotation. Avoid two coplanar faces at one depth (z-fight).
+
+## Animated, mod, and pack specifics
+
+- pack_format for **1.21.1 = 34**; layout `assets/<namespace>/textures/
+  block|item/` (singular).
+- `.mcmeta` animation: see the "Animated textures" section above.
+- **[MOD/shader only — never a base-1.21.1 default]** CTM connected textures
+  (OptiFine/Iris/Continuity), labPBR `_s`/`_n` maps, `_e` emissive overlays,
+  and custom per-block colormaps. Flag and skip unless the pack targets them.
 
 ## Animated textures (.mcmeta — vanilla-safe on 1.21.1)
 
