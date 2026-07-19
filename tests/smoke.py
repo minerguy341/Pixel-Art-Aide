@@ -81,6 +81,27 @@ def main() -> None:
     assert iso.getpixel((0, 0))[3] == 0
     assert iso.getpixel((32, 32))[3] == 255
 
+    # model pipeline: parse a 2-box model -> auto-texture -> render (non-cube)
+    from aide.model import parse_model
+    from aide.autotex import autotexture, default_ramp
+    from aide.modelrender import render_model
+
+    slab_model = parse_model({
+        "texture_size": [16, 16], "textures": {"all": "x:block/y"},
+        "elements": [{"name": "s", "from": [0, 0, 0], "to": [16, 8, 16], "faces": {
+            "up": {"uv": [0, 0, 16, 16], "texture": "#all"},
+            "south": {"uv": [0, 0, 16, 8], "texture": "#all"},
+            "east": {"uv": [0, 0, 16, 8], "texture": "#all"}}}]})
+    assert len(slab_model.elements) == 1 and slab_model.texture_size == (16, 16)
+    atex, _warns = autotexture(slab_model, default_ramp("7A5B3C"))
+    assert atex.size == (16, 16)
+    rendered = render_model(slab_model, {"__single__": atex}, scale=64)
+    assert rendered.width > 20 and rendered.getpixel((rendered.width // 2, rendered.height // 2))[3] > 0
+    # a cube_bottom_top parent synthesizes 6 faces
+    cbt = parse_model({"parent": "minecraft:block/cube_bottom_top",
+                       "textures": {"top": "x:t", "side": "x:s", "bottom": "x:b"}})
+    assert len(cbt.elements[0].faces) == 6
+
     # style palette parsing
     card = "# X\n```palette wood\nshadow = 5E4530\nbase = 7A5B3C\n```\n"
     pal = styles.parse_style_palettes(card)

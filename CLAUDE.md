@@ -9,7 +9,7 @@ textures and picking from contact sheets.
 
 | Path | What it is |
 |---|---|
-| `aide/` | Toolkit: `.pxg` format, rendering, analyzers, contact sheets, style parsing |
+| `aide/` | Toolkit: `.pxg` format, rendering, analyzers, contact sheets, style parsing, model read/render/auto-texture |
 | `styles/*.md` | Style cards — palettes in ```palette blocks + prose rules + checklist |
 | `knowledge/shading.md` | Craft reference; read before authoring |
 | `knowledge/lessons.md` | Append-only lessons log — **user-approved entries only** |
@@ -20,7 +20,12 @@ textures and picking from contact sheets.
 
 - Setup: `pip install -r requirements.txt` (just Pillow)
 - Verify toolkit: `python3 tests/smoke.py` — this is the definition of "the toolkit works"
-- CLI: `python3 -m aide {render,preview,analyze,compare,swatch,import}` (run from repo root; `--help` for flags)
+- CLI: `python3 -m aide {render,preview,analyze,compare,swatch,import,bleed,block,model,autotex}` (run from repo root; `--help` for flags)
+- Model pipeline: `python3 -m aide model <model.json> -o out.png` reads any Minecraft
+  model's shape and renders it (auto-textures if no `--tex/--single/--texdir`
+  given); `python3 -m aide autotex <model.json> -o tex.png` writes a starter
+  texture laid out for the model's UVs. Works for non-cube shapes (stairs,
+  rods, multi-element items).
 
 ## Hard rules
 

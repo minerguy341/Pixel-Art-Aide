@@ -53,6 +53,24 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--scale", type=int, default=8)
     p.add_argument("-o", "--out", required=True)
 
+    p = sub.add_parser("model", help="render a Minecraft model (any shape); auto-textures if no texture given")
+    p.add_argument("model", help="path to a model .json")
+    p.add_argument("--single", help="apply one texture (.pxg/.png) to every face")
+    p.add_argument("--tex", action="append", default=[], metavar="KEY=PATH",
+                   help="map a texture key to a file (repeatable)")
+    p.add_argument("--texdir", help="textures root; resolves the model's namespaced texture paths")
+    p.add_argument("--tint", action="append", default=[], metavar="IDX=RRGGBB",
+                   help="tint color for a tintindex (repeatable)")
+    p.add_argument("--ramp", default="8A6BB5", help="base hex for the auto-texture ramp")
+    p.add_argument("--scale", type=int, default=140)
+    p.add_argument("-o", "--out", required=True)
+
+    p = sub.add_parser("autotex", help="generate a starter texture laid out for a model's UVs")
+    p.add_argument("model", help="path to a model .json")
+    p.add_argument("--base", default="8A6BB5", help="base hex for the ramp")
+    p.add_argument("--no-frame", action="store_true", help="skip the per-face panel frame")
+    p.add_argument("-o", "--out", required=True)
+
     args = ap.parse_args(argv)
 
     from aide import analyze as an
@@ -112,6 +130,48 @@ def main(argv: list[str] | None = None) -> int:
         top = load_texture(args.top) if args.top else side
         right = load_texture(args.right) if args.right else side
         iso_block(top, side, right, scale=args.scale).save(args.out)
+        print(args.out)
+
+    elif args.cmd == "autotex":
+        from aide.model import load_model
+        from aide.autotex import autotexture, default_ramp
+
+        tex, warns = autotexture(load_model(args.model), default_ramp(args.base),
+                                 frame=not args.no_frame)
+        save_texture(tex, args.out, bleed=False)
+        print(args.out)
+        for w in warns:
+            print("  warning:", w, file=sys.stderr)
+
+    elif args.cmd == "model":
+        from aide.model import load_model
+        from aide.modelrender import render_model
+        from aide.autotex import autotexture, default_ramp
+
+        model = load_model(args.model)
+        imgs: dict = {}
+        if args.single:
+            imgs["__single__"] = load_texture(args.single)
+        for pair in args.tex:
+            key, path = pair.split("=", 1)
+            imgs[key] = load_texture(path)
+        if args.texdir:
+            for key, ref in model.textures.items():
+                path = model.resolve_texture("#" + key)
+                if path and not path.startswith("#"):
+                    rel = path.split(":", 1)[-1]  # namespace:block/foo -> block/foo
+                    fp = Path(args.texdir) / f"{rel}.png"
+                    if fp.exists():
+                        imgs[path] = load_texture(fp)
+        if not imgs:  # nothing supplied -> read shape, auto-texture, render
+            tex, _ = autotexture(model, default_ramp(args.ramp))
+            imgs["__single__"] = tex
+        tints = {}
+        for pair in args.tint:
+            idx, hexv = pair.split("=", 1)
+            from aide.grid import parse_color
+            tints[int(idx)] = parse_color(hexv)
+        render_model(model, imgs, scale=args.scale, tints=tints or None).save(args.out)
         print(args.out)
 
     return 0

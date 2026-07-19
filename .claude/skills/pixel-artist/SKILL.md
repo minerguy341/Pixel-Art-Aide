@@ -34,6 +34,11 @@ derive palettes from the style card *first* (hue-shifted, 3–5 steps at 16x).
   32x), `python3 -m aide render` + upscale, `import` back to .pxg, then refine
   stair-steps/clusters — or write a short Python script using `aide.grid` for
   programmatic composition. Keep the script in `src/` too.
+- **Texturing a custom model (non-cube)**: `python3 -m aide autotex
+  <model.json> -o start.png` reads the model's UVs and paints a directionally-
+  shaded starter (heed its UV-overlap warnings); import it to .pxg, refine,
+  then `python3 -m aide model <model.json> --single out.png -o preview.png`
+  (or `--tex key=path`, `--tint idx=hex`) to see it on the real shape.
 - Produce **2–4 deliberately different candidates** (composition or ramp
   variations), not one.
 
