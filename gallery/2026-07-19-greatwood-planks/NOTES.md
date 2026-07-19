@@ -32,9 +32,26 @@ identical to interior seams; 3x3 previews confirm no visible wrap artifact.
 
 Sheet: `previews/candidates-r2.png`.
 
+## Round 3 (user-directed)
+
+User picked **A** but wants it darker, closer to original greatwood. Two
+darkness levels of the same composition, whole ramp shifted down with the
+22° cool shadow shift kept:
+
+- `r3_dark`: base `5E472D` (L~29%), range 17–36%. Slightly under the house
+  25–80% band.
+- `r3_deeper`: base `4F3B25` (L~24%), range 14–30%. TC-era darkness; well
+  under the band, and the tiled field starts reading muddy — flagged.
+
+Both deviate from `styles/thaumaturgy.md` core steps **by user request**; on
+final approval, upstream `docs/art-direction.md` (thaumaturgy repo) and the
+style card need a sync for greatwood, including its mid-value exception.
+
+Sheet: `previews/candidates-r3.png` (r2 reference vs dark vs deeper).
+
 ## Status
 
-Awaiting user pick / feedback (r3 on request).
+Awaiting user choice of darkness level (or a value in between).
 
 ## Lesson candidates (proposed, NOT yet approved)
 

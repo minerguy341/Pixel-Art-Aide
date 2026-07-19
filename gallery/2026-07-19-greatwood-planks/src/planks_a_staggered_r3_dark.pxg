@@ -1,0 +1,28 @@
+# greatwood planks — candidate A, r3 "dark"
+# user feedback on r2: darker brown, closer to original greatwood.
+# Whole ramp shifted down ~8% luminance (base 7A5B3C -> 5E472D); same
+# staggered composition as r2. Deviates from the thaumaturgy card's core
+# steps by request — card/art-direction sync pending approval.
+size: 16x16
+[palette]
+d = 3B2823   # seam / deep shadow, cool-shifted (L~17%)
+s = 4A3627   # shadow (L~22%)
+b = 5E472D   # base (L~29%)
+h = 715939   # highlight (L~36%)
+[grid]
+hhbhhhhbhhhdhhbh
+bbbsssbbbbbdbbbb
+bsbbbbbbsssdbbsb
+dddddddddddddddd
+hbhhdhhhhbhhhhbh
+bbbbdbsssbbbbbbb
+bssbdbbbbbbssbbb
+dddddddddddddddd
+hhhhhbhhbhhhhdhh
+bsssbbbbbbbbbdbb
+bbbbbbsssbbbbdbb
+dddddddddddddddd
+hhbhhhdhhhhhbhhh
+bbbbbbdbbsssbbbb
+bssbbbdbbbbbbssb
+dddddddddddddddd

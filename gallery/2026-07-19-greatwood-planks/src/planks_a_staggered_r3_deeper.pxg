@@ -1,0 +1,27 @@
+# greatwood planks — candidate A, r3 "deeper"
+# The further of the two r3 darkness levels (base 4F3B25, L~24%) — nearest
+# to TC-era greatwood. Well below the house 25-80% albedo band; shipping
+# this means amending the mid-value rule for greatwood upstream.
+size: 16x16
+[palette]
+d = 30201C   # seam / deep shadow, cool-shifted (L~14%)
+s = 3E2C1F   # shadow (L~18%)
+b = 4F3B25   # base (L~24%)
+h = 60492C   # highlight (L~30%)
+[grid]
+hhbhhhhbhhhdhhbh
+bbbsssbbbbbdbbbb
+bsbbbbbbsssdbbsb
+dddddddddddddddd
+hbhhdhhhhbhhhhbh
+bbbbdbsssbbbbbbb
+bssbdbbbbbbssbbb
+dddddddddddddddd
+hhhhhbhhbhhhhdhh
+bsssbbbbbbbbbdbb
+bbbbbbsssbbbbdbb
+dddddddddddddddd
+hhbhhhdhhhhhbhhh
+bbbbbbdbbsssbbbb
+bssbbbdbbbbbbssb
+dddddddddddddddd
