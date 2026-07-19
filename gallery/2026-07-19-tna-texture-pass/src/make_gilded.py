@@ -12,6 +12,7 @@ Run from the Pixel-Art-Aide repo root:
 
 import random
 import sys
+import zlib
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
@@ -28,8 +29,8 @@ METALS = {
 }
 
 GILDED = {
-    "gilded_greatwood": ("greatwood_planks", "brass"),
-    "gilded_silverwood": ("silverwood_planks", "aetherium"),
+    "gilded_greatwood_brass": ("greatwood_planks", "brass"),
+    "gilded_silverwood_aetherium": ("silverwood_planks", "aetherium"),
     "gilded_greatwood_aetherium": ("greatwood_planks", "aetherium"),
     "gilded_silverwood_brass": ("silverwood_planks", "brass"),
 }
@@ -64,7 +65,7 @@ def emit(name: str, grid: list[list[int]], tones: list[str], note: str) -> None:
 def main() -> None:
     base = gen_planks(random.Random(41))  # same arrangement as make_wood
     for name, (wood, metal) in GILDED.items():
-        rng = random.Random(hash(name) % 100000)
+        rng = random.Random(zlib.crc32(name.encode()))  # stable across runs (hash() is salted)
         grid = [list(r) for r in base]
         for y in BAND_ROWS:
             grid[y] = band(rng, metal)
