@@ -280,3 +280,32 @@ state for currently-available content.
 Human smoke test: gilded planks wall (bands should tile continuously),
 worktable placed (socket up, band on sides), aura node block vs its
 renderer effects.
+
+## Iteration 10 — 2026-07-19 (engine-pipeline revision pass)
+
+User approved 16 Minecraft-engine lessons (directional shading, mipmaps,
+tinting, UV, pack structure, GUI) and directed a revision of ALL textures.
+
+Toolkit:
+- `aide/bleed.py` + `save_texture` (grid.py) + `aide bleed` CLI: alpha-bleed
+  is now automatic on every export — transparent pixels carry their nearest
+  opaque neighbor's RGB (alpha stays 0) so mipmaps don't halo at distance.
+- `blockrender.py` corrected to exact vanilla face multipliers
+  (1.0 / 0.8 / 0.6), replacing the ~0.82/0.62 approximation.
+
+Textures revised + re-shipped to T.N.A. (all of them):
+- Every cutout texture alpha-bled (items, leaves, saplings, aura node) —
+  verified 0 pure-black transparent pixels remain.
+- `arcane_orrery_bottom` repainted at full brightness and
+  `arcane_worktable_bottom` un-darkened: the engine renders bottom faces at
+  0.5, so the old pre-darkened versions double-darkened.
+- Solid surface textures (planks, logs, metal, gilded, orrery top/side) were
+  already directionally neutral — no change needed, re-exported for bleed.
+
+Validated by existing work: grayscale wand_base = correct tint authoring
+(tint is a multiply); the wand UV-remap = the non-overlapping-islands rule.
+
+Iso lineup rebuilt with true multipliers: previews/blocks-iso-revised.png.
+Not verified in-game; the bleed/shading fixes only show at distance / on
+real face lighting — smoke test: view leaves at render distance (no dark
+fringe), place orrery/worktable (bottom not pitch-black).
