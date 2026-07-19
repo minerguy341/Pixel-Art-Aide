@@ -52,6 +52,53 @@ drop saturation slightly.
   (`busyness` metric — compare against the style card's target.)
 - **Over-dithering**: checkerboard dithering is a last resort at 16x; vanilla
   barely uses it. At 64x+ it becomes a legitimate texture tool.
+- **Doubles**: the stray adjacent pixel a stroke leaves when it clips two
+  cells of the grid — thickens a line unevenly and dents its flow. Distinct
+  from noise (which is scattered singles); hunt doubles along every line.
+
+## Outlines (selout)
+
+- Items get an outline; blocks do not. When you outline, use **selective
+  outlining**: on the lit (top-left) edge replace the dark line with a
+  lighter *body* color, and keep the dark outline only where the form meets
+  the background. A uniform keyline flattens the sprite and fights the light.
+- The dark outline is a **dark version of the object's own darkest hue**,
+  darker than whatever sits behind it — never pure `#000` (looks stickered,
+  muddies the ramp, clashes on light backgrounds).
+
+## Dithering — when and which
+
+- Dither is a **texture/transition tool, not default shading**. Reach for a
+  palette color first; dither only when you genuinely can't add one.
+- **Size gate**: no dithering below ~16–32px or on small key shapes (keep it
+  off 16x item icons — it just reads as noise). It earns its place on
+  64–128px block surfaces where the pattern can resolve.
+- For large smooth or **tiling/animated** fills use **ordered/Bayer** dither
+  (2×2→8×8): the fixed matrix tiles seamlessly and stays stable frame to
+  frame. Hand-scattered dither shimmers and "crawls" when tiled or animated.
+
+## Anti-aliasing at low res
+
+- Match an AA half-tone run's length to the **stair-step it softens** (short
+  step → short nub); uniform dabs on unequal steps read as bumps.
+- **Never AA a pure 45° line or a straight H/V run** — already clean; AA only
+  blurs them and burns palette slots.
+- Judge AA **and** dithering **at 1x nearest-neighbor, never zoomed**. If it
+  only helps at 800% it does nothing at play size and adds a dirty halo.
+
+## Color for form (beyond hue-shift)
+
+- As a ramp climbs in brightness, **pull saturation down toward the
+  highlights** (saturation peaks in the midtones). Bright + saturated pixels
+  glow and read as radioactive.
+
+## Readability tests (run before shipping)
+
+- **Silhouette test**: flood the whole sprite to one solid color — is it
+  still identifiable? Interior detail can't rescue an ambiguous outline.
+- **Squint / value test**: squint or blur until detail drops; adjacent
+  shapes must still separate by *value*, not hue alone, or they merge into
+  one blob at small size or in motion.
 
 ## Circles
 

@@ -96,3 +96,90 @@ Entry format:
   card color
 - Rule: when a style card fixes a ramp's core steps, carry the hue shifting
   in the steps you add (deep shadows, speculars)
+
+---
+
+# Researched lessons — 2026-07-19
+
+The block below was distilled from web pixel-art tutorials (Saint11,
+Slynyrd, MortMort, Pixel Parmesan, Lospec, Pixnote, Derek Yu) and **approved
+by the user** in this session. Sources are cited per entry.
+
+## 2026-07-19 — AA run length matches the step it softens
+- Rule: an anti-alias half-tone run should be as long as the stair-step it
+  smooths (2-long step → short nub, 4-long → longer); uniform AA dabs on
+  unequal steps read as bumps, lumpier than the raw jaggies
+- Source: Saint11 "Anti-Alias and Banding"; Lospec/st0ven
+
+## 2026-07-19 — don't AA clean lines
+- Rule: never anti-alias a pure 45° line or a perfectly straight H/V run —
+  those edges are already clean; intermediate pixels only blur them and burn
+  palette slots (costly at 16x)
+- Source: MortMort "Basic Anti-Aliasing"; Pixel Parmesan
+
+## 2026-07-19 — judge AA and dithering at 1x only
+- Rule: evaluate anti-aliasing and dithering at 1x nearest-neighbor, never
+  zoomed; smoothing visible only at 800% does nothing at play size and often
+  adds a faint dirty halo. (Extends the existing "eyeball the preview" rule.)
+- Source: "Dithering in Pixel Art — When to Use It"
+
+## 2026-07-19 — selective outlining (selout)
+- Rule: on the lit (top-left) edge, replace the dark outline with a lighter
+  body color; keep the dark outline only where the form meets the
+  background. A uniform black keyline flattens the sprite and fights the
+  light direction
+- Source: Pixnote "Sel-Out"; yarrninja Ch.12
+
+## 2026-07-19 — outlines are tinted dark, never pure black
+- Rule: outline with a dark version of the object's own darkest hue, and
+  make it darker than whatever sits behind it — pure #000 looks stickered,
+  muddies the ramp, and clashes on light backgrounds
+- Source: Lospec "Pixel Art Outlines Part 2: Using Color"
+
+## 2026-07-19 — dither is a texture tool, not default shading
+- Rule: reach for a palette color first; dither only when you genuinely
+  can't add one. Habitual checkerboarding makes busy, crunchy surfaces and
+  hides a missing midtone a single flat color renders cleaner
+- Source: Pixel Parmesan "Dithering for Pixel Artists"; Spearite
+
+## 2026-07-19 — dither size gate
+- Rule: no dithering below ~16–32px or on small key shapes (keep it off 16x
+  item icons); reserve it for 64–128 block surfaces where the pattern can
+  resolve. Below that it just reads as noise
+- Source: "Dithering in Pixel Art — When to Use It"
+
+## 2026-07-19 — ordered/Bayer dither for tiling and animated fills
+- Rule: for large smooth or tiling fills use ordered/Bayer dither (2x2→8x8);
+  its fixed matrix tiles seamlessly and stays stable frame to frame, where
+  hand-scattered dither shimmers and "crawls" — ideal for animated MC blocks
+  (water, foliage). Pairs with the seamless-tiling rule in shading.md
+- Source: ASCII Magic "Complete Guide to Dithering"; Pixnote
+
+## 2026-07-19 — clean diagonals and no doubles
+- Rule: build diagonals from equal-length segments; if you must mix lengths,
+  vary them monotonically (5-2-2-1-1, never 5-2-1-2-1) or a short segment
+  sandwiched between longer ones lumps the curve. Separately, hunt and
+  remove "doubles" — the stray adjacent pixel a stroke leaves when it clips
+  two cells — which thickens a line unevenly (distinct from scattered noise)
+- Source: Derek Yu "Pixel Art Basics"; OpenGameArt; Lospec "Lines/Curves/Jaggies"
+
+## 2026-07-19 — desaturate toward the highlights
+- Rule: as a ramp climbs in brightness, pull saturation down toward the
+  highlights (let saturation peak in the midtones); high-brightness +
+  high-saturation pixels glow/vibrate and look radioactive. (Complements the
+  hue-shift lesson — that governs hue, this governs saturation.)
+- Source: Slynyrd "Pixelblog 1: Color Palettes"
+
+## 2026-07-19 — silhouette test
+- Rule: flood the whole sprite/icon to one solid color and check it is still
+  identifiable; interior detailing can't rescue an ambiguous outline, and if
+  the silhouette fails the icon won't read in an inventory or at a glance.
+  (Formalizes the "readable silhouette at 1x" checklist item)
+- Source: Pixnote glossary
+
+## 2026-07-19 — squint / value test
+- Rule: squint or blur until detail drops; adjacent shapes must still
+  separate by value, not hue alone — shapes that differ only in hue merge
+  into one blob at small size or in motion. Ties to the analyzer's value
+  metrics
+- Source: Pixnote "Tips & Tricks"; Sprite-AI
