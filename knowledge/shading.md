@@ -215,9 +215,14 @@ own shading shows: **top 1.0 · bottom 0.5 · N/S 0.8 · E/W 0.6**.
 - pack_format for **1.21.1 = 34**; layout `assets/<namespace>/textures/
   block|item/` (singular).
 - `.mcmeta` animation: see the "Animated textures" section above.
-- **[MOD/shader only — never a base-1.21.1 default]** CTM connected textures
-  (OptiFine/Iris/Continuity), labPBR `_s`/`_n` maps, `_e` emissive overlays,
-  and custom per-block colormaps. Flag and skip unless the pack targets them.
+- **[MOD/shader only — never a base-1.21.1 default]** CTM connected textures,
+  labPBR `_s`/`_n` maps, `_e` emissive overlays, and custom per-block
+  colormaps. Flag and skip unless the pack targets them.
+  - CTM specifically: OptiFine/Iris use `ctm.properties`; **Fusion**
+    (SuperMartijn642) is the Fabric/Forge/NeoForge-native option and works on
+    Thaumaturgy's stack — its format + tile-sheet layouts are documented in
+    `knowledge/references/fusion-ctm.md`. Still a runtime mod dependency, so
+    author CTM sheets only when the pack/mod ships Fusion.
 
 ## Animated textures (.mcmeta — vanilla-safe on 1.21.1)
 

@@ -365,6 +365,16 @@ un-darkened bottom faces, block renderer corrected). Vanilla 1.21.1 unless a
   "front" on the north face or account for the rotation.
 - Source: MC Wiki "Model" (as above)
 
+## 2026-07-19 — CTM on Fabric/NeoForge is Fusion, not OptiFine [MOD]
+- Rule: connected textures are not OptiFine-exclusive — **Fusion**
+  (SuperMartijn642) provides CTM natively on Fabric/Forge/NeoForge/Quilt via a
+  `.png.mcmeta` `"fusion"` block (NOT `ctm.properties`, NOT `.png.json`), with
+  layouts pieced(5)/simple(16)/full(48)/… This is the viable CTM path for
+  Thaumaturgy's stack. Full reference: `knowledge/references/fusion-ctm.md`.
+  Still a runtime mod dependency — never a base-vanilla deliverable.
+- Source: Fusion wiki https://github.com/SuperMartijn642/Fusion/wiki ;
+  corrects the earlier "CTM = OptiFine-only" flag
+
 ## 2026-07-19 — emissive _e overlays are OptiFine-only [MOD]
 - Rule: vanilla 1.21.1 has NO per-texture block emissive system. `<base>_e.png`
   fullbright overlays are OptiFine-only (ETF on Fabric replicates). Don't ship
