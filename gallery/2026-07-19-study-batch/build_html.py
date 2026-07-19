@@ -245,7 +245,7 @@ HTML = f"""<!doctype html>
     <span class="chip"><b>3</b> studies</span>
     <span class="chip"><b>4</b> before/after demos</span>
     <span class="chip"><b>3</b> new textures</span>
-    <span class="chip"><b>6</b> candidate lessons <span style="color:var(--brass)">· pending approval</span></span>
+    <span class="chip"><b>6</b> lessons <span style="color:var(--accent-2)">· adopted</span></span>
     <span class="chip">target <b>MC 1.21.1</b> · Fabric + NeoForge</span>
   </div>
 </header>
@@ -306,10 +306,10 @@ HTML = f"""<!doctype html>
 </section>
 
 <section>
-  <div class="pending">
-    <p class="kicker" style="color:var(--brass)">Not yet written to the knowledge base</p>
-    <h2>Candidate lessons</h2>
-    <p class="note">↳ Learning is user-gated. These are proposals distilled from this batch — approve the ones you want and they’ll be recorded in knowledge/lessons.md &amp; shading.md. Nothing here is committed yet.</p>
+  <div class="pending" style="border-style:solid;border-color:var(--accent-2)">
+    <p class="kicker" style="color:var(--accent-2)">Adopted into the knowledge base</p>
+    <h2>Lessons</h2>
+    <p class="note" style="color:var(--accent-2)">✓ Approved by the user and written to knowledge/lessons.md, with the operational rules folded into shading.md (glass, multi-shape blocks, ores, and the Create + Thaumcraft mod-idiom section).</p>
     <ol>
 {cand}
     </ol>

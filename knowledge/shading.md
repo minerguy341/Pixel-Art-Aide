@@ -131,8 +131,25 @@ canvas with a 1px margin; 11 leaves room for glow/outline effects.
   specular cluster near the lit edge; brushed metal = long thin highlight runs.
 - **Crystal/glass**: few large facets, each facet one flat step; highlight
   facet adjacent to shadow facet (no gradient between); binary alpha holes ok.
+- **Block glass**: a thin ~1px opaque border ring + 1–2 diagonal specular
+  streaks + ~80% fully transparent interior. Glass reads from the outline +
+  streaks, not fill; a thick frame over a filled body reads as a solid box.
+  Clear glass is the **cutout** layer (streaks must be fully opaque); stained
+  glass is **translucent** (see the format section).
+- **Ore**: paint 2–4 *clustered* mineral shapes onto a copy of the host
+  stone, each with a top-left highlight + bottom-right shadow (faceted read);
+  scattered single pixels read as dirt. (Vanilla bakes the stone in; the
+  transparent-overlay split is a mod pattern.)
 - **Organic/leaves**: high-frequency cluster noise is acceptable *here*;
   keep 2 hue families (lit leaf / shadow leaf) plus sparse accent.
+
+## Multi-shape blocks (stairs, slabs, walls, fences)
+
+- These author **no new texture** — they sub-sample the parent block's
+  texture across many small step/riser/side faces. So the full-face texture
+  must be **tileable and value-uniform**: avoid a centered hero motif (knot,
+  emblem, big gradient) that fragments into slivers when cut. Preview on an
+  actual stair (`aide block`'s stair render / Blockbench), not just a cube.
 
 ## Tiling (blocks)
 
@@ -164,8 +181,11 @@ canvas with a 1px margin; 11 leaves room for glow/outline effects.
   sprite breaks clean mip halving and can blur the whole atlas. GUI textures
   are exempt (blitted, not stitched) — HD/non-POT widgets are fine.
 - Prefer **binary alpha** (0 or 255). `cutout`/`cutout_mipped` layers hard-
-  threshold alpha, so partial alpha won't soften edges — it fringes. Real
-  translucency (glass, water) is the `translucent` layer. (`alpha.partial`.)
+  threshold alpha, so partial alpha won't soften edges — it fringes. **Clear
+  glass = cutout** (streaks must be fully opaque); **stained/tinted glass =
+  translucent** (real blending, can dim/tint behind). The model `render_type`
+  field that would move a texture between layers is **NeoForge-only on
+  1.21.1** (vanilla adds it in 1.21.4). (`alpha.partial`.)
 - **Alpha-bleed is automatic** on export (`save_texture`/`aide render`): every
   transparent pixel carries its nearest opaque neighbor's RGB so mipmaps don't
   grow dark halos at distance. Never hand-author black under transparency.
@@ -209,6 +229,35 @@ own shading shows: **top 1.0 · bottom 0.5 · N/S 0.8 · E/W 0.6**.
   particles render the wrong/missing (purple) color.
 - North is the model's default facing; author the "front" there or account for
   the blockstate `y` rotation. Avoid two coplanar faces at one depth (z-fight).
+
+## Mod idioms (for Thaumaturgy: The New Age)
+
+Studied from Create's texture tree and the Thaumcraft/FTB wikis (evoke the
+role, never copy pixels). Applies when authoring for the `thaumaturgy` style.
+
+**Create grammar — adopt the grammar, swap the material:**
+- Frame every machine face: 1px darker border around a lighter inner plate
+  (the strongest "reads as Create" tell). Add corner rivets, horizontal
+  banding/straps, panel seams.
+- Curated material library: few materials, each a **narrow desaturated 3–4
+  value ramp**, reused everywhere — cohesion is process consistency, not hue.
+- Speculars tinted toward the material, **never pure white**; small, on relief
+  edges only (matte-industrial, not glossy).
+- Translate hardware into magic vocabulary: rivet→rune-stud, strap→sigil
+  band, shaft slot→glyph socket.
+
+**Thaumcraft grammar:**
+- **Two purples, opposite jobs**: dignified grey-violet for refined magic
+  metal (our aetherium); sickly magenta for corruption. Never blended.
+- Cool **dressed** arcane stone (blue-grey, tidy mortar, subtle runes) —
+  quarried-by-wizards, not mossy ruin.
+- Warm **brass** for all instruments/apparatus, so tools feel like one kit.
+- Reserve **emissive glow** for the truly magical (nodes, runes, essentia,
+  one shimmer-wood); everything structural stays matte.
+- One icon shape + colour-coding (they used the hexagon): flat, minimal,
+  glowing-outlined glyphs legible at 16px.
+- Encode **order-vs-chaos in noise level**: clean/symmetric for civilised
+  magic, veiny/asymmetric for corruption.
 
 ## Animated, mod, and pack specifics
 

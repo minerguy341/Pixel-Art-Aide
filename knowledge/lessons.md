@@ -387,3 +387,67 @@ un-darkened bottom faces, block renderer corrected). Vanilla 1.21.1 unless a
   slot; omit or mis-set it and particles show the wrong/missing (purple)
   color. Point `particle` at the main face texture.
 - Source: MC Wiki "Model" (textures -> particle, as above)
+
+---
+
+# Researched lessons — 2026-07-19 (batch 4: glass/stairs/ores + Thaumcraft + Create)
+
+All 6 approved by the user (study-batch findings, `gallery/2026-07-19-study-batch/findings.html`).
+
+## 2026-07-19 — glass = thin frame + streaks + empty interior
+- Rule: author glass as a ~1px opaque border ring (+1-2px corner accents), 1-2
+  diagonal specular streak lines, and leave ~80% of the interior fully
+  transparent. A thick frame over a filled body reads as a solid framed box,
+  not glass — the eye reads "pane" from the outline + streaks, not fill.
+- Source: MC Wiki "List of block textures" https://minecraft.wiki/w/List_of_block_textures
+
+## 2026-07-19 — clear glass is cutout, stained is translucent
+- Rule: clear glass/panes render on the CUTOUT layer (binary alpha — any
+  non-zero alpha becomes fully opaque, no soft edges); stained/tinted glass
+  render TRANSLUCENT (real alpha blending, can dim/tint what's behind). Design
+  streaks knowing the layer: cutout streaks must be fully opaque.
+- VERSION: the block-model `render_type` field is NeoForge-only on 1.21.1
+  (vanilla adds it in 1.21.4) — a pure-vanilla 1.21.1 pack can't move clear
+  glass to translucent.
+- Source: OptiFine render layers https://optifine.readthedocs.io/block_render_layers.html ; NeoForge models https://docs.neoforged.net/docs/1.21.1/resources/client/models/
+
+## 2026-07-19 — stairs/slabs reuse the parent texture: keep it uniform
+- Rule: stairs and slabs author NO new art — they sub-sample the parent
+  block's texture across many small step/riser faces. So the full-face texture
+  must be tileable and value-uniform; avoid any centered hero motif (a knot,
+  emblem, big gradient) that fragments into meaningless slivers when cut.
+  Test on an actual stair/slab model, not just a flat cube.
+- Source: MC Wiki "Model" / "Tutorials/Models" https://minecraft.wiki/w/Model
+
+## 2026-07-19 — vanilla ores bake the stone in; cluster the mineral
+- Rule: vanilla ores are full textures with the host stone painted in (not a
+  transparent overlay — that's a mod/pack pattern). Paint 2-4 CLUSTERED
+  mineral shapes, each with a highlight (top-left) + shadow (bottom-right) for
+  a faceted read; scattered single pixels read as dirt/noise. If doing the mod
+  overlay split, alpha-bleed the mineral edges and use cutout_mipped.
+- Source: MC Wiki "Ore" https://minecraft.wiki/w/Ore
+
+## 2026-07-19 — the Create idiom: adopt the grammar, swap the material
+- Rule: to sit beside Create machinery, use Create's *grammar* — frame every
+  machine face (1px darker border around a lighter inner plate), corner
+  rivets, horizontal banding/straps, panel seams, connected-texture panels,
+  consistent top-left light, and speculars TINTED toward the material (never
+  pure white) — but with our own arcane material ramps. Cohesion comes from
+  process consistency, not specific hues; a parallel-but-distinct palette sits
+  next to Create without being mistaken for it. Translate hardware into magic
+  vocabulary: rivet -> rune-stud, strap -> sigil band, shaft slot -> glyph socket.
+- Source: Create GitHub texture tree https://github.com/Creators-of-Create/Create ; create.fandom "Casing" https://create.fandom.com/wiki/Casing
+
+## 2026-07-19 — the Thaumcraft grammar (evoke, don't copy)
+- Rule: to read as Thaumcraft's successor without copying assets: (1) TWO
+  purples with opposite jobs — a dignified grey-violet for refined magic metal
+  (our aetherium), a sickly magenta for corruption, never blended; (2) cool
+  DRESSED arcane stone (blue-grey, tidy mortar, subtle runes) — "quarried by
+  wizards", not "mossy ruin"; (3) warm brass for all instruments/apparatus so
+  tools feel like one kit; (4) reserve emissive GLOW for the truly magical
+  (nodes, runes, essentia, one shimmer-wood), everything structural matte;
+  (5) one icon shape + colour-coding system (they used the hexagon), flat
+  minimal glowing-outlined glyphs legible at 16px; (6) encode order-vs-chaos
+  in NOISE level — clean symmetric for civilised magic, veiny/asymmetric for
+  corruption.
+- Source: FTB Wiki (Arcane Stone, Aspects) https://ftb.fandom.com/wiki/Aspects_(Thaumcraft_4) ; Thaumcraft 4 Wiki (Silverwood, Thaumium, Taint, Aura Node) https://thaumcraft-4.fandom.com/wiki/Thaumium
