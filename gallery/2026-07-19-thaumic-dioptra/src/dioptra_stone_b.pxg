@@ -1,0 +1,25 @@
+size: 16x16
+[palette]
+b = 545D6E   # brick base blue-grey
+d = 454C5C   # brick lower-edge shadow
+D = 32384C   # mortar (deep, cool)
+l = 6E7788   # brick top-edge light
+L = 88909F   # brightest
+v = 6E6488   # violet rune fleck (arcane hint)
+[grid]
+DDDDDDDDDDDDDDDD
+LLLLLLLDLLLLLLLD
+blbbbdbDbbldbbbD
+bbvbbbbDbbbbbbbD
+bbbbldbDbldbbbbD
+bldbbbbDbbbbldbD
+bbbbbbdDbbdbbbbD
+dddddddDdddddddD
+DDDDDDDDDDDDDDDD
+LLLDLLLLLLLDLLLL
+bldDbbldbbbDbldb
+bbbDbbbbbldDbbvb
+bbbDldbbbbbDbbbb
+bldDbbbbbbdDldbb
+bbbDbbdbbbbDbbbb
+dddDdddddddDdddd

@@ -1,0 +1,26 @@
+size: 16x16
+[palette]
+b = 545D6E   # base blue-grey
+d = 454C5C   # shadow
+D = 32384C   # deep (cool-shifted toward blue)
+l = 6E7788   # light
+L = 88909F   # light2 (desaturated toward highlight)
+g = 7FE8D8   # teal glint (sparse magic tell)
+v = 6E6488   # violet fleck (arcane hint)
+[grid]
+bbbLLbbbbbbbbbbb
+bbLLlbbbbbdddbbb
+bbLllbbbbbdDDbbb
+bbbldbbbbbbDdbbb
+bbbbbbbvbbbbbbbb
+bbbbbbbbbbbbbbbb
+bbbbLLbbbbbLLbbb
+bbbLLlbbbbLLlbbb
+bbbbldbbbbblddbb
+dddbbbbbbbbbbbbb
+dDDbbbbgbbbbbbbb
+bDdbbbbbbbbbbvbb
+bbbbbbbbbLLbbbbb
+bbbLLbbbbLllbbbb
+bbLLlbbbblddbbbb
+bbbldbbbbbbbbbgb

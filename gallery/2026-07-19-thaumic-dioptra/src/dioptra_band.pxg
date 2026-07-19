@@ -1,0 +1,23 @@
+size: 16x16
+[palette]
+b = 8A6BB5   # aetherium base
+r = 5A4380   # rune shadow
+h = B99BE0   # highlight
+D = 47355F   # deep
+[grid]
+bbrbbbrbbbrbbbrb
+bhrbbbrbbbrbbbrh
+bbrDbbrDbbrDbbrb
+bbrbbbrbbbrbbbrb
+bbrbbbrbbbrbbbrb
+bhrbbbrhbbrbbbrb
+bbrDbbrbbbrDbbrb
+bbrbbbrbbbrbbbrb
+bbrbbbrbbbrbbbrb
+bhrbbbrbbbrbbbrh
+bbrDbbrDbbrDbbrb
+bbrbbbrbbbrbbbrb
+bbrbbbrbbbrbbbrb
+bhrbbbrhbbrbbbrb
+bbrDbbrbbbrDbbrb
+bbrbbbrbbbrbbbrb
