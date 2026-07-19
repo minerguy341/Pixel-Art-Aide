@@ -248,3 +248,10 @@ papers-r6-diagonal-ink.png.
 NOTE: greatwood_planks r3_deeper (user-approved) is superseded by the
 vanilla-idiom rebuild in the same ramp, under the user's "improve wood
 textures with vanilla assets" direction.
+
+### Iteration 8 addendum — paper orientation (user direction)
+
+Sheet semantics fixed per user: the lower-left "\" edge IS the paper's
+bottom; ink lines flow top-left -> down-right parallel to it; the wax seal
+sits at the sheet's top-right. INK cell lists + seal anchor updated in
+make_research_papers.py; all five papers replaced in T.N.A.

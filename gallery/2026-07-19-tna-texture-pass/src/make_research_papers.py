@@ -88,12 +88,12 @@ SCROLL = [
     "................",
 ]
 
-# Diagonal ink lines following the sheet's rotation (staircases running
-# lower-left -> upper-right, parallel to the kite's long edges), as cell lists.
+# Diagonal ink lines: text flows top-left -> down-right, parallel to the
+# paper's bottom edge (the lower-left "\\" edge is the sheet's bottom).
 INK = [
-    [(6, 6), (7, 6), (8, 5), (9, 5)],
-    [(4, 8), (5, 8), (6, 7), (7, 7)],
-    [(5, 9), (6, 9), (7, 8)],
+    [(7, 5), (8, 5), (9, 6)],
+    [(5, 7), (6, 7), (7, 8), (8, 8)],
+    [(5, 9), (6, 9), (7, 10), (8, 10)],
 ]
 
 
@@ -114,7 +114,7 @@ def build(base: list[str], tier: str, kind: str) -> Pxg:
         for line in INK[: INK_LINES[tier]]:
             for x, y in line:
                 rows[y][x] = "i"
-        cells = seal_cells(8, 7, glint)
+        cells = seal_cells(10, 5, glint)  # top-right of the rotated sheet
     else:
         cells = seal_cells(7, 6, glint)
     for (x, y), ch in cells.items():
