@@ -88,8 +88,13 @@ SCROLL = [
     "................",
 ]
 
-# Short ink dashes inside the kite's bright field: (row, start col, pattern)
-INK = [(6, 5, "iii"), (8, 4, "iii"), (10, 6, "ii")]
+# Diagonal ink lines following the sheet's rotation (staircases running
+# lower-left -> upper-right, parallel to the kite's long edges), as cell lists.
+INK = [
+    [(6, 6), (7, 6), (8, 5), (9, 5)],
+    [(4, 8), (5, 8), (6, 7), (7, 7)],
+    [(5, 9), (6, 9), (7, 8)],
+]
 
 
 def seal_cells(cx: int, cy: int, glint: bool) -> dict:
@@ -106,10 +111,9 @@ def build(base: list[str], tier: str, kind: str) -> Pxg:
     glint = tier == "grandmaster"
     rows = [list(r) for r in base]
     if kind == "paper":
-        for row, start, pattern in INK[: INK_LINES[tier]]:
-            for i, ch in enumerate(pattern):
-                if ch == "i":
-                    rows[row][start + i] = "i"
+        for line in INK[: INK_LINES[tier]]:
+            for x, y in line:
+                rows[y][x] = "i"
         cells = seal_cells(8, 7, glint)
     else:
         cells = seal_cells(7, 6, glint)
