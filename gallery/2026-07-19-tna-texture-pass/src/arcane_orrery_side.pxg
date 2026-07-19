@@ -1,0 +1,32 @@
+# arcane orrery — side face: dark greatwood casing, brass inlay band,
+# inset aetherium viewport with teal glint. Create-style framed face.
+size: 16x16
+[palette]
+D = 30201C   # greatwood seam/deep
+S = 3E2C1F   # greatwood shadow
+B = 4F3B25   # greatwood base
+H = 60492C   # greatwood highlight
+n = 8F6B38   # brass shadow
+m = C79A55   # brass base
+o = E8C983   # brass highlight
+p = 5A4380   # aetherium shadow
+q = 8A6BB5   # aetherium base
+r = B99BE0   # aetherium highlight
+g = 7FE8D8   # teal glint
+[grid]
+HHHBHHHHHHHHBHHH
+SBBBBBBBBBBBBBBS
+SBBSSBBBBBBSSSBS
+SmmommmmmommmmnS
+SnnnnnnnnnnnnnnS
+SBBBSSSBBBBBBBBS
+SBBBBBBBBSSSBBBS
+SBBBBBppppBBBBBS
+SBBBBBprrqBBBBBS
+SBBBBBpqgqBBBBBS
+SBBBBBqqqpBBBBBS
+SBSSBBBBBBBBSSBS
+SBBBBBBBSSBBBBBS
+SBBSSBBBBBBBBBBS
+SBBBBBBBBBBBBBBS
+DDDDDDDDDDDDDDDD
