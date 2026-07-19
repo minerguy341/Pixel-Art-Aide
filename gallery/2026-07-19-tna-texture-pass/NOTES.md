@@ -183,3 +183,10 @@ Shipped to T.N.A. (staged): `item/{brass,aetherium}_{ingot,nugget}.png`,
 
 Human smoke test (when registered): brass block next to Create brass casing
 (hue should match); aetherium block pillar — glints should not moire.
+
+### Iteration 7 addendum — nugget reshape (user direction)
+
+User: use the same shape as vanilla nuggets. Both nuggets redone as the
+vanilla stepped angular chunk (dark outline, right-mid bulge, stepped
+corners) — drawn from the vanilla idiom by eye, not diffed against the
+asset. Replaced in T.N.A.
