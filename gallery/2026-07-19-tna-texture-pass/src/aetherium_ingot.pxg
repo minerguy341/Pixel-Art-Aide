@@ -1,28 +1,30 @@
-# aetherium ingot — same silhouette as brass ingot (family consistency),
-# aetherium ramp + the mandatory single teal glint on the top face.
+# aetherium ingot - r2: vanilla diagonal-bar silhouette, glint at sparkle cell
 size: 16x16
 [palette]
 . = none
-N = 3F2E5E   # border / deep
+N = 4E3873   # outline lit side
+D = 32244C   # outline dark side
+h = C9B4EC   # bright
+o = B99BE0   # light (card highlight)
+f = ECE2FA   # specular
+w = F2ECFA   # specular peak
+m = 8A6BB5   # mid (card base)
 n = 5A4380   # shadow (card)
-m = 8A6BB5   # base (card)
-o = B99BE0   # highlight (card)
-f = D8C8F0   # specular
-g = 7FE8D8   # glint (card)
+g = 7FE8D8   # teal glint (card) at the sparkle cell
 [grid]
 ................
 ................
-................
-.....NNNNNNNN...
-....NffoooooN...
-...NooooooogmN..
-..NooooooooomN..
-..NmmmmmmmmmnN..
-..NmmmmmmmmmnN..
-..NnmmmmmmmnnN..
-..NNNNNNNNNNNN..
-................
-................
-................
+..........NN....
+.......NNNooN...
+....NNNhhhhhhN..
+.NNNohhhhhhhhoD.
+NfhhhhhhhhhhffhD
+NofhhhhhhfffhnoD
+NohfhhfffhmnnnoD
+NohogfhmnnnnmooD
+NmhohmnnnnmooDD.
+.NmohmnnmmDDD...
+..NmommDDD......
+...NNDD.........
 ................
 ................

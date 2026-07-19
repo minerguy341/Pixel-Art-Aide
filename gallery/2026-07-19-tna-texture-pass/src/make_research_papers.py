@@ -24,9 +24,13 @@ SESSION = Path(__file__).resolve().parents[1]
 
 COMMON = {
     ".": "none",
-    "X": "8F8875",  # border shade
-    "P": "EDE9DC",  # sheet light
-    "p": "DCD5C0",  # sheet mid (fold face, under-edges)
+    "A": "A79F8A",  # outline, lit side
+    "X": "8F8875",  # outline, dark side / border shade
+    "W": "F2EFE4",  # bright field
+    "E": "E6E1D0",  # light edge
+    "P": "EDE9DC",  # sheet light (scroll body)
+    "p": "DCD5C0",  # sheet mid
+    "q": "CCC4AE",  # sheet mid-shade
     "d": "C2BAA2",  # sheet shade (scroll end curls)
     "i": "6E6880",  # ink
     "g": "7FE8D8",  # teal glint (grandmaster only)
@@ -42,23 +46,24 @@ SEALS = {
 }
 INK_LINES = {"fledgling": 1, "apprentice": 2, "scholar": 3, "master": 3, "grandmaster": 3}
 
-# Tilted sheet: column bands step up left->right; folded corner top-left
-# (p face, X crease); inner shade p along the right and bottom edges.
+# Exact vanilla paper silhouette (1.21.1 ref): diagonal kite-shaped sheet.
+# Role map from the vanilla sprite: A outline-lit, X outline-dark, W bright
+# field, E light edge, p mid, q mid-shade.
 SHEET = [
     "................",
-    "...........XXX..",
-    "........XXXPPX..",
-    ".....XXXPPPPpX..",
-    "..XXXPPPPPPPpX..",
-    "..XpXPPPPPPPpX..",
-    "..XXPPPPPPPPpX..",
-    "..XPPPPPPPPPpX..",
-    "..XPPPPPPPPPpX..",
-    "..XPPPPPPPPppX..",
-    "..XPPPPPPppXXX..",
-    "..XPPPppXXX.....",
-    "..XppXXX........",
-    "..XXX...........",
+    "................",
+    ".........AA.....",
+    "........AEpA....",
+    "......AApWWEA...",
+    ".....AEWWWWWpX..",
+    "...AApWWWWWWWAX.",
+    "..ApEWWWWWWWWpAX",
+    ".ApEWWWWWWWWWEX.",
+    "..XpEWWWWWWEpX..",
+    "...XpEWWWWEXX...",
+    "....XpEWEqX.....",
+    ".....XpqXX......",
+    "......XX........",
     "................",
     "................",
 ]
@@ -83,8 +88,8 @@ SCROLL = [
     "................",
 ]
 
-# Stepped ink lines following the sheet tilt: (row, start col, pattern)
-INK = [(7, 4, "iiPii"), (9, 4, "iiii"), (11, 4, "iii")]
+# Short ink dashes inside the kite's bright field: (row, start col, pattern)
+INK = [(6, 5, "iii"), (8, 4, "iii"), (10, 6, "ii")]
 
 
 def seal_cells(cx: int, cy: int, glint: bool) -> dict:
@@ -105,7 +110,7 @@ def build(base: list[str], tier: str, kind: str) -> Pxg:
             for i, ch in enumerate(pattern):
                 if ch == "i":
                     rows[row][start + i] = "i"
-        cells = seal_cells(10, 7, glint)
+        cells = seal_cells(8, 7, glint)
     else:
         cells = seal_cells(7, 6, glint)
     for (x, y), ch in cells.items():

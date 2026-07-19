@@ -190,3 +190,29 @@ User: use the same shape as vanilla nuggets. Both nuggets redone as the
 vanilla stepped angular chunk (dark outline, right-mid bulge, stepped
 corners) — drawn from the vanilla idiom by eye, not diffed against the
 asset. Replaced in T.N.A.
+
+### Iteration 7 addendum 2 — vanilla reference assets (user-provided link)
+
+User linked mcasset.cloud/1.21.1 — actual vanilla sprites are now
+fetchable (raw.githubusercontent.com/InventivetalentDev/minecraft-assets).
+References kept OUTSIDE both repos (scratchpad only); we map silhouettes
+cell-for-cell into our own ramps, never commit vanilla pixels.
+
+Rebuilt on exact vanilla silhouettes and shipped:
+- nuggets (vanilla gold_nugget teardrop: 6 wide, 2px bottom point,
+  two-tone outline, sparkle cluster — aetherium's glint sits AT the
+  vanilla sparkle cell)
+- ingots (vanilla gold_ingot is a DIAGONAL bar, not a horizontal slab —
+  full remap; brass ramp deepened one step after the direct map read
+  butter-pale next to gold)
+- flat research papers (vanilla paper is a diagonal kite — SHEET base in
+  make_research_papers.py rebuilt on it; ink dashes + seal grammar kept)
+
+Side-by-side sheets vs vanilla: previews/metal-items-r4-vs-vanilla.png,
+previews/papers-r5-vs-vanilla.png.
+
+Lesson candidates (NOT yet approved): (a) when matching vanilla, import
+the actual sprite and map roles cell-for-cell — memory approximations get
+proportions wrong (my nugget was 50% too big, my ingot the wrong axis);
+(b) direct color-role transplants from a saturated material to a muted one
+overbrighten — re-anchor the ramp to the material's card steps.
