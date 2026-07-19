@@ -20,8 +20,8 @@ Statuses: [ ] todo · [~] in progress · [x] shipped to T.N.A. · [d] deferred
 
 ## Planned content (art-direction materials)
 
-- [ ] greatwood log side/top, leaves, sapling
-- [ ] silverwood planks, log side/top, leaves, sapling (glow accent 7FE8D8)
+- [~] greatwood log side/top [x], leaves [x] — sapling still todo
+- [~] silverwood planks [x] — log side/top, leaves, sapling still todo (glow accent 7FE8D8)
 - [ ] brass ingot/nugget + brass block
 - [ ] aetherium ingot/nugget + aetherium block
 - [ ] gilded planks ×4 (greatwood+brass, silverwood+aetherium, cross pairs)

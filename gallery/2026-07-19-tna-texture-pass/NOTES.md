@@ -88,3 +88,29 @@ Not verified in-game. Human smoke test: all five papers side by side in an
 inventory row — tiers should be tellable apart at a glance.
 
 Next: greatwood log side/top + leaves, then the silverwood set.
+
+## Iteration 4 — 2026-07-19
+
+Shipped to T.N.A. (staged, blocks unregistered): `block/greatwood_log.png`,
+`block/greatwood_log_top.png`, `block/greatwood_leaves.png`,
+`block/silverwood_planks.png`.
+
+- Log side: card bark colors + one in-lane ridge highlight; wobbling furrow
+  columns, two knots; tiles vertically with zero seam contrast. Bark ramp
+  straight-slide flag accepted: both bark steps are card-fixed.
+- Log top: bark rim + concentric rings in the dark plank ramp. r1 -> r2:
+  ring breaks clustered into a G-shaped glyph that repeated loudly in 3x3 —
+  solidified the inner ring, symmetrized the heart.
+- Leaves: clump-shaded deep green, colored directly (no biome tint), ~5%
+  holes; seam ratio 1.0. TC verdict: TC greatwood canopies were near-black
+  green; ours keeps the deep-green read at vanilla-legal values.
+- Silverwood planks: same staggered composition as approved greatwood
+  (family consistency). r1 -> r2: hard dark seam read as brick mortar on
+  pale wood — seam lifted to soft teal-gray 8A948E.
+
+Human smoke test (when blocks register): log pillar x3 — bark should not
+band; log top ring should not read as a glyph when 4 tops adjoin; leaves
+cube vs vanilla oak — density should feel vanilla-adjacent.
+
+Next: silverwood log/leaves/saplings + both saplings, then metals
+(ingots/nuggets/blocks), then gilded planks, aura_node revisit.

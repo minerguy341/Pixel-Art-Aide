@@ -1,0 +1,27 @@
+# greatwood leaves — deep green (card 3E6B2F), colored directly (no biome
+# tint), clump-shaded: light on each clump's top-left, holes between clumps.
+size: 16x16
+[palette]
+. = none
+D = 1F3A1E   # deepest / inter-clump shadow
+s = 2E5023   # shadow (cool-shifted)
+b = 3E6B2F   # base (card)
+l = 4E8039   # light
+h = 5C9440   # highlight
+[grid]
+lbbs.bhlbbs.sblb
+bhlbsllbbsD.blhb
+slbbbbsbs.bbbbbs
+.bsDlhbb.blbsD.b
+bbbsblbsbhbbbsb.
+hlb.bbsDllbs.blb
+lbsbsbbbbbsbbhbs
+bs.bhbs.bsD.llbD
+sbbllbbbbbbbbbs.
+.bhbbsbDlbsbsbbb
+bllbs.bbhbb.bblb
+bbbsDblblsbbhbbs
+sbs.bbbbsbDllbs.
+bhbblbs.bbbbbsbb
+lbbsbhbbslbs.bbl
+bs.bblbsbblbbbsb

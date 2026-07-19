@@ -1,0 +1,26 @@
+# silverwood planks — same staggered composition as the approved greatwood
+# planks (family consistency), in the silverwood ramp. Card core steps
+# A8AC9D / CFD3C4 / E4E7DA + cool-shifted deep seam (extension step).
+size: 16x16
+[palette]
+d = 8A948E   # seam / deep — soft, teal-shifted; hard dark seams read as mortar on pale wood
+s = A8AC9D   # shadow (card)
+b = CFD3C4   # base (card)
+h = E4E7DA   # highlight (card)
+[grid]
+hhbhhhhbhhhdhhbh
+bbbsssbbbbbdbbbb
+bsbbbbbbsssdbbsb
+dddddddddddddddd
+hbhhdhhhhbhhhhbh
+bbbbdbsssbbbbbbb
+bssbdbbbbbbssbbb
+dddddddddddddddd
+hhhhhbhhbhhhhdhh
+bsssbbbbbbbbbdbb
+bbbbbbsssbbbbdbb
+dddddddddddddddd
+hhbhhhdhhhhhbhhh
+bbbbbbdbbsssbbbb
+bssbbbdbbbbbbssb
+dddddddddddddddd

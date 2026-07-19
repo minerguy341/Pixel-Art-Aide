@@ -1,0 +1,27 @@
+# greatwood log — top face. Bark rim, concentric growth rings in the dark
+# plank ramp, offset breaks so the squares don't read mechanical.
+size: 16x16
+[palette]
+f = 3A2D22   # furrow (bark rim breaks)
+k = 4E3D2E   # bark rim
+D = 30201C   # ring line
+S = 3E2C1F   # heartwood
+B = 4F3B25   # wood base
+H = 60492C   # sap ring highlight
+[grid]
+fkkkkfkkkkkkfkkf
+kBBBBBBBBBBBBBBk
+kBHHHHHHHBHHHBBk
+kBHBBBBBBBBBBHBk
+kBHBBBBBBBBBBHBk
+kBHBBDDDDDBBBHBk
+kBHBBDBBBDBBBHBk
+kBHBBDBSSBDBBHBk
+kBHBBDBSSBDBBHBk
+kBHBBDBBBDBBBHBk
+kBHBBDDDDDBBBHBk
+kBHBBBBBBBBBBHBk
+kBHBBBBBBBBBBHBk
+kBHHBHHHHHHHHBBk
+kBBBBBBBBBBBBBBk
+fkkkkkkkkfkkkkkf
