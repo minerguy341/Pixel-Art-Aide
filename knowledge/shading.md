@@ -53,6 +53,14 @@ drop saturation slightly.
 - **Over-dithering**: checkerboard dithering is a last resort at 16x; vanilla
   barely uses it. At 64x+ it becomes a legitimate texture tool.
 
+## Circles
+
+Never freehand a pixel circle — use the odd-diameter circle chart at
+`knowledge/references/pixel-circle-chart.webp` (user-provided, 2026-07-19)
+and place its outline cells exactly. Freehand rounds come out lumpy
+(the first aura-node orb did). For a 16x16 sprite, diameter 13 fills the
+canvas with a 1px margin; 11 leaves room for glow/outline effects.
+
 ## Material shorthand
 
 - **Wood planks**: vertical or horizontal grain in long 2–4 px clusters; one
