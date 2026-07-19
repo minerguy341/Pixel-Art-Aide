@@ -1,0 +1,34 @@
+# codex — item sprite (replaces enchanted_book placeholder)
+# Aetherium-purple tome, brass clasp strap, teal sigil; page block on right.
+# TC reference: the Thaumonomicon was a purple book with metal furniture —
+# same role, our palette. Border-shade in deep purple, lit top-left.
+size: 16x16
+[palette]
+. = none
+X = 2E2244   # border shade / deepest purple
+p = 5A4380   # cover shadow (aetherium)
+q = 8A6BB5   # cover base
+r = B99BE0   # cover highlight
+g = 7FE8D8   # teal sigil
+P = EDE9DC   # page edge light
+d = CFC7B0   # page edge shade
+n = 8F6B38   # brass shadow
+m = C79A55   # brass base
+o = E8C983   # brass highlight
+[grid]
+................
+..XXXXXXXXXXX...
+.XrrqqqqqqqXPX..
+.XrqqqqqqqqXPX..
+.XrqqqgqqqqXPX..
+.XrqqgggqqqXPX..
+.XrqqqgqqqqXPX..
+.XnmmmmmmommmX..
+.XrqqqqqqqqXdX..
+.XrqqqqqqqpXdX..
+.XpqqqqqqppXdX..
+.XppqqqpppqXdX..
+.XpppppppppXdX..
+..XXXXXXXXXXX...
+................
+................

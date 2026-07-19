@@ -12,9 +12,9 @@ Statuses: [ ] todo · [~] in progress · [x] shipped to T.N.A. · [d] deferred
 
 - [x] greatwood planks — approved 2026-07-19 session (r3_deeper), ship as `block/greatwood_planks`
 - [x] arcane orrery block: `block/arcane_orrery_{top,side,bottom}` + model JSON cube_bottom_top (iter 1)
-- [ ] wand_base grayscale replacement — **needs UV remap first**: rod (cols 0-2 × rows 0-16) and caps (cols 0-3 × rows 0-2) overlap in the current model JSONs; remap wand.json/stave.json/wand_rod_base.json/wand_cap_base.json to disjoint regions, then author grayscale regions for tint (rod=0, cap_a=1, cap_b=2). Optionally 32x with texture_size bump.
-- [ ] aetherlens (`item/aetherlens`, replaces spyglass)
-- [ ] codex (`item/codex`, replaces enchanted_book)
+- [x] wand_base grayscale replacement — UV remap done (wand/stave/cap_base now use disjoint rod strip cols 0-1 + cap patch cols 4-7): rod (cols 0-2 × rows 0-16) and caps (cols 0-3 × rows 0-2) overlap in the current model JSONs; remap wand.json/stave.json/wand_rod_base.json/wand_cap_base.json to disjoint regions, then author grayscale regions for tint (rod=0, cap_a=1, cap_b=2). Optionally 32x with texture_size bump.
+- [x] aetherlens (`item/aetherlens`, replaces spyglass)
+- [x] codex (`item/codex`, replaces enchanted_book)
 - [ ] research papers ×5, tier-graded (`item/research_paper_{fledgling,apprentice,scholar,master,grandmaster}`)
 - [ ] aura_node block — real art exists but is placeholder-grade; revisit vs TC node look (glassy orb)
 

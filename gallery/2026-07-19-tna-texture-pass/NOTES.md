@@ -34,3 +34,35 @@ the block registers.
 
 Next iteration: wand/stave UV remap + real grayscale wand_base (tint
 regions rod=0 cap_a=1 cap_b=2), then codex + aetherlens + research papers.
+
+## Iteration 2 — 2026-07-19
+
+Shipped to T.N.A.:
+
+- `item/wand_base.png` — real grayscale tint template: rod strip (cols 0-1,
+  lit edge + carved rings) and cap patch (cols 4-7, metal steps), disjoint.
+  Remapped cap UVs in wand.json (12 faces), stave.json (12), and
+  wand_cap_base.json (6) to the new patch; rod UVs unchanged. Tint
+  simulation preview (`previews/wand_base-tints.png`) verified all four
+  material colors read correctly under multiply-tint.
+- `item/codex.png` + model repoint — aetherium-purple tome, brass clasp
+  (r2 simplified the beaded strap to a solid band + buckle), teal sigil,
+  page block right. TC verdict: same role as the Thaumonomicon (purple book,
+  metal furniture) without copying its trim; chose closed-tome-with-strap
+  over an open-book design that would collide with vanilla book sprites.
+- `item/aetherlens.png` + model repoint — diagonal brass lens instrument
+  with aetherium glass, teal glint, greatwood grip. TC verdict: evokes the
+  thaumometer's brass+purple instrument reading; diagonal silhouette chosen
+  over a symmetric monocle, which reads as a ring at 16x.
+
+Analyzer notes: item sprites legitimately exceed the block albedo band
+(borders/speculars); aetherlens busyness 17.6 is diagonal-edge inflation,
+silhouette clean in preview. All JSON models re-validated after edits.
+
+Not verified in-game. Human smoke test: wand + stave in hand (rod shows
+wood rings, caps shade correctly, tints per material); codex/aetherlens in
+inventory + item frame; standalone cap item no longer shows a smeared
+corner region.
+
+Next: research papers x5 (tier-graded seals), then greatwood log/leaves +
+silverwood set.
