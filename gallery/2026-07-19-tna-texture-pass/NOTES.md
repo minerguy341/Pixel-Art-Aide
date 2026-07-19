@@ -255,3 +255,28 @@ Sheet semantics fixed per user: the lower-left "\" edge IS the paper's
 bottom; ink lines flow top-left -> down-right parallel to it; the wax seal
 sits at the sheet's top-right. INK cell lists + seal anchor updated in
 make_research_papers.py; all five papers replaced in T.N.A.
+
+## Iteration 9 — 2026-07-19 (final backlog batch)
+
+Shipped to T.N.A.: `block/gilded_{greatwood,silverwood}.png` + both cross
+pairings, `block/arcane_worktable_{top,side,bottom}.png` (staged),
+`block/aura_node.png` (replaces the placeholder).
+
+- Gilded planks (`src/make_gilded.py`): thin 1px metal inlay bands on two
+  of the four seam rows of the shared vanilla-idiom plank arrangement —
+  Create-style banding per art-direction, never full borders. Aetherium
+  bands carry exactly one teal glint each; brass none.
+- Worktable: plank surface + brass corner caps + inlaid aetherium focus
+  socket (one glint); side gets a brass working band and darker posts.
+- Aura node: glassy orb — aetherium shell lit top-left, teal glass fill,
+  swirl glints, two core sparks. TC verdict: TC nodes were rendered glassy
+  orbs; this is that read at sprite level, sitting under AuraNodeRenderer.
+
+BACKLOG STATE: every non-deferred item is now [x]. Remaining work is all
+[d]-deferred pending designs: M3 foci, M4 essentia set, taint set, aspect
+icons (HD workflow). The /loop standing task has reached its terminal
+state for currently-available content.
+
+Human smoke test: gilded planks wall (bands should tile continuously),
+worktable placed (socket up, band on sides), aura node block vs its
+renderer effects.

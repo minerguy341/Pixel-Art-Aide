@@ -16,7 +16,7 @@ Statuses: [ ] todo · [~] in progress · [x] shipped to T.N.A. · [d] deferred
 - [x] aetherlens (`item/aetherlens`, replaces spyglass)
 - [x] codex (`item/codex`, replaces enchanted_book)
 - [x] research papers ×5 (vanilla-tilt redo, iter 5) + [x] research scrolls ×5 staged (registration pending) (`item/research_paper_{fledgling,apprentice,scholar,master,grandmaster}`)
-- [ ] aura_node block — real art exists but is placeholder-grade; revisit vs TC node look (glassy orb)
+- [x] aura_node block — glassy aetherium/teal orb rework (iter 9)
 
 ## Planned content (art-direction materials)
 
@@ -24,8 +24,8 @@ Statuses: [ ] todo · [~] in progress · [x] shipped to T.N.A. · [d] deferred
 - [x] silverwood full wood set (planks, log side/top, leaves, sapling w/ glow)
 - [x] brass ingot/nugget + brass block
 - [x] aetherium ingot/nugget + aetherium block
-- [ ] gilded planks ×4 (greatwood+brass, silverwood+aetherium, cross pairs)
-- [ ] arcane worktable faces
+- [x] gilded planks ×4 (make_gilded.py — inlay bands on the shared plank arrangement)
+- [x] arcane worktable faces (top/side/bottom, staged)
 - [d] M3 foci ×3 (wait for item design)
 - [d] M4 essentia set (crucible, alembic, tubes, jars, furnace…) — wait for M4
 - [d] taint set — wait for design
