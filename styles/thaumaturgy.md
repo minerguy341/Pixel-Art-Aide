@@ -21,13 +21,21 @@ and sparse accent glints, not through glow, noise, or high contrast.
 - GUI aspect art is the exception to 16x (HD hexagon icons); everything in
   this card concerns block/item textures.
 
-## Palettes (verbatim from art-direction.md)
+## Palettes (from art-direction.md; deviations marked)
 
 ```palette greatwood_planks
-shadow    = 5E4530
-base      = 7A5B3C
-highlight = 8F6E4B
+seam      = 30201C
+shadow    = 3E2C1F
+base      = 4F3B25
+highlight = 60492C
 ```
+
+**Greatwood planks deviation (user-approved 2026-07-19):** ramp darkened to
+TC-era greatwood (was 5E4530/7A5B3C/8F6E4B per art-direction.md) after the
+greatwood-planks gallery session. Luminance range ~14–30% — greatwood planks
+are a **sanctioned exception** to the 25–80% mid-value rule. Upstream
+`docs/art-direction.md` still carries the old values and needs a sync
+(edit happens in the thaumaturgy repo, not from here).
 
 ```palette greatwood_bark
 furrow    = 3A2D22
