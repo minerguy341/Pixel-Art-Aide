@@ -1,0 +1,27 @@
+# arcane glass (new demo block) — silverwood-pale glass: opaque border ring
+# (lit top/left), a diagonal shine, a few teal streaks, mostly transparent.
+# Used for the alpha-bleed before/after.
+size: 16x16
+[palette]
+. = none
+F = CFD3C4   # frame, lit (top/left)
+f = AAB2AC   # frame, shadow (bottom/right)
+s = E8ECE8   # shine
+t = 7FE8D8   # teal streak (magic tint)
+[grid]
+FFFFFFFFFFFFFFFF
+F..s...........f
+F...s..........f
+F....s.........f
+F.....s.......tf
+F......s.......f
+F.......s......f
+F..............f
+F....t.........f
+F..............f
+F..........s...f
+F...........s..f
+F............s.f
+F..........t...f
+F.............sf
+ffffffffffffffff

@@ -1,0 +1,27 @@
+# arcane glass — the "BEFORE" for the glass lesson: thick 3px frame + a filled
+# interior. Reads as a solid framed box, not glass (violates thin-frame + empty
+# interior). Contrast with arcane_glass.pxg (thin frame, transparent interior).
+size: 16x16
+[palette]
+. = none
+F = CFD3C4   # frame lit
+f = AAB2AC   # frame shadow
+i = C4C8BC   # filled interior (kills transparency)
+s = E8ECE8   # shine
+[grid]
+FFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFF
+FFFiiiiiiiiiiFff
+FFiisiiiiiiiiiff
+FFiiisiiiiiiiiff
+FFiiiisiiiiiiiff
+FFiiiiisiiiiiiff
+FFiiiiiiiiiiiiff
+FFiiiiiiiiiiiiff
+FFiiiiiiiiiiiiff
+FFiiiiiiiiisiiff
+FFiiiiiiiiiisiff
+FFiiiiiiiiiiisff
+ffiiiiiiiiiiiiff
+ffffffffffffffff
+ffffffffffffffff

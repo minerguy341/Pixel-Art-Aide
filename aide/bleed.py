@@ -54,3 +54,17 @@ def alpha_bleed(img: Image.Image, max_passes: int = 32) -> Image.Image:
             known[y][x] = True
         remaining -= len(newly)
     return out
+
+
+def mip_sim(img: Image.Image, levels: int = 2, bg=(120, 120, 124, 255)) -> Image.Image:
+    """Simulate what a texture looks like a few mip levels down, composited on a
+    flat background, then upscaled back for viewing. Averages RGBA (including the
+    RGB stored under alpha-0 pixels), so a texture with black under transparency
+    shows the dark halo Minecraft would show at distance; an alpha-bled texture
+    stays clean. This is how we render the alpha-bleed before/after."""
+    img = img.convert("RGBA")
+    w, h = img.size
+    small = img.resize((max(1, w >> levels), max(1, h >> levels)), Image.BOX)
+    back = Image.new("RGBA", small.size, bg)
+    back.alpha_composite(small)
+    return back.resize((w * 4, h * 4), Image.NEAREST)

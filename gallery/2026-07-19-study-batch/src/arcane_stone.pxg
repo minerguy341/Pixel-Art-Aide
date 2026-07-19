@@ -1,0 +1,27 @@
+# arcane stone (new demo block) — dark blue-gray arcane stone, potato-cluster
+# shading, calm/vanilla density, sparse teal flecks DISTRIBUTED (no single
+# loud landmark). This is the "after" for the tiling landmark lesson.
+size: 16x16
+[palette]
+d = 2E2F38   # deep
+s = 3A3B47   # shadow
+b = 45475A   # base
+h = 53556B   # light
+t = 7FE8D8   # teal fleck (sparse)
+[grid]
+bbhbbsddbbbhbbsb
+bhhbbsdsbbhhbbdd
+sbbbbbbsbbbhbbds
+sbdbhbbbdbbbbbbs
+bbbdsbbhbbdsbbhb
+hbbbsbbhtbbsbbhb
+hbbbbbdbbbbsdbbb
+bsdbbbbbbhbbbbbs
+bbbhbbdsbbbbhbbb
+bbtbbbbbbdshbbds
+dsbbhbbbbbbbbbsb
+sbbbbbhbdbbbhbbb
+bbbdsbbbbbbsbbtb
+hbbbbbbhbdbbbbbh
+bbdshbbbbbbbdsbb
+bbbbbbtsbbhbbbbb

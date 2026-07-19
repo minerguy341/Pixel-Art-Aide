@@ -61,6 +61,81 @@ def iso_block(
     return out
 
 
+def iso_stair(top: Image.Image, side: Image.Image, scale: int = 8,
+              shades: tuple[float, float, float] = SHADES) -> Image.Image:
+    """Render a bottom stair (the block's texture carved into a step), with the
+    exact vanilla face multipliers. A stair exposes top + riser + front + side,
+    so it shows directional face-shading far more than a cube — the demo shape
+    for the 'don't bake a gradient' lesson.
+
+    Geometry in block space: X right, Z depth (0 back .. 1 front), Y up.
+    Lower half Y0..0.5 full; upper-back half Y0.5..1 over Z0..0.5.
+    """
+    n = top.width
+    s = scale
+    px_top = top.convert("RGBA").load()
+    px_side = side.convert("RGBA").load()
+    pad = int(0.15 * n * s)
+    W = int(2 * n * s) + 2 * pad
+    H = int(2 * n * s) + 2 * pad
+    out = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(out, "RGBA")
+    ox, oy = n * s + pad, n * s + pad  # screen y spans oy-ns .. oy+ns
+
+    def P(X, Y, Z):  # block-space (0..1) -> screen
+        return (ox + (X - Z) * n * s, oy + (X + Z) * n * s * 0.5 - Y * n * s)
+
+    def face(sampler, shade, cells):
+        """cells: list of (screen quad, texel color) already shaded."""
+        for quad, c in cells:
+            d.polygon(quad, fill=_shade(c, shade))
+
+    # Each face is drawn as n*n/2-ish texel quads by sampling the texture.
+    def top_face(y, z0, z1, tex):  # horizontal, varies X(0..1),Z(z0..1)
+        cells = []
+        zc = int(round((z1 - z0) * n))
+        for i in range(n):          # X texel
+            for j in range(zc):     # Z texel
+                X0, X1 = i / n, (i + 1) / n
+                Z0, Z1 = z0 + j / n, z0 + (j + 1) / n
+                quad = [P(X0, y, Z0), P(X1, y, Z0), P(X1, y, Z1), P(X0, y, Z1)]
+                cells.append((quad, tex[i, int(z0 * n) + j]))
+        face(None, shades[0], cells)
+
+    def front_face(z, y0, y1, tex):  # +Z plane, varies X(0..1), Y(y0..1)
+        cells = []
+        yc = int(round((y1 - y0) * n))
+        for i in range(n):
+            for j in range(yc):
+                X0, X1 = i / n, (i + 1) / n
+                Y0, Y1 = y0 + j / n, y0 + (j + 1) / n
+                quad = [P(X0, Y1, z), P(X1, Y1, z), P(X1, Y0, z), P(X0, Y0, z)]
+                ty = n - 1 - (int(y0 * n) + j)
+                cells.append((quad, tex[i, ty]))
+        face(None, shades[1], cells)
+
+    def side_face(x, segments, tex):  # +X plane, list of (z0,z1,y0,y1)
+        cells = []
+        for (z0, z1, y0, y1) in segments:
+            for i in range(int(round((z1 - z0) * n))):
+                for j in range(int(round((y1 - y0) * n))):
+                    Z0, Z1 = z0 + i / n, z0 + (i + 1) / n
+                    Y0, Y1 = y0 + j / n, y0 + (j + 1) / n
+                    quad = [P(x, Y1, Z0), P(x, Y1, Z1), P(x, Y0, Z1), P(x, Y0, Z0)]
+                    tz = int(z0 * n) + i
+                    ty = n - 1 - (int(y0 * n) + j)
+                    cells.append((quad, tex[tz, ty]))
+        face(None, shades[2], cells)
+
+    # draw back-to-front: side, then fronts, then tops
+    side_face(1.0, [(0.0, 1.0, 0.0, 0.5), (0.0, 0.5, 0.5, 1.0)], px_side)
+    front_face(0.5, 0.5, 1.0, px_side)   # riser
+    front_face(1.0, 0.0, 0.5, px_side)   # lower front
+    top_face(1.0, 0.0, 0.5, px_top)      # upper step tread
+    top_face(0.5, 0.5, 1.0, px_top)      # lower tread
+    return out
+
+
 def lineup(blocks: list[tuple[str, Image.Image]], pad: int = 12) -> Image.Image:
     """Labelled row of iso-rendered blocks on the sheet background."""
     from aide.render import SHEET_BG, LABEL_FG
