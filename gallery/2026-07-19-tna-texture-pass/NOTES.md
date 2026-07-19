@@ -114,3 +114,32 @@ cube vs vanilla oak — density should feel vanilla-adjacent.
 
 Next: silverwood log/leaves/saplings + both saplings, then metals
 (ingots/nuggets/blocks), then gilded planks, aura_node revisit.
+
+## Iteration 5 — 2026-07-19 (user feedback round)
+
+User direction: papers should read like vanilla (not a flat sheet); add
+rolled "finished paper" scrolls with tier-indicating wax seals; greatwood
+log needs improving, mainly the core.
+
+Shipped to T.N.A.:
+
+- `item/research_paper_*.png` x5 REDONE — tilted sheet with folded corner
+  (vanilla paper idiom), stepped ink lines following the tilt, wax seal on
+  the high edge. Seal palette unified across families and made 5-distinct:
+  fledgling wax-red -> apprentice brass -> scholar blue -> master aetherium
+  -> grandmaster gold + teal glint. (r3 used gray for fledgling — invisible
+  against the border shade; switched to classic sealing-wax red-brown.)
+- `item/research_scroll_*.png` x5 NEW, STAGED — vertical rolled scroll,
+  end curls, ribbon band in the seal's lowlight color, centered wax seal.
+  No such items are registered yet: models/registrations are Jacob's call
+  (suggested id `research_scroll_<tier>` / "finished research").
+  TC verdict: TC's iconic research notes were exactly a ribboned scroll —
+  this is the homage slot, done in our seal-color language.
+- `block/greatwood_log.png` r2 — horizontal plate breaks, proper knot
+  (dark ring, ridge-highlight eye) that diverts the adjacent furrow.
+- `block/greatwood_log_top.png` r3 — end grain rebuilt: sap ring, two
+  inner growth rings tightening toward center, chamfered corners so rings
+  don't read as squares, dense checkered heart.
+
+Human smoke test: papers+scrolls in one inventory row (5 seal colors
+distinct, sheets read as paper not cards); log pillar + top faces.

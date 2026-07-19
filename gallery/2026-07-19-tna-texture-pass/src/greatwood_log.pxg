@@ -1,6 +1,7 @@
-# greatwood log — side face. Vertical bark: art-direction bark 4E3D2E with
-# 3A2D22 furrows + one in-lane ridge highlight. Furrow columns wobble; two
-# knots break the verticals. Tiles vertically (column classes constant).
+# greatwood log — side face, r2 (user: log textures need improving).
+# More organic bark: horizontal plate breaks interrupt the verticals, and a
+# proper knot (dark ring around a ridge-highlight eye) that diverts the
+# neighboring furrow. Still tiles vertically.
 size: 16x16
 [palette]
 f = 3A2D22   # furrow (card)
@@ -10,15 +11,15 @@ r = 5E4A38   # ridge highlight (in-lane extension)
 krfkkrkfkkrkfkrk
 krfkkrkfkkrkfkrk
 krfkkrkkfkrkfkrk
-kkfkkrkkfkrkfkrk
+kkffkrkkfkrkfkrk
 krfkkrkkfkrkkfrk
 krfkfrkkfkrkkfrk
 krfkffkkfkrkfkrk
 krfkkrkfkkrkfkrk
-kkfkkrkfkkrkfkrk
-krfkkrkfkkrffkrk
-krfkkrkfkkrffkrk
-krkfkrkfkkrkfkrk
+kkfkkrkffkkrfkrk
+krfkkrkfkfffkkrk
+krfkkrkfkfrfkkrk
+krkfkrkfkfffkkrk
 krkfkrkfkkkrfkrk
 krfkkrkfkkkrfkrk
 krfkkrkfkkrkfkrk
