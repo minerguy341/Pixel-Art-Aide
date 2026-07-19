@@ -1,0 +1,26 @@
+# aetherium block — same beveled structure as brass block (family
+# consistency), aetherium ramp + two teal glints (magic metal tell).
+size: 16x16
+[palette]
+N = 3F2E5E   # deep frame corner / inner shadow
+n = 5A4380   # frame (card shadow)
+m = 8A6BB5   # field (card base)
+o = B99BE0   # bevel / brushed highlight (card)
+g = 7FE8D8   # glint (card)
+[grid]
+NnnnnnnnnnnnnnnN
+nooooooooooooomn
+nommmmmmmmmmmmNn
+nomoommmmmmmgmNn
+nommmmmmmmmmmmNn
+nommmmmmmmmnnmNn
+nommmmmmmmmmmmNn
+nommmmmoommmmmNn
+nommmmmmmmmmmmNn
+nomnnmmmmmmmmmNn
+nommmmmmmmmmmmNn
+nomgmmmmmmoommNn
+nommmmmmmmmmmmNn
+nommmmmmmmmmmmNn
+nNNNNNNNNNNNNNNn
+NnnnnnnnnnnnnnnN

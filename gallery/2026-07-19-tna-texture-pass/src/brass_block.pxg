@@ -1,0 +1,25 @@
+# brass block — storage block, Create-style beveled face: dark frame, lit
+# top/left inner bevel, shadowed bottom/right, sparse brushed streaks.
+size: 16x16
+[palette]
+N = 6B4F28   # deep frame corner / inner shadow
+n = 8F6B38   # frame (card shadow)
+m = C79A55   # field (card base)
+o = E8C983   # bevel / brushed highlight (card)
+[grid]
+NnnnnnnnnnnnnnnN
+nooooooooooooomn
+nommmmmmmmmmmmNn
+nomoommmmmmmmmNn
+nommmmmmmmmmmmNn
+nommmmmmmmmnnmNn
+nommmmmmmmmmmmNn
+nommmmmoommmmmNn
+nommmmmmmmmmmmNn
+nomnnmmmmmmmmmNn
+nommmmmmmmmmmmNn
+nommmmmmmmoommNn
+nommmmmmmmmmmmNn
+nommmmmmmmmmmmNn
+nNNNNNNNNNNNNNNn
+NnnnnnnnnnnnnnnN

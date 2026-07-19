@@ -22,8 +22,8 @@ Statuses: [ ] todo · [~] in progress · [x] shipped to T.N.A. · [d] deferred
 
 - [x] greatwood full wood set (log side/top, leaves, sapling)
 - [x] silverwood full wood set (planks, log side/top, leaves, sapling w/ glow)
-- [ ] brass ingot/nugget + brass block
-- [ ] aetherium ingot/nugget + aetherium block
+- [x] brass ingot/nugget + brass block
+- [x] aetherium ingot/nugget + aetherium block
 - [ ] gilded planks ×4 (greatwood+brass, silverwood+aetherium, cross pairs)
 - [ ] arcane worktable faces
 - [d] M3 foci ×3 (wait for item design)

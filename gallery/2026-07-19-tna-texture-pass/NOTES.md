@@ -167,3 +167,19 @@ shipped block textures as cubes.
 
 Human smoke test: silverwood tree assembled (log + leaves + sapling below);
 compare lineup PNG vs in-game inventory icons.
+
+## Iteration 7 — 2026-07-19
+
+Shipped to T.N.A. (staged): `item/{brass,aetherium}_{ingot,nugget}.png`,
+`block/{brass,aetherium}_block.png`.
+
+- Ingots/nuggets share silhouettes across metals; storage blocks share a
+  Create-style beveled-frame face (dark frame, lit top/left bevel, brushed
+  streaks). Aetherium carries teal glints everywhere (1 on ingot/nugget,
+  2 on block); brass never does — the card's magic-vs-plumbing tell.
+- TC verdict: thaumium ingots were flat purple with little material story;
+  ours reads as machined magic metal beside Create's brass, which is the
+  brief. Iso renders confirm the blocks read as metal in 3D shading.
+
+Human smoke test (when registered): brass block next to Create brass casing
+(hue should match); aetherium block pillar — glints should not moire.
