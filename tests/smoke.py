@@ -73,6 +73,14 @@ def main() -> None:
     compare.contact_sheet([png, png], tile=True, labels=["a", "b"]).save(sheet)
     assert Image.open(sheet).width > 200
 
+    # isometric block render: right size, transparent corners, opaque center
+    from aide.blockrender import iso_block
+
+    iso = iso_block(img, img, scale=4)
+    assert iso.size == (64, 64)
+    assert iso.getpixel((0, 0))[3] == 0
+    assert iso.getpixel((32, 32))[3] == 255
+
     # style palette parsing
     card = "# X\n```palette wood\nshadow = 5E4530\nbase = 7A5B3C\n```\n"
     pal = styles.parse_style_palettes(card)

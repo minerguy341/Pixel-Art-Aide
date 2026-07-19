@@ -41,6 +41,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("src")
     p.add_argument("-o", "--out", help="output .pxg (default: alongside src)")
 
+    p = sub.add_parser("block", help="isometric block preview from face textures")
+    p.add_argument("side", help=".pxg or .png used for the sides (and top unless --top)")
+    p.add_argument("--top", help="texture for the top face")
+    p.add_argument("--right", help="texture for the right face (default: same as side)")
+    p.add_argument("--scale", type=int, default=8)
+    p.add_argument("-o", "--out", required=True)
+
     args = ap.parse_args(argv)
 
     from aide import analyze as an
@@ -85,6 +92,15 @@ def main(argv: list[str] | None = None) -> int:
         out = Path(args.out) if args.out else Path(args.src).with_suffix(".pxg")
         out.write_text(to_text(from_image(Image.open(args.src))))
         print(out)
+
+    elif args.cmd == "block":
+        from aide.blockrender import iso_block
+
+        side = load_texture(args.side)
+        top = load_texture(args.top) if args.top else side
+        right = load_texture(args.right) if args.right else side
+        iso_block(top, side, right, scale=args.scale).save(args.out)
+        print(args.out)
 
     return 0
 
