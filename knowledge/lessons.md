@@ -183,3 +183,81 @@ by the user** in this session. Sources are cited per entry.
   into one blob at small size or in motion. Ties to the analyzer's value
   metrics
 - Source: Pixnote "Tips & Tricks"; Sprite-AI
+
+---
+
+# Researched lessons — 2026-07-19 (Minecraft/voxel focus)
+
+Second research batch, **approved by the user** (candidates 10–14, 16–19;
+material-rendering and CTM candidates were not selected). Per user directive,
+future craft research is geared toward Minecraft/voxel texture work.
+
+## 2026-07-19 — animation frame strip is one vertical column
+- Rule: stack square frames vertically (16x16 block → 16×N px = N frames,
+  top = frame 0) and ship `<texture>.png.mcmeta` beside it; non-square
+  frames need explicit width/height. Vanilla-safe on 1.21.1
+- Source: MoreMcmeta Animation Format —
+  https://github.com/MoreMcmeta/core/wiki/User-Docs:-Animation-Format
+
+## 2026-07-19 — frametime is ticks, 20 fps is the ceiling
+- Rule: `frametime` = ticks per frame (default 1 = 20fps, the max). Slow
+  shimmer uses higher values; per-frame overrides `{"index":4,"time":2}`
+  and index lists `[0,1,2,3,2]` give ping-pong. Sub-tick smoothness is
+  impossible — get it from `interpolate`, not more frames
+- Source: MoreMcmeta Animation Format (as above)
+
+## 2026-07-19 — interpolate crossfades, so author fewer keyframes
+- Rule: with `interpolate: true` Minecraft blends the in-betweens, so smooth
+  flow (water, portal glow) needs only a few hand-drawn keyframes at high
+  frametime. Leave it OFF for sharp motion (fire, bubbling lava) — it smears
+  the frames
+- Source: MoreMcmeta Animation Format; MC Forum interpolate thread —
+  https://www.minecraftforum.net/forums/mapping-and-modding-java-edition/resource-packs/resource-pack-help/2478530
+
+## 2026-07-19 — animation frame-count by material
+- Rule: fire/nether portal ~32 frames, interpolate off (chaotic motion);
+  water/lava ~20–32, interpolate on (slow flow); most decorative blocks want
+  just a 2–4 frame shimmer at frametime 6–12. Over-animating makes a wall
+  of blocks "boil" and wastes VRAM
+- Source: MC Wiki "Procedural animated texture generation" —
+  https://minecraft.wiki/w/Procedural_animated_texture_generation
+
+## 2026-07-19 — ship 2–3 block variants to break wall repetition
+- Rule: author 2–3 subtly different versions of a block (different crack/
+  grain, one darker) so placement variety breaks visible repetition across a
+  wall. This is SEPARATE from the 3x3 seam check — a single perfect tile
+  still forms a grid at distance; variety across the surface defeats the eye
+- Source: Axidus "How to make seamless pixel art textures" —
+  https://axidus.io/blog/how-to-make-seamless-pixel-art-textures
+
+## 2026-07-19 — one ramp per material, shared darkest + lightest
+- Rule: give each material its own hue-shifted ramp, but let every ramp
+  bottom out in the SAME near-black and top out in the SAME near-white (or
+  shared highlight). Anchors the palette and slashes slot count; unique
+  black/white per material makes materials feel like different games
+- Source: Lospec Sweetie 16 — https://lospec.com/palette-list/sweetie-16 ;
+  palette list — https://lospec.com/palette-list
+
+## 2026-07-19 — each color earns multiple roles
+- Rule: under a ~16-color cap, force each slot to serve several contexts (a
+  shadow that is also darkest wood AND a metal mid); order colors into
+  connected ramps so adjacent colors can be borrowed between materials.
+  Single-purpose colors bloat the palette and cause disharmony
+- Source: Lospec palette-making —
+  https://forums.lospec.com/topic/36/how-do-you-go-about-making-your-palettes
+
+## 2026-07-19 — reference palettes for shared-endpoint ramps
+- Rule: keep Sweetie 16 (16 colors, 4 hue-shifted ramps, shared light/dark)
+  and Spectrum Ramps (per-hue ramps) on hand as starting points for a
+  shared-endpoint Minecraft palette
+- Source: https://lospec.com/palette-list/sweetie-16 ;
+  https://lospec.com/palette-list/spectrum-ramps
+
+## 2026-07-19 — labPBR specular/normal maps [SHADER-ONLY, optional]
+- Rule: ONLY if the pack targets shaders (Iris/OptiFine + shader pack). Add a
+  `_s` map: R = smoothness, G = reflectance/metalness, A = emission (0=none …
+  254=full; 255 is IGNORED, emits nothing), plus a `_n` normal map. Lets
+  metal reflect and ores/torches self-emit without changing base color.
+  Does NOTHING in unmodified 1.21.1 — never a default deliverable
+- Source: shaderLABS "LabPBR Material Standard" —
+  https://shaderlabs.org/wiki/LabPBR_Material_Standard

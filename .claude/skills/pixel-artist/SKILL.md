@@ -69,6 +69,14 @@ with ```palette blocks — verify with `python3 -m aide swatch`).
 Only what the user approves gets written: lessons appended to
 `knowledge/lessons.md`, card edits applied. Rejected proposals are dropped.
 
+**Research focus (user directive 2026-07-19):** when researching craft tips
+for the knowledge base, gear searches toward **Minecraft / voxel texture
+work** (resource-pack conventions, block/item sprites, tiling, animated
+`.mcmeta`, mod idioms) — not general game-sprite or character pixel art.
+Flag anything that only applies under mods/shaders (OptiFine CTM, labPBR)
+as optional and out of scope for base 1.21.1. Always present findings as
+approval candidates first; never auto-write.
+
 ## House rules
 
 - Never claim a texture "looks good in-game" — you verified previews, not the

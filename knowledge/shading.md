@@ -92,6 +92,19 @@ drop saturation slightly.
   highlights** (saturation peaks in the midtones). Bright + saturated pixels
   glow and read as radioactive.
 
+## Palette economy
+
+- **One ramp per material, shared endpoints**: give each material its own
+  hue-shifted ramp, but let every ramp bottom out in the *same* near-black
+  and top out in the *same* near-white/highlight. Anchors the whole palette
+  and cuts slot count; unique black+white per material makes them feel like
+  different games. (Ties to the style cards' per-material ```palette blocks.)
+- **Each color earns multiple roles**: under a tight cap (~16), make one slot
+  serve several contexts — a shadow that's also the darkest wood and a metal
+  mid. Order colors into connected ramps so neighbors can be borrowed.
+- Starting-point palettes to study: **Sweetie 16** (4 hue-shifted ramps,
+  shared light/dark) and **Spectrum Ramps** on Lospec.
+
 ## Readability tests (run before shipping)
 
 - **Silhouette test**: flood the whole sprite to one solid color — is it
@@ -130,6 +143,10 @@ canvas with a 1px margin; 11 leaves room for glow/outline effects.
   in a 3x3 tile preview your eye finds it instantly. Distribute 2–3 medium
   features instead of 1 loud one.
 - Check every block texture with `--tile` and eyeball the 3x3 strip.
+- **Wall variety ≠ seam-matching**: even a perfectly seamless single tile
+  forms a visible grid at game distance. For blocks placed in bulk, author
+  2–3 subtle variants (different crack/grain, one a touch darker) so
+  placement variety breaks the repeat. Separate step from the 3x3 check.
 
 ## Size-specific notes
 
@@ -148,3 +165,26 @@ canvas with a 1px margin; 11 leaves room for glow/outline effects.
 - House value rule for block albedo: keep luminance ~25–80% so blocks sit
   next to vanilla without glowing or reading as a hole. Accents may exceed it
   deliberately.
+
+## Animated textures (.mcmeta — vanilla-safe on 1.21.1)
+
+- Frames are a **single vertical strip**, top = frame 0 (a 16x16 block → a
+  16×N px PNG = N frames); ship `<texture>.png.mcmeta` beside it. Non-square
+  frames need explicit `width`/`height`.
+- `frametime` = **ticks per frame** (1 = 20fps, the ceiling). Slow shimmer
+  uses higher values; per-frame overrides via `{"index":4,"time":2}` and a
+  reordered/repeated index list `[0,1,2,3,2]` for ping-pong.
+- `interpolate: true` **crossfades** between listed frames, so author only a
+  few keyframes at high `frametime` for smooth drift (water, glow). Leave it
+  **off** for sharp motion (fire, bubbling lava) — it smears them.
+- Frame-count by material: fire/portal ~32 (interp off); water/lava ~20–32
+  (interp on); most decorative blocks want just a **2–4 frame shimmer at
+  frametime 6–12**. Over-animating makes a wall "boil" and wastes VRAM.
+
+## Mod / shader-only (out of scope for base 1.21.1 — flag, never default)
+
+- **CTM / connected textures**: OptiFine/Iris/Continuity only. Not requested
+  here; skip unless the pack explicitly targets those.
+- **labPBR** specular/normal maps (`_s`: R=smoothness, G=reflectance,
+  A=emission where 254=full and 255=ignored; `_n`=normal): shader-pack only.
+  Renders nothing in unmodified 1.21.1 — never a default deliverable.
