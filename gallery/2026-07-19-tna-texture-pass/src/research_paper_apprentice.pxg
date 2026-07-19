@@ -1,0 +1,32 @@
+size: 16x16
+[palette]
+. = none
+X = 8F8875
+P = EDE9DC
+p = DCD5C0
+d = C2BAA2
+i = 6E6880
+n = 8F6B38
+m = C79A55
+o = E8C983
+q = 8A6BB5
+r = B99BE0
+g = 7FE8D8
+u = 5A4380   # aetherium shadow
+[grid]
+................
+..ppppppppppppX.
+..pPPPPPPPPPpdX.
+..pPPPPPPPPPpdX.
+..pPiiiiiPiipdX.
+..pPPPPPPPPPpdX.
+..pPiiPiiiiPpdX.
+..pPPPPPPPPPpdX.
+..pPPPPPPPPPpdX.
+..pPPPPPPomnpdX.
+..pPPPPPPmmnpdX.
+..pPPPPPPmnnpdX.
+..pppppppppppdX.
+..XXXXXXXXXXXXX.
+................
+................

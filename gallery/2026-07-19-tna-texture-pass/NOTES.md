@@ -66,3 +66,25 @@ corner region.
 
 Next: research papers x5 (tier-graded seals), then greatwood log/leaves +
 silverwood set.
+
+## Iteration 3 — 2026-07-19
+
+Shipped to T.N.A.: `item/research_paper_{fledgling,apprentice,scholar,
+master,grandmaster}.png` + 5 model repoints. Composed programmatically
+(`src/make_research_papers.py`) from one base sheet with a tier grammar:
+writing lines accumulate with tier; seal steps none -> brass -> brass+ribbon
+-> aetherium -> aetherium+glint with gilt corners.
+
+r1 -> r2: uniform dark frame read as a framed tile, seal diamond read as a
+cross — lit top/left edges now paper-toned (border-shade bottom/right only)
+and the seal is a rounded 3x3 wax blob, lit top-left.
+
+TC verdict: TC research used scroll/note items with distinct tiers only in
+GUI; ours grade the item itself, which reads better in inventories. Kept
+paper white-cream (forma) rather than TC parchment-brown so the seals carry
+the tier color story.
+
+Not verified in-game. Human smoke test: all five papers side by side in an
+inventory row — tiers should be tellable apart at a glance.
+
+Next: greatwood log side/top + leaves, then the silverwood set.
