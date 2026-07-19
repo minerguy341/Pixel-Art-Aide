@@ -1,0 +1,26 @@
+# greatwood planks — candidate B, r2
+# r1 -> r2: de-laddered — some plank left-edges drop their highlight to base
+# so columns stop reading as uniform rails; deep seam cool-shifted like A r2
+size: 16x16
+[palette]
+d = 4A312C   # seam / deep shadow, cool-shifted
+s = 5E4530   # shadow (card)
+b = 7A5B3C   # base (card)
+h = 8F6E4B   # highlight (card)
+[grid]
+hbbdbsbdhbbdhbbd
+hbbdhbbdbbbdhsbd
+hsbdhbbdddddhbbd
+bbbdhbbdhhbdhbbd
+hbbdhbsdhbbdbbbd
+ddddhbbdhbbdhbbd
+hhbdhbbdbsbdhbbd
+hbbdbbbdhbbdhbsd
+hbsdhbbdhbbdhbbd
+bbbdhsbdhbbdbbbd
+hbbdhbbdhbsdhbbd
+hbbdddddbbbdhbbd
+hbbdhhbdhbbdhbbd
+hsbdhbbdhbbddddd
+bbbdhbbdhbbdhhbd
+hbbdhbbdbsbdhbbd

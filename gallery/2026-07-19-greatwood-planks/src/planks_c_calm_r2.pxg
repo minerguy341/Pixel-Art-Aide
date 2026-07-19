@@ -1,0 +1,27 @@
+# greatwood planks — candidate C, r2
+# r1 -> r2: full-width highlight rows (banding in 3x3) broken into lit
+# segments; grain grouped into 2-3px runs; one small knot (band 3);
+# deep seam cool-shifted like A r2
+size: 16x16
+[palette]
+d = 4A312C   # seam / deep shadow, cool-shifted
+s = 5E4530   # shadow (card)
+b = 7A5B3C   # base (card)
+h = 8F6E4B   # highlight (card)
+[grid]
+hhhhbbhhhhhhhbhh
+bbbbbbbbbbsssbbb
+bbsbbbbbbbbbbbbb
+dddddddddddddddd
+hbhhhhhhbbhhhhhh
+bbbbbsssbbbbbbbb
+bsssbbbbbbbbbbbb
+dddddddddddddddd
+hhhhhhhbhhhhhhbh
+bbbbsbbbbbbssbbb
+bbbbbbbbbbbsdbbb
+dddddddddddddddd
+hbbhhhhhhhhhbbhh
+bbbbbbbsssbbbbbb
+bssbbbbbbbbssbbb
+dddddddddddddddd

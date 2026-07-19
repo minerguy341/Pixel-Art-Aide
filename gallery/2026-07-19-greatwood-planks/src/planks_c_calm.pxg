@@ -1,0 +1,25 @@
+# greatwood planks — candidate C: wide calm planks, sparse grain (most vanilla-adjacent)
+# style: thaumaturgy; full-width planks, no vertical joints
+size: 16x16
+[palette]
+d = 4A3625   # seam / deep shadow
+s = 5E4530   # shadow (card)
+b = 7A5B3C   # base (card)
+h = 8F6E4B   # highlight (card)
+[grid]
+hhhhhbhhhhhhhhhh
+bbbbbbbbbbsbbbbb
+bbsbbbbbbbbbbbbb
+dddddddddddddddd
+hhhhhhhhhhbhhhhh
+bbbbbsbbbbbbbbbb
+bbbbbbbbbbbbsbbb
+dddddddddddddddd
+hbhhhhhhhhhhhhhh
+bbbbbbbbsbbbbbbb
+bsbbbbbbbbbbbbbb
+dddddddddddddddd
+hhhhhhhhhhhhbhhh
+bbbsbbbbbbbbbbbb
+bbbbbbbbbbsbbbbb
+dddddddddddddddd

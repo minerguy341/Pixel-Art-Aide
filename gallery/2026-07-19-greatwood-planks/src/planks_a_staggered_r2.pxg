@@ -1,0 +1,27 @@
+# greatwood planks — candidate A, r2
+# r1 -> r2: grain lengthened to 3px runs (was 2px blobs reading as dirt),
+# highlight rows broken with more base, deep seam shifted cool-ward
+# (4A3625 -> 4A312C) so the ramp isn't a straight value slide
+size: 16x16
+[palette]
+d = 4A312C   # seam / deep shadow, cool-shifted
+s = 5E4530   # shadow (card)
+b = 7A5B3C   # base (card)
+h = 8F6E4B   # highlight (card)
+[grid]
+hhbhhhhbhhhdhhbh
+bbbsssbbbbbdbbbb
+bsbbbbbbsssdbbsb
+dddddddddddddddd
+hbhhdhhhhbhhhhbh
+bbbbdbsssbbbbbbb
+bssbdbbbbbbssbbb
+dddddddddddddddd
+hhhhhbhhbhhhhdhh
+bsssbbbbbbbbbdbb
+bbbbbbsssbbbbdbb
+dddddddddddddddd
+hhbhhhdhhhhhbhhh
+bbbbbbdbbsssbbbb
+bssbbbdbbbbbbssb
+dddddddddddddddd

@@ -1,0 +1,26 @@
+# greatwood planks — candidate A: staggered horizontal planks, visible grain
+# style: thaumaturgy (greatwood_planks ramp + one deeper seam step in-lane)
+# bands of 4px planks, vertical joints staggered per band
+size: 16x16
+[palette]
+d = 4A3625   # seam / deep shadow (greatwood lane, below card shadow)
+s = 5E4530   # shadow (card)
+b = 7A5B3C   # base (card)
+h = 8F6E4B   # highlight (card)
+[grid]
+hhhhbhhhhhhdhhhh
+bbssbbbbbbbdbbbb
+bbbbbbbssbbdbsbb
+dddddddddddddddd
+hhhdhhhhhbhhhhhh
+bsbdbbbbbbbbssbb
+bbbdbbsbbbbbbbbb
+dddddddddddddddd
+hhhhhhbhhhhhhdhh
+bbbbssbbbbbbbdbb
+bsbbbbbbbsbbbdbb
+dddddddddddddddd
+hhbhhhdhhhhhhhhh
+bbbbbbdbbbsbbbbb
+bbssbbdbbbbbbsbb
+dddddddddddddddd

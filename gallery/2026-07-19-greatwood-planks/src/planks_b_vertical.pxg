@@ -1,0 +1,25 @@
+# greatwood planks — candidate B: vertical planks, staggered end-joints
+# style: thaumaturgy; lit edge on each plank's left, seam on its right
+size: 16x16
+[palette]
+d = 4A3625   # seam / deep shadow
+s = 5E4530   # shadow (card)
+b = 7A5B3C   # base (card)
+h = 8F6E4B   # highlight (card)
+[grid]
+hbbdhsbdhbbdhbbd
+hbbdhbbdhbbdhsbd
+hsbdhbbdddddhbbd
+hbbdhbbdhhbdhbbd
+hbbdhbsdhbbdhbbd
+ddddhbbdhbbdhbbd
+hhbdhbbdhsbdhbbd
+hbbdhbbdhbbdhbsd
+hbsdhbbdhbbdhbbd
+hbbdhsbdhbbdhbbd
+hbbdhbbdhbsdhbbd
+hbbdddddhbbdhbbd
+hbbdhhbdhbbdhbbd
+hsbdhbbdhbbddddd
+hbbdhbbdhbbdhhbd
+hbbdhbbdhsbdhbbd
