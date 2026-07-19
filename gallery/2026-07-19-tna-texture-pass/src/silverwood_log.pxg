@@ -1,0 +1,26 @@
+# silverwood log — side face. Pale birch-idiom bark: card D9DED9 with
+# AAB2AC streak dashes, one deeper in-lane streak step, two lit ridge
+# columns. No teal here — the shimmer belongs to sapling/leaves per card.
+size: 16x16
+[palette]
+k = D9DED9   # bark (card)
+s = AAB2AC   # streak (card)
+d = 8E9691   # deep streak (in-lane extension)
+h = E8ECE8   # ridge highlight (in-lane extension)
+[grid]
+khkksskkkhkkkksk
+khkkkkkkkhkkkkkk
+khkssdkkkhkksssk
+khkkkkkkkhkkkkkk
+khkkkssdkhkkkkkk
+khkkkkkkkhkskkkk
+khkkkkkkkhkkssdk
+khsskkkkkhkkkkkk
+khkkkkkkkhkkkkkk
+khkkksssdhkkkdkk
+khkkkkkkkhkkkkkk
+khkddkkkkhkkskkk
+khkkkkkkkhkkkssk
+khkkkkkkkhkkkkkk
+khsskkkssdkkkkkk
+khkkkkkkkhkkkkkk

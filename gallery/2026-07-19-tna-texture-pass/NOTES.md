@@ -143,3 +143,27 @@ Shipped to T.N.A.:
 
 Human smoke test: papers+scrolls in one inventory row (5 seal colors
 distinct, sheets read as paper not cards); log pillar + top faces.
+
+## Iteration 6 — 2026-07-19
+
+Shipped to T.N.A. (staged): `block/silverwood_log.png`,
+`block/silverwood_log_top.png`, `block/silverwood_leaves.png`,
+`block/greatwood_sapling.png`, `block/silverwood_sapling.png`.
+
+- Silverwood log side: birch-idiom pale bark, streak dashes, no teal (card
+  reserves shimmer for sapling/leaves). Top: same end-grain structure as
+  greatwood r3 in silverwood ramps. Leaves: greatwood clump structure,
+  pale blue-green, 3 shimmer pixels (~1%). Saplings share one silhouette;
+  silverwood adds glow pixels + one drifting spark.
+- TC verdict: TC silverwood was stark white + vivid teal leaves; ours keeps
+  the pale-magic read inside the vanilla/Create ceiling, shimmer as accent
+  not field.
+
+Toolkit (user request): `aide/blockrender.py` — isometric block renderer,
+vanilla inventory-icon projection and shading (top 1.0 / left 0.82 / right
+0.62), per-texel quads so pixels stay crisp; `python3 -m aide block` CLI;
+smoke-tested. First product: `previews/blocks-iso-lineup.png` — all seven
+shipped block textures as cubes.
+
+Human smoke test: silverwood tree assembled (log + leaves + sapling below);
+compare lineup PNG vs in-game inventory icons.

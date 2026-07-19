@@ -1,0 +1,28 @@
+# silverwood log — top face. Same end-grain structure as the approved
+# greatwood top r3 (family consistency), in the silverwood ramps: pale rim,
+# sap ring, two tightening growth rings, chamfered corners, checkered heart.
+size: 16x16
+[palette]
+t = AAB2AC   # rim streak (card)
+k = D9DED9   # bark rim (card)
+d = 8A948E   # ring line (planks seam step)
+s = A8AC9D   # inner ring / heart (card shadow)
+b = CFD3C4   # wood base (card)
+h = E4E7DA   # sap ring highlight (card)
+[grid]
+tkkkktkkkkkktkkt
+kbbbbbbbbbbbbbbk
+kbhhhhhhhbhhhhbk
+kbhbbbbbbbbbbhbk
+kbhbbssssssbbhbk
+kbhbsbbbbbbsbhbk
+kbhbsbddddbsbhbk
+kbhbsbddsdbsbhbk
+kbhbsbdsddbsbhbk
+kbhbsbddddbsbhbk
+kbhbsbbbbbbsbhbk
+kbhbbssssssbbhbk
+kbhbbbbbbbbbbhbk
+kbhhhhhbhhhhhhbk
+kbbbbbbbbbbbbbbk
+tkkkkkkkktkkkkkt

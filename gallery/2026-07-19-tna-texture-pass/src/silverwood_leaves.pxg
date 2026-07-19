@@ -1,0 +1,29 @@
+# silverwood leaves — pale blue-green (card A9D8C4), same clump structure
+# as greatwood leaves (family consistency), plus three teal shimmer pixels
+# (the card's magic accent, kept ~1% of opaque).
+size: 16x16
+[palette]
+. = none
+D = 6F9E94   # deepest / inter-clump shadow (teal-shifted)
+s = 8BBFAC   # shadow
+b = A9D8C4   # base (card)
+l = C0E8D6   # light
+h = D5F2E6   # highlight
+g = 7FE8D8   # shimmer (card magic accent)
+[grid]
+lbbs.bhlbbs.sblb
+bhlbsllbbsD.blhb
+slbbbbsbs.bbbbbs
+.bsDlhbb.blbsD.b
+bbbsblbsbhbbbgb.
+hlb.bbsDllbs.blb
+lbsbsbbbbbsbbhbs
+bs.bhbs.bsD.llbD
+sbbllbbbbbbbbbs.
+.bgbbsbDlbsbsbbb
+bllbs.bbhbb.bblb
+bbbsDblblsbbhbbs
+sbs.bbbbsbDllbs.
+bhbblbs.bbbbbsbb
+lbbsbhbbslbg.bbl
+bs.bblbsbblbbbsb
