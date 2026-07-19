@@ -49,9 +49,22 @@ style card need a sync for greatwood, including its mid-value exception.
 
 Sheet: `previews/candidates-r3.png` (r2 reference vs dark vs deeper).
 
-## Status
+## Status: FINAL — approved 2026-07-19
 
-Awaiting user choice of darkness level (or a value in between).
+User picked **r3_deeper** (third column of the r3 sheet). Deliverable:
+
+- `out/planks_a_staggered_r3_deeper.png` (source
+  `src/planks_a_staggered_r3_deeper.pxg`)
+
+All three lesson candidates approved and appended to
+`knowledge/lessons.md`; `styles/thaumaturgy.md` greatwood ramp updated to
+the approved dark values (upstream art-direction.md sync still pending, in
+the mod repo).
+
+Not verified in-game — smoke test for Jacob when the block exists: place a
+5x5 floor of greatwood planks in shade and at noon; confirm it reads as
+dark wood, not near-black, and the staggered pattern doesn't band at a
+distance.
 
 ## Lesson candidates (proposed, NOT yet approved)
 
