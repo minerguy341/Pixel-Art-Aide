@@ -20,3 +20,15 @@ ingots/nuggets, wand_base (grayscale-for-tint), the greatwood/silverwood set,
 research papers/scrolls, metal/gilded blocks.
 
 Staged in the studio only; nothing pushed to T.N.A. pending approval.
+
+## Worktable top = 3x3 crafting grid (TC4 Arcane Workbench evoked, our style)
+Studied TC4's Arcane Workbench read (a wizard's wooden crafting table: inlaid 3x3
+grid + wand/focus slot + warm wood/tan-arcane-stone + runes) — idiom only, no
+pixels copied. Our version keeps that "crafting table for wizards" read in the
+thaumaturgy palette:
+- greatwood board surface + brass frame + brass 3x3 grid lines.
+- 9 recessed dark cells = block-as-stage slots (ingredients render in-world).
+- aetherium corner studs; a teal arcane glint in the CENTRE cell = the focus/result.
+- side = framed panel + brass rivets + emissive aetherium/teal socket.
+Reads unmistakably as an arcane crafting station vs the current near-plain planks.
+previews/worktable-grid.png. Staged only — not pushed to T.N.A.
