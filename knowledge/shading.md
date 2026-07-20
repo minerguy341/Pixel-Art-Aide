@@ -141,7 +141,11 @@ canvas with a 1px margin; 11 leaves room for glow/outline effects.
   scattered single pixels read as dirt. (Vanilla bakes the stone in; the
   transparent-overlay split is a mod pattern.)
 - **Organic/leaves**: high-frequency cluster noise is acceptable *here*;
-  keep 2 hue families (lit leaf / shadow leaf) plus sparse accent.
+  keep 2 hue families (lit leaf / shadow leaf) plus sparse accent. **Leaves
+  need ~30–40% TRANSPARENT holes** scattered high-frequency across the whole
+  tile (vanilla oak/spruce/birch are 32–43%) — that see-through lacy read is
+  what says "leaves"; ~8% holes reads as a solid green cube. Scatter per-cell,
+  not in blobs; break up any 2×2 fully-transparent block.
 
 ## Multi-shape blocks (stairs, slabs, walls, fences)
 
