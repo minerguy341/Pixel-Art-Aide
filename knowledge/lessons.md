@@ -462,3 +462,36 @@ All 6 approved by the user (study-batch findings, `gallery/2026-07-19-study-batc
   material, not just colour. (Folded into shading.md leaves shorthand;
   generator: make_leaves.py.)
 - Source: vanilla 1.21.1 oak/spruce/birch_leaves.png (mcasset / InventivetalentDev)
+
+---
+
+# Studied lessons — 2026-07-19 (BWG wood/leaf comparison, 25 wood types)
+
+Approved by the user. Studied from "Oh The Biomes We've Gone" textures in the
+session scratchpad (per reference-policy.md — general craft only, no pixels
+committed).
+
+## 2026-07-19 — distinct woods differ by value+hue, not structure
+- Rule: a family of woods shares ONE ramp grammar (~7 colours per plank; 23 of
+  25 BWG woods use exactly 7) and is differentiated by where the ramp sits —
+  value range (ebony L7-20 vs white_mangrove L53-83) and hue (browns, reds,
+  purples, blues, greens, greys). Add a new wood by re-anchoring value+hue, not
+  by inventing new grain. Extends "one arrangement, many palettes".
+- Source: BWG plank/log set (25 wood types)
+
+## 2026-07-19 — leaf hole density is a canopy-type lever
+- Rule: leaf transparency is not one number — it encodes canopy type. Airy
+  broadleaf/deciduous run ~27-39% holes; dense, weeping, or coniferous canopies
+  run low (willow 9%, spirit 10%, mangrove/baobab 18%). Pick the % from the
+  tree's density, not a fixed default. (Our 33% greatwood/silverwood = broadleaf
+  band; a dense magic canopy would drop to ~15-20%.) Refines the leaves lesson.
+- Source: BWG leaves set (avg 27%, range 9-39%)
+
+## 2026-07-19 — leaf colour is an independent species axis
+- Rule: wood colour and leaf colour are DECOUPLED identity axes — leaves need
+  not be green (BWG: witch_hazel orange, skyris pink, jacaranda purple, zelkova
+  dark-red, aspen yellow; white_mangrove pale-grey wood + dark-green leaves).
+  Use an off-green leaf as a species tell. Flowering/fruiting variants = the
+  plain leaf base + SPARSE bright blossom/berry accents (that's all the high
+  colour-count leaves are), not a busier field.
+- Source: BWG leaves + flowering/ripe leaf variants
