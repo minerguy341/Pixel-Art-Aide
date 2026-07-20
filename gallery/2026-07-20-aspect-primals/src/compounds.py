@@ -292,20 +292,19 @@ def _metal_shades(code):
             hsv(h, min(1, s), 0.09),   # edge outline
             hsv(h, s*0.28, 0.84))      # shine (specular streak)
 
-def _facebox(d, P, x0, y0, z0, W, D, H, top, left, right, edge, shine):
+def _facebox(d, P, x0, y0, z0, W, D, H, top, left, right, edge, shine=None, spec=True):
     south = [P(x0, y0, z0+D), P(x0+W, y0, z0+D), P(x0+W, y0+H, z0+D), P(x0, y0+H, z0+D)]
     east = [P(x0+W, y0, z0), P(x0+W, y0+H, z0), P(x0+W, y0+H, z0+D), P(x0+W, y0, z0+D)]
     topf = [P(x0, y0+H, z0), P(x0+W, y0+H, z0), P(x0+W, y0+H, z0+D), P(x0, y0+H, z0+D)]
     for poly, col in ((south, left), (east, right), (topf, top)):
         d.polygon(poly, fill=col, outline=edge)
-    # specular: a lengthwise streak across the top face + a glint at the lit end
-    streak = [P(x0+1.5, y0+H, z0+0.22*D), P(x0+W-1.5, y0+H, z0+0.22*D),
-              P(x0+W-2.5, y0+H, z0+0.40*D), P(x0+2.5, y0+H, z0+0.40*D)]
-    d.polygon(streak, fill=shine)
-    gx, gy = P(x0+3.5, y0+H, z0+0.31*D)
-    d.rectangle([gx-1, gy-1, gx+1, gy+1], fill=shine)
-    # a small highlight catching the top-front ridge
-    d.line([P(x0, y0+H, z0+D), P(x0+W, y0+H, z0+D)], fill=shine, width=1)
+    if spec and shine:                                          # specular streak + glint (metal)
+        streak = [P(x0+1.5, y0+H, z0+0.22*D), P(x0+W-1.5, y0+H, z0+0.22*D),
+                  P(x0+W-2.5, y0+H, z0+0.40*D), P(x0+2.5, y0+H, z0+0.40*D)]
+        d.polygon(streak, fill=shine)
+        gx, gy = P(x0+3.5, y0+H, z0+0.31*D)
+        d.rectangle([gx-1, gy-1, gx+1, gy+1], fill=shine)
+        d.line([P(x0, y0+H, z0+D), P(x0+W, y0+H, z0+D)], fill=shine, width=1)
 
 def _iso_box(d, ox, oy, W, D, H, s, *shades):
     def P(x, y, z): return (ox + (x-z)*s, oy + (x+z)*s*0.5 - y*s)
@@ -474,14 +473,20 @@ AES5 = ("#ADAFBC", "metal / ore", [
 
 # ===================== GLACIES — ice (#A9E7F5) =====================
 def gla_snowflake(d, f, k):
+    R = 20
     for i in range(6):
         a = math.radians(i*60); dx, dy = math.cos(a), -math.sin(a); px, py = -dy, dx
-        _stroke_sharp(d, [(CX, CY), (CX+19*dx, CY+19*dy)], 2, f, k)
-        for rr in (10, 15):
+        tip = (CX+R*dx, CY+R*dy)
+        _stroke_sharp(d, [(CX, CY), tip], 2, f, k)               # arm
+        _poly(d, [tip, (tip[0]-3*dx+2*px, tip[1]-3*dy+2*py),     # sharp diamond tip
+                  (tip[0]-3*dx-2*px, tip[1]-3*dy-2*py)], f, k, 0.5)
+        for rr, bl in ((9, 6), (14.5, 5)):                       # two symmetric branch pairs, pointed
             bx, by = CX+rr*dx, CY+rr*dy
-            _stroke_sharp(d, [(bx, by), (bx+5*(dx+px)/1.4, by+5*(dy+py)/1.4)], 2, f, k)
-            _stroke_sharp(d, [(bx, by), (bx+5*(dx-px)/1.4, by+5*(dy-py)/1.4)], 2, f, k)
-    disc(d, CX, CY, 2.5, f, k)
+            for sgn in (1, -1):
+                ex = bx + bl*(dx+sgn*px)/1.414
+                ey = by + bl*(dy+sgn*py)/1.414
+                _stroke_sharp(d, [(bx, by), (ex, ey)], 1, f, k)
+    _poly(d, star_pts(CX, CY, 6, 5.5, 2.4, math.radians(90)), f, k, 0.4)  # crisp hex core
 
 def gla_icicles(d, f, k):
     _stroke_sharp(d, [(15, 18), (49, 18)], 3, f, k)
@@ -572,6 +577,72 @@ def aeth_wisp(d, f, k):
 def aeth_mote(d, f, k):
     _poly(d, star_pts(CX, CY, 4, 13, 4), f, k, 0.5)
     ring(d, CX, CY, 18, 1, f, k)
+
+def iso_skull(code):
+    # blocky isometric skull: bone-shaded cube (cranium) + jaw block + sunken features
+    im, d, _, _ = backdrop_canvas(code)
+    top, left, right, edge = (232, 228, 214), (196, 190, 176), (150, 144, 130), (34, 30, 28)
+    dark = (46, 40, 40)
+    ox, oy, s = 32, 26, 1.55
+    def P(x, y, z): return (ox + (x-z)*s, oy + (x+z)*s*0.5 - y*s)
+    W, D, H = 16, 15, 13
+    _facebox(d, P, 0, 0, 3, W, D, H, top, left, right, edge, spec=False)      # cranium
+    _facebox(d, P, 3, -4, 6, W-6, D-6, 4, top, left, right, edge, spec=False)  # jaw (lower, forward)
+    def qs(x0, x1, y0, y1, z):   # quad on the south face (z const)
+        return [P(x0, y0, z), P(x1, y0, z), P(x1, y1, z), P(x0, y1, z)]
+    def qe(z0, z1, y0, y1, x):   # quad on the east face (x const)
+        return [P(x, y0, z0), P(x, y0, z1), P(x, y1, z1), P(x, y1, z0)]
+    d.polygon(qs(8.5, 13, 8, 11.5, D+3), fill=dark)    # left eye  (south, toward front edge)
+    d.polygon(qe(8.5, 13, 8, 11.5, W), fill=dark)      # right eye (east, toward front edge)
+    d.polygon([P(W, 6.5, D+3), P(W-1.5, 5, D+1.5), P(W-1, 8, D+2)], fill=dark)  # nose at the ridge
+    for t in range(3):                                 # teeth gaps on the jaw front faces
+        d.line([P(5+t*2.2, -4, D-0.02), P(5+t*2.2, 0, D-0.02)], fill=dark, width=1)
+        d.line([P(W-0.02, -4, 6+t*2.2), P(W-0.02, 0, 6+t*2.2)], fill=dark, width=1)
+    return im
+
+# ---- Aether: more aura candidates (batch 2) ----
+def aeth_orb(d, f, k):
+    disc(d, CX, CY, 8, f, k)
+    for i in range(6):
+        a = math.radians(i*60); dx, dy = math.cos(a), -math.sin(a)
+        _stroke_sharp(d, [(CX+11*dx, CY+11*dy), (CX+18*dx, CY+18*dy)], 2, f, k)
+    ring(d, CX, CY, 13, 1, f, k)
+
+def aeth_crystal(d, f, k):
+    _poly(d, [(32, 14), (41, 28), (34, 50), (23, 28)], f, k, 0.86)      # floating shard
+    line(d, [(32, 14), (32, 50)], k); line(d, [(23, 28), (41, 28)], k)  # facets
+    for x, y in [(45, 20), (19, 40), (44, 43)]:
+        spark(d, x, y, 2.4, f, k)                                       # emanating motes
+
+def aeth_mist(d, f, k):
+    for cx, cy, r in [(24, 31, 7), (33, 28, 8), (40, 32, 6)]:
+        disc(d, cx, cy, r, f, k)
+    _poly(d, [(17, 35), (47, 35), (45, 40), (19, 40)], f, k, 0.9)       # cloud base
+    spark(d, 33, 18, 2.6, f, k)
+
+def aeth_aurora(d, f, k):
+    for oy in (-7, 0, 7):
+        pts = [(x, CY+oy+4*math.sin((x-14)/5.0)) for x in range(14, 51, 3)]
+        _stroke(d, pts, 2, f, k)
+    spark(d, 45, 18, 2.6, f, k); spark(d, 19, 45, 2.2, f, k)
+
+def aeth_motes(d, f, k):
+    for x, y, r in [(24, 24, 4), (40, 22, 3.2), (32, 34, 4.6), (21, 41, 3), (43, 43, 3.6), (33, 49, 2.6)]:
+        spark(d, x, y, r, f, k)
+
+def aeth_pulse(d, f, k):
+    disc(d, CX, CY, 3.5, f, k)
+    for r in (8, 13, 18):
+        d.arc([CX-r, CY-r, CX+r, CY+r], 205, 335, fill=k, width=3)
+        d.arc([CX-r, CY-r, CX+r, CY+r], 205, 335, fill=f, width=1)
+
+AETHER_MORE = ("#B37FE8", "aura", [
+    ("orb", "radiant orb", aeth_orb),
+    ("crystal", "crystal node", aeth_crystal),
+    ("mist", "aura mist", aeth_mist),
+    ("aurora", "aurora bands", aeth_aurora),
+    ("motes", "drifting motes", aeth_motes),
+    ("pulse", "aura pulse", aeth_pulse)])
 
 GLACIES5 = ("#A9E7F5", "ice", [
     ("snowflake", "snowflake", gla_snowflake), ("icicles", "icicles", gla_icicles),

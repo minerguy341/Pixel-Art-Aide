@@ -190,3 +190,12 @@ compounds.py + compound-{glacies,letum,aether}.png:
 - Letum (death #45403E): skull · scythe · crossed bones · tombstone · skull & crossbones
 - Aether (aura #B37FE8): radiant node · aura swirl · aura rings · spirit wisp · haloed mote
 Glacies/Aether are light beds -> dark glyphs; Letum is a dark bed -> light glyphs.
+
+## Picks + Aether batch 2
+- Glacies = snowflake (sharpened: pointed diamond arm-tips, symmetric pointed
+  branch pairs, crisp 6-point hex core).
+- Letum = tombstone (let_grave). (Iso skull built too — iso_skull() — kept in
+  code as a reusable option but not chosen.)
+- Aether batch 2 (compound-aether2.png): radiant orb · crystal node · aura mist
+  · aurora bands · drifting motes · aura pulse. (Batch 1 was node/swirl/rings/
+  wisp/mote.)
