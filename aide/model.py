@@ -125,3 +125,24 @@ def parse_model(data: dict) -> Model:
 
 def load_model(path: str | Path) -> Model:
     return parse_model(json.loads(Path(path).read_text()))
+
+
+def door_model() -> Model:
+    """A full 2-tall door built to the exact vanilla geometry (each half is a
+    3 x 16 x 16 slab; stacked = 3 wide-thick x 16 x 32 tall). Bottom half uses
+    the `bottom` texture key, top half `top`. Faces + UVs match
+    minecraft:block/door_{bottom,top}_left (big east/west faces carry the full
+    16x16; the 3px north/south edges take a slice)."""
+    def half(y0, key):
+        f = {
+            "north": Face("north", (3, 0, 0, 16), f"#{key}"),
+            "south": Face("south", (0, 0, 3, 16), f"#{key}"),
+            "west":  Face("west", (0, 0, 16, 16), f"#{key}"),
+            "east":  Face("east", (16, 0, 0, 16), f"#{key}"),
+            "up":    Face("up", (0, 3, 16, 0), f"#{key}", rotation=90),
+            "down":  Face("down", (16, 13, 0, 16), f"#{key}", rotation=90),
+        }
+        return Element((0.0, float(y0), 0.0), (3.0, float(y0 + 16), 16.0), f, f"door_{key}")
+
+    return Model([half(0, "bottom"), half(16, "top")], (16, 16),
+                 {"bottom": "#bottom", "top": "#top"})

@@ -84,6 +84,17 @@ CANDIDATES = [
  FLOWER_LESSON,
 ]
 
+FURNITURE = [
+ ("Door & trapdoor ≈ the plank ramp, near-verbatim + a small hardware accent.",
+  "Doors average 91% plank-palette pixels (most 95–100%); only a handle/hinge adds new colour. The most wood-faithful derived block — recolour the planks and you have the door."),
+ ("Crafting table = wood base + a tool motif; the top is the artist’s wildcard.",
+  "The front keeps ~71% wood under a saw/grid graphic; the top is bimodal — some woods keep a woody grid (~100%), others overlay a dark non-wood grid (~5–20%). Front is consistent, top is a choice."),
+ ("Bookshelf = a plank frame + an independent colourful book-spine set.",
+  "Only ~50% of the bookshelf is the wood (the shelf frame); the other half is book spines whose bright colours are NOT drawn from the wood palette — a separate accent set."),
+ ("Sapling inherits the LEAF colour (~75%), not the plank (~46%).",
+  "A sapling is a foliage-coloured sprout on a thin wood-brown stem — it reads as the young tree’s leaves. Confirms leaf colour is the species axis; the sapling rides it, not the wood."),
+]
+
 def li(rows):
     return "\n".join(f'<li><p class="r">{r}</p><p class="w">{w}</p></li>' for r,w in rows)
 adopted = li(ADOPTED)
@@ -98,7 +109,7 @@ HTML = f"""<!doctype html><html lang="en"><head>
   <h1>A biome’s worth of textures:<br>what <span class="g">Oh The Biomes We’ve Gone</span> taught us</h1>
   <p class="lede">994 textures studied for craft — 25 wood families and a whole biome of plants, stone, sand and fruit. Every finding here is derived data (palettes, transparency, busyness); none of the mod’s pixels were rendered or kept.</p>
   <div class="meta">
-    <span class="chip"><b>994</b> textures</span><span class="chip"><b>25</b> wood types</span>
+    <span class="chip"><b>994</b> textures</span><span class="chip"><b>25</b> furniture sets</span><span class="chip"><b>25</b> wood types</span>
     <span class="chip"><b>3</b> lessons adopted</span><span class="chip"><b>5</b> candidate lessons</span>
     <span class="chip">study-only · <b>0</b> pixels committed</span>
   </div>
@@ -133,6 +144,15 @@ HTML = f"""<!doctype html><html lang="en"><head>
   <p class="intro">The bush row above came out almost entirely purple, which is wrong for a “bush”. It’s an artefact: 13 of BWG’s 23 bushes are flowering jacaranda/allium/hydrangea variants, several of them <em>fully</em> purple, so a naive frequency count buries the green. Classify each pixel first — foliage (green), bloom (saturated non-green), structural (twig) — and the plant reads true: a green foliage ramp with a separate bloom accent.</p>
   <figure><img src="{uri('bush-split-palette.png')}" alt="Bush and flower palettes split into foliage, bloom, and structural ramps"><figcaption>each plant category split by pixel class — foliage (green) · bloom (flower) · structural (twig), with the share of pixels in each</figcaption></figure>
   <ul class="finds">{li([FLOWER_LESSON])}</ul>
+</section>
+
+<section>
+  <p class="kicker">How the wood carries into its furniture</p>
+  <h2><span class="n">05</span>Crafting table · bookshelf · door · sapling</h2>
+  <p class="intro">Each wood ships a crafting table, bookshelf, door, trapdoor and sapling. Measuring what share of each block’s pixels come straight from its plank palette shows exactly how far the wood identity reaches — and where the artist adds something new.</p>
+  <figure><img src="{uri('furniture-reuse.png')}" alt="Bar chart: share of each wood-derived block drawn from the plank palette"><figcaption>% of pixels drawn from the wood’s own plank palette, averaged over 25 BWG woods — derived data</figcaption></figure>
+  <ul class="finds">{li(FURNITURE)}</ul>
+  <figure style="margin-top:22px"><img src="{uri('greatwood-door-render.png')}" alt="A greatwood door rendered on the vanilla door model" style="image-rendering:pixelated;max-width:120px;margin:20px auto;display:block"><figcaption>New: a door renderer on the exact vanilla door geometry (3 × 16 × 32). Shown here on an original greatwood door — no BWG pixels.</figcaption></figure>
 </section>
 
 <section>

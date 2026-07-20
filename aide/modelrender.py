@@ -138,6 +138,12 @@ def render_model(model: Model, textures: dict[str, Image.Image], scale: int = 12
     return out
 
 
+def render_door(bottom: Image.Image, top: Image.Image, scale: int = 12) -> Image.Image:
+    """Render a full 2-tall door (vanilla geometry) from its two 16x16 halves."""
+    from aide.model import door_model
+    return render_model(door_model(), {"bottom": bottom, "top": top}, scale=scale)
+
+
 def _corners_rot(corners, rotation):
     """Rotate the [tl,tr,br,bl] corner list by a face UV rotation (0/90/180/270)."""
     r = (rotation // 90) % 4
