@@ -601,39 +601,50 @@ def iso_skull(code):
     return im
 
 # ---- Letum: tombstone / grave-marker candidates ----
+AX = 31.5   # icon centre-line — everything mirror-symmetric about it
+
+def _round_stone(d, f, k, w=13, top=13, bot=45):
+    d.pieslice([AX-w, top, AX+w, top+2*w], 180, 360, fill=k)
+    d.pieslice([AX-w+1, top+1, AX+w-1, top+2*w-1], 180, 360, fill=f)
+    _poly(d, [(AX-w, top+w), (AX+w, top+w), (AX+w, bot), (AX-w, bot)], f, k, 0.94)
+
+def _ground(d, f, k, y=46):
+    _stroke_sharp(d, [(AX-18, y), (AX+18, y)], 2, f, k)
+
 def grave_rip(d, f, k):
-    d.pieslice([19, 13, 45, 39], 180, 360, fill=k); d.pieslice([20, 14, 44, 38], 180, 360, fill=f)
-    _poly(d, [(19, 26), (45, 26), (45, 45), (19, 45)], f, k, 0.92)
-    _stroke_sharp(d, [(32, 30), (32, 41)], 2, k, k); _stroke_sharp(d, [(27, 34), (37, 34)], 2, k, k)  # cross
-    _stroke_sharp(d, [(13, 46), (51, 46)], 2, f, k)                # ground
-    for gx in (17, 47):
+    _round_stone(d, f, k)
+    _stroke_sharp(d, [(AX, 30), (AX, 41)], 2, k, k); _stroke_sharp(d, [(AX-5, 34), (AX+5, 34)], 2, k, k)
+    _ground(d, f, k)
+    for s in (-1, 1):                                              # symmetric grass tufts
+        gx = AX + s*15
         _stroke_sharp(d, [(gx, 46), (gx-2, 42)], 1, f, k); _stroke_sharp(d, [(gx, 46), (gx+2, 42)], 1, f, k)
 
 def grave_cross(d, f, k):
-    _poly(d, [(29, 14), (35, 14), (35, 44), (29, 44)], f, k, 0.85)  # upright
-    _poly(d, [(21, 22), (43, 22), (43, 28), (21, 28)], f, k, 0.85)  # arms
-    d.pieslice([16, 40, 48, 54], 180, 360, fill=k); d.pieslice([17, 41, 47, 53], 180, 360, fill=f)  # mound
-    _stroke_sharp(d, [(13, 47), (51, 47)], 2, f, k)
+    _poly(d, [(AX-3, 14), (AX+3, 14), (AX+3, 44), (AX-3, 44)], f, k, 0.85)  # upright
+    _poly(d, [(AX-11, 22), (AX+11, 22), (AX+11, 28), (AX-11, 28)], f, k, 0.85)  # arms
+    d.pieslice([AX-16, 40, AX+16, 54], 180, 360, fill=k); d.pieslice([AX-15, 41, AX+15, 53], 180, 360, fill=f)
+    _ground(d, f, k, 47)
 
 def grave_arch(d, f, k):
-    _poly(d, [(20, 45), (20, 24), (32, 13), (44, 24), (44, 45)], f, k, 0.92)  # gothic pointed arch
+    _poly(d, [(AX-12, 45), (AX-12, 24), (AX, 13), (AX+12, 24), (AX+12, 45)], f, k, 0.92)  # pointed arch
     for yy in (29, 34, 39):
-        line(d, [(25, yy), (39, yy)], k)                           # engraved lines
-    _stroke_sharp(d, [(14, 46), (50, 46)], 2, f, k)
+        line(d, [(AX-7, yy), (AX+7, yy)], k)                       # engraved lines
+    _ground(d, f, k)
 
 def grave_crack(d, f, k):
-    d.pieslice([19, 13, 45, 39], 180, 360, fill=k); d.pieslice([20, 14, 44, 38], 180, 360, fill=f)
-    _poly(d, [(19, 26), (45, 26), (45, 45), (19, 45)], f, k, 0.92)
-    _stroke_sharp(d, [(30, 15), (33, 24), (29, 33), (32, 45)], 1, k, k)   # crack
-    d.polygon([(45, 26), (45, 33), (40, 27)], fill=k)              # chipped corner
-    _stroke_sharp(d, [(13, 46), (51, 46)], 2, f, k)
+    _round_stone(d, f, k)                                          # symmetric silhouette
+    _stroke_sharp(d, [(AX+1, 16), (AX-2, 23), (AX+1, 31)], 1, k, k)  # short upper crack
+    line(d, [(AX-2, 27), (AX-6, 30)], k)                          # a hairline offshoot
+    for s in (-1, 1):                                              # symmetric worn nicks at the shoulders
+        line(d, [(AX+s*12, 29), (AX+s*9, 30)], k)
+    _ground(d, f, k)
 
 def grave_celtic(d, f, k):
-    _poly(d, [(29, 12), (35, 12), (35, 45), (29, 45)], f, k, 0.85)  # upright
-    _poly(d, [(21, 23), (43, 23), (43, 29), (21, 29)], f, k, 0.85)  # arms
-    ring(d, 32, 26, 8, 2, f, k)                                    # halo ring
-    d.pieslice([16, 41, 48, 55], 180, 360, fill=k); d.pieslice([17, 42, 47, 54], 180, 360, fill=f)
-    _stroke_sharp(d, [(13, 47), (51, 47)], 2, f, k)
+    _poly(d, [(AX-3, 12), (AX+3, 12), (AX+3, 45), (AX-3, 45)], f, k, 0.85)  # upright
+    _poly(d, [(AX-11, 23), (AX+11, 23), (AX+11, 29), (AX-11, 29)], f, k, 0.85)  # arms
+    ring(d, AX, 26, 8, 2, f, k)                                    # halo ring
+    d.pieslice([AX-16, 41, AX+16, 55], 180, 360, fill=k); d.pieslice([AX-15, 42, AX+15, 54], 180, 360, fill=f)
+    _ground(d, f, k, 47)
 
 LETUM_GRAVES = ("#45403E", "death", [
     ("rip", "rounded + cross", grave_rip),

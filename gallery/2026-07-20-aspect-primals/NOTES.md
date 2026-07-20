@@ -205,3 +205,12 @@ Glacies/Aether are light beds -> dark glyphs; Letum is a dark bed -> light glyph
 - Letum: 5 tombstone/grave candidates (compound-letum2.png): rounded+cross ·
   cross marker · gothic arch · weathered · celtic cross. Improves the earlier
   plain grave.
+
+## Tombstones — symmetry fix
+Rebuilt all 5 grave candidates mirror-symmetric about the icon centre-line
+(AX=31.5) via shared _round_stone/_ground helpers (were built about x=32, 0.5px
+off, plus the weathered chip broke silhouette symmetry). Symbol asymmetry ~halved
+(gothic arch 3.4%). Weathered now keeps a symmetric silhouette with a short upper
+crack instead of a full-height split. (Backdrop hexagon carries ~5.9% sub-pixel
+rasterisation asymmetry — baked into all icons, not visually lopsided; left as-is
+so the 15 locked icons don't change.)
