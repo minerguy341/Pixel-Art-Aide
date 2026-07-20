@@ -254,3 +254,49 @@ Since 1.20.5+, GUI textures are individual sprites under `assets/<ns>/textures/g
 > sparse/slow/context-gated, beams as trail ribbons (Photon/Particular/Effective).
 > Decorative build-out = motif re-lays + variant pickers + element-model furniture
 > off our plank (Blockus/Rechiseled/Handcrafted).
+
+<!-- ============ BATCH 3 ============ -->
+# CATEGORY: Storage, functional blocks & QoL (batch 3)
+
+## Quark
+**Meta.** Vanilla+ tweak/decoration/QoL (100+ toggleable modules, Vazkii). ~10^8 (~248M CF). License: **CC BY-NC-SA 3.0**.
+**Techniques.** Decoration reads as base MC because it extends EXISTING vanilla families rather than inventing new ones: vertical planks, vertical slabs, posts, carved/framed wood, shingles, thatch, per-wood chests, glass items. 16x, drawn from vanilla's own ramps — no new hues, just recombinations, so a Quark block beside oak planks looks first-party. Systematic family structure: each material propagates through block→slab→vertical slab→stairs→wall→post; grouped "palettes" (Industrial/Oriental) stay internally coherent. UX = restrained vanilla-styled widgets: inventory sort button, chest deposit/restock/filter buttons, item-frame tweaks, subtle HUD/tooltip readouts — each small, individually toggleable, styled with vanilla chrome.
+**Takeaways.** (1) Extend vanilla block FAMILIES (add slabs/posts/vertical variants of an arcane wood/stone); never a lone one-off. (2) Recombine the existing palette ramp; no new hue a magic block wouldn't justify. (3) Ship QoL UI as small vanilla-styled buttons/tooltips on existing screens, each toggleable. (4) Keep everything 16x + modular — cohesion sells authenticity.
+**Signature.** Systematic family completion — define one arcane material, generate its entire vanilla derivative set (slab/vertical slab/stairs/wall/post) in the vanilla palette.
+
+## Storage Drawers
+**Meta.** Compartmental item-storage blocks. ~10^8 (~234M CF). License: **MIT**.
+**Techniques.** The block FACE is the interface. Each compartment renders the stored item's 3D icon floating on a recessed front panel; empty = blank recessed panel — contents read at a glance, no GUI. A block subdivides its face into a fixed grid (1×1, 1×2, 2×2), so one block fronts 1/2/4 icons. Count text as small numerals (toggleable); a status-indicator upgrade adds a colored fill/level bar strip. Tier/material via the wood-type frame + a border trim; Framed drawers let players retexture. Readability rests on recessed-panel shadow separating icon from wood, consistent icon centering, quantity as a dimmer secondary layer.
+**Takeaways.** (1) Reserve a RECESSED inset panel on the jar face where the aspect icon/essentia renders — frame = "container", inset = "contents". (2) Support a subdivided-face convention so a multi-aspect jar shows 2–4 aspect cells each with its own fill. (3) Draw fill as a discrete colored bar + count as small secondary numerals — two separate readout layers. (4) Encode tier through frame material + trim border, leaving the inset free.
+**Signature.** Recessed content inset + floating item icon + optional fill-bar strip — contents and fill on the face, no GUI.
+
+## Sophisticated Storage
+**Meta.** Upgradeable barrels/chests with an upgrade-slot economy. ~10^7 (~81M CF). License: **All Rights Reserved** (study only).
+**Techniques.** Two readability systems. (1) Tier trim as a METAL RING/banding: copper→iron→gold→diamond→netherite recolors a border accent on an otherwise wood body — tier reads instantly from a small trim colour while the body stays neutral. Two-colour dye (main+accent) applied per face, kept distinct from tier trim. (2) Limited Barrels put 1–4 item slots on the front panel (icon + count); higher tiers raise per-slot STACK LIMITS rather than adding slots, so the face stays legible. A Storage Tool toggles on-block overlays (locks/counts/tiers) — opt-in per property so a wall isn't noisy.
+**Takeaways.** (1) A thin tier trim/ring in a metal ramp (copper→netherite) makes reagent-container tier a glanceable border accent, not a whole-block reskin. (2) Show aspect on the face as a displayed icon + count; prefer raising per-jar capacity by tier over adding icons. (3) Keep tier colour and aspect tint as independent layers so they never collide. (4) Make face overlays toggleable for large arrays.
+**Signature.** Metal-ramp tier trim — identity through a small recolored border accent, body free for aspect colour.
+
+## Jade + Iron Chests (container readouts)
+**Meta.** Jade: look-at HUD/tooltip (MIT), ~10^8. Iron Chests: tiered containers (GPL-3.0); Crystal Chest = the canonical "see-the-contents" glass idiom.
+**Techniques.** Jade renders a look-at HUD panel (not on-block art): icon+title row then plugin lines; its progress-bar component draws a horizontal FILL BAR with a numeric/percentage label — the reusable "how full/how far" primitive. For containers it lists top contents as icon+count rows. Discipline: hover reveals detail, the block stays clean. Iron Chests complements on the block: tiers read through body material colour, and Crystal/Diamond chests use a TRANSPARENT glass shell that literally exposes the item models stacked inside — contents shown by transparency, not overlay.
+**Takeaways.** (1) Give essentia jars a Jade progress line: aspect icon + name + a labeled fill bar (exact %/amount) — precise level lives in the hover, not cramped pixels. (2) Keep the block-face read coarse (which aspect, rough fill via a liquid column); push exact counts to tooltip/HUD + comparator. (3) Borrow the Crystal-Chest transparency idiom: a glass jar whose internal essentia column HEIGHT = fill — the most intuitive display, no text. (4) One fill-bar primitive reused everywhere (jars/crucible/alembic) for a consistent readout language.
+**Signature.** The labeled fill-bar progress primitive — one reusable "aspect + amount + bar" row for every reagent container.
+
+## Farmer's Delight
+**Meta.** Farming/cooking with functional workstation blocks. ~10^7 (~13M Modrinth port). License: **MIT** (study only).
+**Techniques.** State/contents read through IN-WORLD RENDERING, not GUIs. The cutting board renders the placed item flat on the plank surface via a BlockEntityRenderer — so the board texture is a plain low-contrast wood slab acting as a STAGE for whatever floats on it. The cooking pot shows a small liquid/soup disc inside the rim + rising steam particles; the pot reads as dark cast iron with a bright inner "broth" quad that swaps colour per meal. The stove shows lit/unlit via an emissive fire quad in the grate. Tight rustic palette (warm browns, terracotta-red, blackened iron, cream). Boxy vanilla silhouettes + shallow inset trim so blocks read as tools.
+**Takeaways.** (1) Author workstation surfaces as neutral low-contrast STAGES; let the rendered essentia jar / infusion item supply the colour + focal point. (2) Encode process state as a single swappable quad (broth disc, glowing grate), not a whole-block repaint. (3) Disciplined rustic palette so a dozen blocks read as one station set. (4) Boxy vanilla silhouettes + shallow inset trim beat complex geometry.
+**Signature.** Block-as-stage — a deliberately plain surface whose job is to frame in-world item rendering.
+
+## Reliquary
+**Meta.** Magical relic/curio items (charms, fragments, tomes, pedestal). ~10^7–10^8 (~99M CF, Reincarnations fork). License: **All Rights Reserved** (assets not reusable).
+**Techniques.** Item icons read "precious/arcane" at 16px through consistent moves: a strong FRAMED silhouette (coins/medallions/pendants get a gold/bronze rim enclosing a coloured gem or sigil centre), high value-contrast between a dark arcane core and a bright metallic edge, and 1–2 hyper-saturated gem/rune accent pixels implying glow without full emissive art. Fragments = torn/irregular shards with a jagged edge + faint inner motif; tomes = leather cover + clasp + coloured inset icon. The Altar/Pedestal displays a held item elevated and lit — the pedestal itself is understated stone with a glowing socket.
+**Takeaways.** (1) Give arcane relics a metal FRAME + gem/sigil core so they read as jewelry-precious, not tool-plain. (2) Use 1–2 hyper-saturated accent pixels for glow instead of full-sprite emissivity. (3) Distinguish item classes by silhouette: framed/round = charm, jagged = fragment, clasp-book = tome/focus. (4) Make the pedestal a quiet lit socket; let the displayed focus be the focal point.
+**Signature.** The framed-relic idiom — bright metallic rim enclosing a dark arcane core = instant "precious & magical" at 16px.
+
+> **Essentia-jar synthesis (batch 3):** coarse-to-fine readout — a glass/liquid
+> COLUMN on the block shows fill height + aspect colour (Crystal Chest + Drawers
+> inset), a thin METAL TIER TRIM encodes container tier (Sophisticated), and a
+> Jade FILL-BAR line gives exact amount/aspect name + comparator value on hover.
+> Workstations are STAGES (Farmer's Delight); relics/foci use the framed-core
+> idiom (Reliquary); build breadth by systematic vanilla family-completion (Quark).
