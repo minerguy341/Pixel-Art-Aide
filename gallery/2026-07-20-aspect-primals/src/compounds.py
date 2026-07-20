@@ -191,6 +191,94 @@ ASPECTS = {
         ("swirl", "magic swirl", arc_swirl)]),
 }
 
+# ---- Arcanum, batch 3: researched arcane/occult/alchemy iconography ----
+def mg_pentacle(d, f, k):
+    R = 17                                                        # star inscribed in the ring
+    p = [(CX+R*math.cos(math.radians(90+i*72)), CY-R*math.sin(math.radians(90+i*72))) for i in range(5)]
+    ring(d, CX, CY, 18, 2, f, k)                                 # circle first (star sits on top)
+    _stroke_sharp(d, [p[i] for i in (0, 2, 4, 1, 3, 0)], 2, f, k)  # {5/2} pentagram, points touch ring
+
+def mg_ouroboros(d, f, k):
+    bb = [CX-14, CY-14, CX+14, CY+14]
+    d.arc(bb, 300, 210, fill=k, width=6)                          # body (gap at lower-right)
+    d.arc(bb, 300, 210, fill=f, width=3)
+    a = math.radians(-35); hx, hy = CX+14*math.cos(a), CY-14*math.sin(a)  # head end
+    _poly(d, [(hx+5, hy-3), (hx-4, hy-5), (hx-1, hy+5)], f, k, 0.55)      # head
+    disc(d, hx, hy-1, 1.3, k, k)                                  # eye
+
+def mg_triquetra(d, f, k):
+    r = 10
+    cs = [(CX+8*math.cos(math.radians(90+i*120)), CY-8*math.sin(math.radians(90+i*120))) for i in range(3)]
+    for c in cs:
+        d.ellipse([c[0]-r-1, c[1]-r-1, c[0]+r+1, c[1]+r+1], outline=k, width=4)
+    for c in cs:
+        d.ellipse([c[0]-r, c[1]-r, c[0]+r, c[1]+r], outline=f, width=2)
+
+def mg_vegvisir(d, f, k):
+    for i in range(8):
+        a = math.radians(i*45); dx, dy = math.cos(a), -math.sin(a); px, py = -dy, dx
+        base, tip = (CX+3*dx, CY+3*dy), (CX+19*dx, CY+19*dy)
+        _stroke_sharp(d, [base, tip], 2, f, k)
+        cb = (CX+14*dx, CY+14*dy)
+        _stroke_sharp(d, [(cb[0]+3*px, cb[1]+3*py), (cb[0]-3*px, cb[1]-3*py)], 2, f, k)
+        if i % 2 == 0:
+            _stroke_sharp(d, [tip, (tip[0]+3*px+1*dx, tip[1]+3*py+1*dy)], 2, f, k)
+            _stroke_sharp(d, [tip, (tip[0]-3*px+1*dx, tip[1]-3*py+1*dy)], 2, f, k)
+        else:
+            disc(d, tip[0], tip[1], 2, f, k)
+    disc(d, CX, CY, 2.5, f, k)
+
+def mg_mercury(d, f, k):
+    d.arc([CX-7, 13, CX+7, 27], 200, 340, fill=k, width=4)        # horns
+    d.arc([CX-7, 13, CX+7, 27], 200, 340, fill=f, width=2)
+    ring(d, CX, 32, 7, 2, f, k)                                   # circle
+    _stroke_sharp(d, [(CX, 39), (CX, 49)], 3, f, k)               # cross
+    _stroke_sharp(d, [(CX-5, 44), (CX+5, 44)], 3, f, k)
+
+def mg_eye(d, f, k):
+    _stroke_sharp(d, [(17, 31), (24, 25), (40, 25), (47, 31)], 3, f, k)  # upper lid
+    _stroke_sharp(d, [(17, 31), (24, 37), (40, 37), (47, 31)], 3, f, k)  # lower lid
+    disc(d, CX, 31, 5, f, k); disc(d, CX, 31, 2, k, k)           # iris + pupil
+    for dx in (-8, 0, 8):
+        _stroke_sharp(d, [(CX+dx, 19), (CX+dx*1.25, 13)], 2, f, k)       # insight rays
+
+def mg_grimoire(d, f, k):
+    _poly(d, [(15, 23), (32, 27), (32, 45), (14, 41)], f, k, 0.88)  # left page
+    _poly(d, [(49, 23), (32, 27), (32, 45), (50, 41)], f, k, 0.88)  # right page
+    _stroke_sharp(d, [(32, 27), (32, 45)], 2, k, k)               # spine
+    spark(d, 23, 34, 2.6, k, k)                                   # rune on page
+
+def mg_runestone(d, f, k):
+    _stroke_sharp(d, [(32, 13), (32, 51)], 4, f, k)               # bold stave
+    _stroke_sharp(d, [(32, 25), (44, 15)], 4, f, k)
+    _stroke_sharp(d, [(32, 25), (20, 15)], 4, f, k)
+    _stroke_sharp(d, [(32, 39), (43, 47)], 4, f, k)
+
+def mg_mandala(d, f, k):
+    ring(d, CX, CY, 17, 2, f, k)
+    for i in range(8):
+        a = math.radians(i*45 + 22.5)
+        spark(d, CX+12*math.cos(a), CY-12*math.sin(a), 2.3, f, k)
+    ring(d, CX, CY, 6, 2, f, k); disc(d, CX, CY, 2, f, k)
+
+def mg_phial(d, f, k):
+    body = [(28, 16), (36, 16), (36, 25), (44, 43), (39, 48), (25, 48), (20, 43), (28, 25)]
+    _stroke_sharp(d, body + [body[0]], 2, f, k)                   # glass flask
+    _poly(d, [(27, 12), (37, 12), (37, 17), (27, 17)], f, k, 0.55)  # cork
+    spark(d, 32, 40, 3, f, k)                                     # bubbling spark
+
+MAGIC10 = ("#DD4FD0", "magic", [
+    ("pentacle", "pentacle", mg_pentacle),
+    ("ouroboros", "ouroboros", mg_ouroboros),
+    ("triquetra", "triquetra", mg_triquetra),
+    ("vegvisir", "runic compass", mg_vegvisir),
+    ("mercury", "mercury glyph", mg_mercury),
+    ("eye", "third eye", mg_eye),
+    ("grimoire", "grimoire", mg_grimoire),
+    ("runestone", "bold rune", mg_runestone),
+    ("mandala", "mandala", mg_mandala),
+    ("phial", "alchemist's phial", mg_phial)])
+
 ARCANUM_MORE = ("#DD4FD0", "magic", [
     ("seal", "runic seal", arc_seal),
     ("hexstar", "6-point star", arc_hexstar),

@@ -125,3 +125,14 @@ make_aspects.py switched burst->chaosstar. Final 6 primals: previews/candidates-
 - Arcanum: user wanted more options. Second batch (compound-arcanum2.png):
   runic seal · 6-point star · scrying orb · alchemical sigil · crescent+star ·
   comet. (First batch was rune/sparkle+orbits/ring/wand+star/swirl.)
+
+## Arcanum batch 3 — researched arcane iconography (10 candidates)
+Web pass on magic/occult/alchemy symbols (studied idioms, own pixels). 10 in
+compound-arcanum3.png: pentacle · ouroboros · triquetra · runic compass
+(vegvisir) · mercury glyph · third eye · grimoire · bold rune · mandala ·
+alchemist's phial. Sources: Pentagram/Pentacle, Ouroboros, Triquetra, Alchemical
+symbol, Vegvisir (Wikipedia/sacred-geometry refs).
+Pentacle tidied: star inscribed so its 5 points touch the ring (was floating with
+a gap); ring drawn first, pentagram on top.
+Note: third eye overlaps conceptually with a future Acies (perception) aspect —
+flag if both get used.
