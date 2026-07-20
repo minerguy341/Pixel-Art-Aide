@@ -32,3 +32,16 @@ thaumaturgy palette:
 - side = framed panel + brass rivets + emissive aetherium/teal socket.
 Reads unmistakably as an arcane crafting station vs the current near-plain planks.
 previews/worktable-grid.png. Staged only — not pushed to T.N.A.
+
+## Node + framed-relic pass (src/make_relics.py → out/*_rev.png)
+- **aura_node** — glow-by-contrast rebuild. Darkened the aetherium shell ramp and
+  replaced the flat teal glass with a RADIAL bloom (deep glass rim → glint → hot →
+  near-white core). The emissive teal core is now the only saturated light on the
+  block; two pin-light glimmers keep the r1 "drifting mote" identity. Embodies
+  emissive-core + make-invisible-visible.
+- **aetherlens** — framed-relic idiom: brighter brass RIM enclosing a darker
+  arcane lens CORE + one hot teal glint (was a flatter brass tube + pale lens).
+- **codex** — framed-relic tome: the flat teal cross becomes a RECESSED framed
+  emblem panel (dark border → teal sigil → hot centre); clasp brass brightened.
+- One combined before/after: previews/revision-set.png (worktable iso + the three).
+- Still studio-only until the before/after is approved for the T.N.A. PR.
