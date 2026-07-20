@@ -98,3 +98,10 @@ pixels — reference-policy). previews/discordia-options2.png:
   the base; clearest read at every size.
 Added _arrow/_ellipse_pts helpers + sym_chaosstar/vortex/butterfly/hourglass.
 Sources: Symbol of Chaos (Wikipedia); Lorenz attractor as the symbol of chaos.
+
+## Discordia locked — polished chaos star (r4)
+User picked the chaos star; reworked for legibility: even 45° arrow spacing
+(chaos lives in the uneven lengths, not the crowding), each arrow = straight
+shaft + a crisp filled triangle head (new _arrow2), and a clean central diamond
+hub so the shafts read as radiating instead of a blob. Discordia symbol in
+make_aspects.py switched burst->chaosstar. Final 6 primals: previews/candidates-r4.png.

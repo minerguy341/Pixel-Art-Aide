@@ -22,7 +22,7 @@ PRIMALS = [
     ("flamma",    "#F0552B", "flame"),
     ("unda",      "#3D9BE0", "wave"),
     ("forma",     "#EDE9DC", "grid"),
-    ("discordia", "#4A3459", "burst"),
+    ("discordia", "#4A3459", "chaosstar"),
 ]
 
 def hx(s):
@@ -164,18 +164,28 @@ def sym_scatter(d, fill, key):
         d.rectangle([x, y, x+s, y+s], fill=key)
         d.rectangle([x+1, y+1, x+s-1, y+s-1], fill=fill)
 
-def _arrow(d, cx, cy, ang, length, w, fill, key, head=6):
-    tx, ty = cx + length*math.cos(ang), cy - length*math.sin(ang)
-    _stroke_sharp(d, [(cx, cy), (tx, ty)], w, fill, key)
-    for da in (math.radians(148), math.radians(-148)):
-        bx, by = tx + head*math.cos(ang+da), ty - head*math.sin(ang+da)
-        _stroke_sharp(d, [(tx, ty), (bx, by)], w, fill, key)
+def _arrow2(d, cx, cy, ang, r0, r1, fill, key, hl=6, hw=4.2):
+    """clean arrow: straight shaft r0->r1 + a filled triangle head."""
+    dx, dy = math.cos(ang), -math.sin(ang)
+    px, py = -dy, dx                       # perpendicular
+    sx, sy = cx + r0*dx, cy + r0*dy        # shaft start (hub gap)
+    bx, by = cx + r1*dx, cy + r1*dy        # head base centre
+    _stroke_sharp(d, [(sx, sy), (bx, by)], 3, fill, key)
+    tip = (cx + (r1+hl)*dx, cy + (r1+hl)*dy)
+    c1 = (bx + hw*px, by + hw*py)
+    c2 = (bx - hw*px, by - hw*py)
+    d.polygon([tip, c1, c2], fill=key)
+    d.polygon(scale_about([tip, c1, c2], 0.6, bx, by), fill=fill)
 
 def sym_chaosstar(d, fill, key):
-    # radiating arrows of UNEVEN length (chaos = imbalance) — Moorcock idiom, our own
-    lens = [17, 12, 16, 11, 17, 13, 15, 12]
+    # 8 arrows, evenly spaced; the chaos is in the UNEVEN lengths, not the crowding
+    lens = [18, 13, 17, 12, 18, 14, 16, 12]
     for i in range(8):
-        _arrow(d, 32, 31, math.radians(i*45 + 8), lens[i], 3, fill, key, head=6)
+        _arrow2(d, 32, 31, math.radians(i*45 + 8), 6.5, lens[i], fill, key)
+    # clean central hub so shafts read as radiating, not a blob
+    hub = [(32, 25.5), (37.5, 31), (32, 36.5), (26.5, 31)]
+    d.polygon(hub, fill=key)
+    d.polygon(scale_about(hub, 0.6, 32, 31), fill=fill)
 
 def sym_vortex(d, fill, key):
     # a two-armed turbulent spiral (whirl/vortex)
