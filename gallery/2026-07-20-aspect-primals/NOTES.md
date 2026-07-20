@@ -150,3 +150,13 @@ compounds.py + compound-{vigor,gemma,aes}.png:
 - Aes (metal/ore #ADAFBC): ingot · anvil · ore chunk · cog · nugget cluster
 All three are light beds -> dark glyphs. Swapped Gemma hex-gem (blended with the
 hexagon backdrop) for an emerald cut; gave polished jewel real facets.
+
+## Vigor locked + Gemma tilt / Aes ingot revisions
+- Vigor = lightning bolt (locked).
+- Gemma: reworked to a top-tilted faceted gem (crown/table dominant like #5 but
+  3D with a culet point). 3 tilt degrees: tilt A / more-top / more-side
+  (gem_toptilt*). Earlier "angled A/B" (front kite) superseded.
+- Aes ingot: 3 dimensional options (aes_bar single 3D bar, aes_stack pair,
+  aes_pyramid 3-bar pile) via a shared _bar() helper. Dropped aes_iso — two
+  same-tone faces can't separate with only 2 colours (read as a dark blob).
+  Sheet: previews/gemma-aes-r3.png.

@@ -259,6 +259,97 @@ def aes_nugget(d, f, k):
         disc(d, x, y, r, f, k)
         d.arc([x-r+2, y-r+2, x+2, y+2], 205, 300, fill=k, width=1)
 
+# ---- Gemma: gem tilted toward top-down so the faceted crown dominates (like #5, in 3D) ----
+def _oct(cx, cy, rx, ry, off=0):
+    return [(cx+rx*math.cos(math.radians(a+off)), cy-ry*math.sin(math.radians(a+off))) for a in range(0, 360, 45)]
+
+def gem_toptilt(d, f, k, cy=25, ry=9, culet=48):
+    cx, rx = 31, 16
+    o = _oct(cx, cy, rx, ry)                       # foreshortened crown rim (0=E..315)
+    cp = (cx, culet)
+    outer = [o[4], o[3], o[2], o[1], o[0], o[7], cp, o[5]]   # back rim + front down to culet
+    _poly(d, outer, f, k, 0.92)
+    for p in o:                                    # crown facets from centre
+        line(d, [(cx, cy), p], k)
+    it = _oct(cx, cy, rx*0.5, ry*0.5)              # table
+    for a, b in zip(it, it[1:] + it[:1]):
+        line(d, [a, b], k)
+    for i in (5, 6, 7):                            # pavilion facets to the culet
+        line(d, [o[i], cp], k)
+
+def gem_toptilt_flat(d, f, k):   # more top-down (shallower body)
+    gem_toptilt(d, f, k, cy=26, ry=11, culet=44)
+
+def gem_toptilt_deep(d, f, k):   # a touch more side showing
+    gem_toptilt(d, f, k, cy=23, ry=8, culet=51)
+
+# ---- Aes: ingot options ----
+def _bar(d, cx, cy, w, f, k, shine=True):
+    outer = [(cx-w+6, cy-7), (cx+w+6, cy-7), (cx+w, cy), (cx+w-3, cy+9),
+             (cx-w+3, cy+9), (cx-w, cy)]
+    _poly(d, outer, f, k, 0.94)
+    line(d, [(cx-w, cy), (cx+w, cy)], k)           # top/front seam
+    line(d, [(cx-w+6, cy-7), (cx-w, cy)], k); line(d, [(cx+w+6, cy-7), (cx+w, cy)], k)
+    if shine:
+        line(d, [(cx-w+3, cy-4), (cx+w+2, cy-4)], k)   # top shine
+        line(d, [(cx-w+4, cy+4), (cx+w-4, cy+4)], k)   # front highlight
+
+def aes_bar(d, f, k):
+    _bar(d, 30, 27, 17, f, k)
+
+def aes_stack(d, f, k):
+    _bar(d, 31, 20, 14, f, k)
+    _bar(d, 29, 33, 17, f, k)
+
+def aes_pyramid(d, f, k):
+    _bar(d, 22, 34, 11, f, k)
+    _bar(d, 42, 34, 11, f, k)
+    _bar(d, 32, 22, 11, f, k)
+
+def aes_iso(d, f, k):
+    # true isometric ingot: top rhombus + left & right faces, faces split by keyline
+    top = [(31, 15), (50, 25), (31, 31), (12, 25)]
+    _poly(d, [(12, 25), (31, 31), (50, 25), (48, 38), (31, 45), (14, 38)], f, k, 0.94)  # body
+    _poly(d, top, f, k, 0.9)                        # top face
+    line(d, [(31, 31), (31, 45)], k)                # front vertical edge
+    line(d, [(50, 25), (48, 38)], k); line(d, [(12, 25), (14, 38)], k)
+
+def gem_angled(d, f, k):
+    # 3/4 brilliant: rhombus table seen from above + crown facets + pavilion point
+    outer = [(32, 13), (49, 27), (32, 52), (15, 27)]              # kite silhouette
+    _poly(d, outer, f, k, 0.9)
+    table = [(32, 19), (41, 27), (32, 33), (23, 27)]             # table (seen at angle)
+    for a, b in zip(table, table[1:] + table[:1]):
+        line(d, [a, b], k)
+    line(d, [(15, 27), (49, 27)], k)                             # girdle
+    line(d, [(32, 13), (32, 19)], k)                             # crown ridges
+    line(d, [(49, 27), (41, 27)], k); line(d, [(15, 27), (23, 27)], k)
+    for tv in (table[1], table[2], table[3]):                    # pavilion facets to culet
+        line(d, [tv, (32, 52)], k)
+
+def gem_angled2(d, f, k):
+    # tilted brilliant: table skewed to one side (stronger 3D read)
+    outer = [(28, 13), (50, 24), (36, 52), (14, 30)]
+    _poly(d, outer, f, k, 0.9)
+    table = [(30, 20), (41, 25), (34, 33), (23, 27)]
+    for a, b in zip(table, table[1:] + table[:1]):
+        line(d, [a, b], k)
+    line(d, [(14, 30), (50, 24)], k)                             # girdle (tilted)
+    line(d, [(28, 13), (30, 20)], k)
+    line(d, [(50, 24), (41, 25)], k); line(d, [(14, 30), (23, 27)], k)
+    for tv in (table[1], table[2], table[3]):
+        line(d, [tv, (36, 52)], k)
+
+# ---- Aes: better, dimensional ingot ----
+def aes_ingot2(d, f, k):
+    # 3D bar: top parallelogram + front face, edges + shine picked out in the keyline
+    outer = [(21, 29), (53, 29), (48, 37), (43, 47), (19, 47), (14, 37)]
+    _poly(d, outer, f, k, 0.92)
+    line(d, [(14, 37), (48, 37)], k)                             # top/front seam
+    line(d, [(21, 29), (14, 37)], k); line(d, [(53, 29), (48, 37)], k)  # back edges
+    line(d, [(27, 32), (47, 32)], k)                             # top-face shine
+    line(d, [(23, 42), (38, 42)], k)                             # front-face highlight
+
 VIGOR5 = ("#F2C230", "energy", [
     ("bolt", "lightning bolt", vig_bolt),
     ("boltcircle", "bolt in circle", vig_boltcircle),
