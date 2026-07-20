@@ -1,14 +1,16 @@
-"""Render a parsed Minecraft model (any axis-aligned cuboid shape) in 2:1 iso,
-sampling each face's UV region from its texture and applying the exact vanilla
-directional face multipliers. Works for cubes, stairs, slabs, pillars, rods,
-multi-element item models — anything made of boxes.
+"""Render a parsed Minecraft model in 2:1 iso, sampling each face's UV region
+from its texture and applying the exact vanilla directional face multipliers.
+Works for cubes, stairs, slabs, pillars, rods, multi-element item models, and
+elements with a `rotation` (the 22.5°/45° tilts) — anything made of boxes,
+tilted or not. Face directional shade is keyed to the element's declared face
+direction (as the artist authored it); the geometry itself is element-rotated.
 """
 
 from __future__ import annotations
 
 from PIL import Image, ImageDraw
 
-from aide.model import Model, NORMALS
+from aide.model import Model, NORMALS, rotate_point, rotate_vec
 
 # vanilla "diffuse lighting" per face direction
 SHADE = {"up": 1.0, "down": 0.5, "north": 0.8, "south": 0.8, "east": 0.6, "west": 0.6}
@@ -56,7 +58,8 @@ def render_model(model: Model, textures: dict[str, Image.Image], scale: int = 12
         X, Y, Z = pt
         return (ox + (X - Z) * s, oy + (X + Z) * s * 0.5 - Y * s)
 
-    # all 8 corners of every element, projected with origin 0, to size the canvas
+    # all 8 corners of every element (element-rotated), projected with origin 0,
+    # to size the canvas
     corners_all = []
     for el in model.elements:
         x0, y0, z0 = el.frm
@@ -64,7 +67,7 @@ def render_model(model: Model, textures: dict[str, Image.Image], scale: int = 12
         for X in (x0, x1):
             for Y in (y0, y1):
                 for Z in (z0, z1):
-                    corners_all.append((X, Y, Z))
+                    corners_all.append(rotate_point((X, Y, Z), el.rotation))
     sx = [(p[0] - p[2]) * s for p in corners_all]
     sy = [(p[0] + p[2]) * s * 0.5 - p[1] * s for p in corners_all]
     pad = max(4, int(pad_frac * S))
@@ -79,10 +82,10 @@ def render_model(model: Model, textures: dict[str, Image.Image], scale: int = 12
     faces = []
     for el in model.elements:
         for dirn, face in el.faces.items():
-            n = NORMALS[dirn]
+            n = rotate_vec(NORMALS[dirn], el.rotation)
             if n[0] * VIEW[0] + n[1] * VIEW[1] + n[2] * VIEW[2] <= 0:
-                continue  # backface
-            corners = _corners(el, dirn)
+                continue  # backface (normal is element-rotated)
+            corners = [rotate_point(c, el.rotation) for c in _corners(el, dirn)]
             cx = sum(c[0] for c in corners) / 4
             cy = sum(c[1] for c in corners) / 4
             cz = sum(c[2] for c in corners) / 4

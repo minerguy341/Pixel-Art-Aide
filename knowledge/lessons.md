@@ -560,3 +560,47 @@ data only, no BWG pixels committed.
   tree's leaves, so it inherits the leaf/species identity, not the wood.
   Reinforces "leaf colour is the independent species axis".
 - Source: BWG sapling set (25 woods)
+
+---
+
+# Studied lessons — 2026-07-20 (Chipped decorative blocks)
+
+Approved by the user. Studied from terrarium-earth/Chipped (branch 1.21.x) in
+the session scratchpad (reference-policy.md — derived data only, no Chipped
+pixels committed). Findings: `gallery/2026-07-20-chipped-blocks-study/`.
+
+## 2026-07-20 — decorative variant family = one fixed palette, variation is structural
+- Context: Chipped ships dozens of decorative cuts per vanilla block (66 for
+  cobblestone); studied palette cohesion across cuts
+- Observation: cuts inherit the source block's exact palette (cobblestone locked
+  at 6–8 colours across all 66) — the redesign is layout (bricks/tiles/pillars/
+  carvings), never new colour, which is why any two cuts sit together without
+  clashing in a build
+- Rule: author a decorative block family from ONE fixed source palette and carry
+  all variation in structure (brick/tile/pillar/carve), not colour. This is the
+  opposite discipline from a hero texture (which spends colour freely). [folded
+  into shading.md → "Decorative variant families"]
+
+## 2026-07-20 — match the design lever to the material class
+- Context: same study, five bases across material classes (stone, ceramic,
+  glass, emissive, functional-wood)
+- Observation: each class pulls a different property to make its variants —
+  stone rearranges structure on a locked palette; terracotta presses subtle
+  relief into an already-noisy coloured ground (35–47 near-colours but near-flat
+  busyness 2–3.5); glass makes the pattern out of ALPHA (6–54% transparent
+  leaded windows); glowstone pushes LUMINANCE (L up to 86, smooth-glow vs lantern)
+- Rule: pick the variant lever from the material — opaque stone → structure on a
+  locked palette; coloured ceramic → subtle relief; glass → pattern in the alpha;
+  emissive → push luminance. One shared vocabulary, a different knob per class.
+  [folded into shading.md → "Decorative variant families"]
+
+## 2026-07-20 — resolution is a budget: base-res blocks, HD only for hero pieces
+- Context: contrast between Chipped's decorative blocks and its workbench models
+- Observation: the workbenches are HD 64×64 multi-element models, but nearly
+  every decorative block is 16×16 vanilla-res palette-mode (one 32×32 outlier).
+  The mod spends geometry/resolution on furniture and nothing but arrangement on
+  building blocks
+- Rule: keep decorative building blocks at base resolution (16); reserve HD +
+  custom models for furniture/hero pieces where the eye lingers. Resolution is a
+  budget — don't spend it on wallpaper. [folded into shading.md → "Decorative
+  variant families"]

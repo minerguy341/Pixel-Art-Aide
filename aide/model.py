@@ -3,13 +3,15 @@ per-face UVs — so we can auto-texture and render it, cube or not.
 
 Handles models with explicit `elements`, and synthesizes the standard element
 for the common vanilla `cube*` parents (cube_all / cube_column / cube_bottom_top
-/ cube). Element `rotation` (the 22.5° tilts) is read but the renderer treats
-elements as axis-aligned; faces with a `rotation` UV spin are honored.
+/ cube). Element `rotation` (the 22.5°/45° tilts) is parsed into a `Rotation`
+and applied by the renderer (origin/axis/angle/rescale); faces with a `rotation`
+UV spin are honored.
 """
 
 from __future__ import annotations
 
 import json
+import math
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -32,11 +34,62 @@ class Face:
 
 
 @dataclass
+class Rotation:
+    """Minecraft element rotation: spin the box `angle`° about `axis` through
+    `origin` (model space). `rescale` grows the perpendicular axes by 1/|cos| so
+    a tilted element still fills its footprint (vanilla uses it for 22.5°/45°)."""
+    origin: tuple[float, float, float]
+    axis: str          # "x" | "y" | "z"
+    angle: float       # degrees
+    rescale: bool = False
+
+
+def rotate_point(pt, rot: "Rotation | None"):
+    """Rotate a model-space point about the rotation's origin/axis (+ rescale)."""
+    if rot is None or rot.angle == 0:
+        return pt
+    ox, oy, oz = rot.origin
+    x, y, z = pt[0] - ox, pt[1] - oy, pt[2] - oz
+    a = math.radians(rot.angle)
+    c, s = math.cos(a), math.sin(a)
+    if rot.axis == "x":
+        y, z = y * c - z * s, y * s + z * c
+    elif rot.axis == "y":
+        x, z = x * c + z * s, -x * s + z * c
+    else:  # z
+        x, y = x * c - y * s, x * s + y * c
+    if rot.rescale and c != 0:
+        f = 1.0 / abs(c)
+        if rot.axis == "x":
+            y, z = y * f, z * f
+        elif rot.axis == "y":
+            x, z = x * f, z * f
+        else:
+            x, y = x * f, y * f
+    return (x + ox, y + oy, z + oz)
+
+
+def rotate_vec(v, rot: "Rotation | None"):
+    """Rotate a direction vector (normal) about the axis only — no origin/rescale."""
+    if rot is None or rot.angle == 0:
+        return v
+    x, y, z = v
+    a = math.radians(rot.angle)
+    c, s = math.cos(a), math.sin(a)
+    if rot.axis == "x":
+        return (x, y * c - z * s, y * s + z * c)
+    if rot.axis == "y":
+        return (x * c + z * s, y, -x * s + z * c)
+    return (x * c - y * s, x * s + y * c, z)
+
+
+@dataclass
 class Element:
     frm: tuple[float, float, float]
     to: tuple[float, float, float]
     faces: dict[str, Face] = field(default_factory=dict)
     name: str = ""
+    rotation: Rotation | None = None
 
 
 @dataclass
@@ -108,7 +161,14 @@ def parse_model(data: dict) -> Model:
                 uv = tuple(fd["uv"]) if "uv" in fd else _default_uv(frm, to, d)
                 faces[d] = Face(d, uv, fd.get("texture", "#missing").lstrip(""),
                                 fd.get("tintindex"), int(fd.get("rotation", 0)))
-            elements.append(Element(frm, to, faces, el.get("name", "")))
+            rot = None
+            if isinstance(el.get("rotation"), dict):
+                r = el["rotation"]
+                rot = Rotation(
+                    tuple(float(v) for v in r.get("origin", [8, 8, 8])),
+                    r.get("axis", "y"), float(r.get("angle", 0)),
+                    bool(r.get("rescale", False)))
+            elements.append(Element(frm, to, faces, el.get("name", ""), rot))
     elif parent:
         short = parent.split("/")[-1].split(":")[-1]
         if short in _CUBE_PARENTS:

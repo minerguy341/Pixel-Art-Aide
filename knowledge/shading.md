@@ -174,6 +174,34 @@ Deriving a wood family's blocks from one plank ramp (studied across 25 woods):
   emblem, big gradient) that fragments into slivers when cut. Preview on an
   actual stair (`aide block`'s stair render / Blockbench), not just a cube.
 
+## Decorative variant families (many cuts of one block)
+
+When a block ships many decorative variants (the Chipped model: dozens of cuts
+per vanilla block, picked in a chiseling GUI), the discipline is the **opposite**
+of a hero texture — cohesion first, novelty second.
+
+- **One fixed source palette; variation is structural.** Every cut inherits the
+  base block's exact palette and value range (Chipped's 66 cobblestone cuts all
+  stay at 6–8 colours). Carry all the difference in *layout* — bricks, tiles,
+  pillars/columns, carvings — never in new colour. That palette-lock is why any
+  two cuts sit together in a build without clashing.
+- **Match the variant lever to the material class** (one shared vocabulary, a
+  different knob each):
+  - **opaque stone** → rearrange *structure* on a locked ~7-colour palette.
+  - **coloured ceramic (terracotta)** → *subtle relief* on an already-noisy
+    ground (many near-colours, near-flat busyness); recolours 1:1 across dyes.
+  - **glass** → the pattern is in the **alpha** (leaded muntins / frames over a
+    mostly-transparent pane), not the fill.
+  - **emissive (glowstone)** → push **luminance** (bright base; split smooth-glow
+    vs structured lantern framing).
+  - **functional (bookshelf)** → rearrange the *objects* (books/webs/glow).
+- **Resolution is a budget.** Keep decorative building blocks at **base
+  resolution (16)**; reserve HD + custom multi-element models for furniture/hero
+  pieces where the eye lingers. Don't spend resolution on wallpaper.
+- A shared **pattern vocabulary** (bricks · tiles · pillar/column · chiseled ·
+  smooth/polished · carved/engraved/inscribed) reused across every base reads as
+  a house style, not per-block improvisation — reuse the same nouns.
+
 ## Tiling (blocks)
 
 - Author with wrap-around in mind: a cluster that touches the right edge
@@ -252,6 +280,10 @@ own shading shows: **top 1.0 · bottom 0.5 · N/S 0.8 · E/W 0.6**.
   particles render the wrong/missing (purple) color.
 - North is the model's default facing; author the "front" there or account for
   the blockstate `y` rotation. Avoid two coplanar faces at one depth (z-fight).
+- Element `rotation` (origin/axis/angle, the 22.5°/45° tilts, + `rescale`) is
+  honored by `aide.modelrender` — tilted furniture (Chipped-style workbenches)
+  renders true, not flattened. Vanilla restricts element angles to
+  ±22.5/±45/0 on a single axis; author within that or the game rejects the model.
 
 ## Mod idioms (for Thaumaturgy: The New Age)
 
