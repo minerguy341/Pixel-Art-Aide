@@ -68,6 +68,10 @@ ADOPTED = [
   "Wood colour and leaf colour are decoupled — leaves needn’t be green (witch_hazel orange, skyris pink, jacaranda purple, zelkova red, aspen yellow). Flowering variants = plain leaf + sparse bright bloom accent."),
 ]
 
+FLOWER_LESSON = (
+  "A flowering plant’s palette decomposes into foliage + bloom + structural — author them as separate ramps.",
+  "Classify pixels by hue/saturation before reading a palette: green = foliage, saturated non-green = bloom, near-grey = twig. Never aggregate a mixed category into one swatch — it hides the greens under whatever bloom is most common (here, jacaranda purple).")
+
 CANDIDATES = [
  ("Transparency ≈ how much of the sprite is the object.",
   "solid ground 0–1%, ice ~8%, foliage 28–39%, cross-plants (flowers/cactus) 52–58%. Set alpha from the subject’s airiness, not a fixed value."),
@@ -77,6 +81,7 @@ CANDIDATES = [
   "dirt/mud/moss average 24 colours, fruit ~19 — many close tones for an organic/gradient read. ‘Few colours’ is for crafted/structured materials, not soil or ripening."),
  ("Cross-plant sprites are ~half transparent: green stem + bright bloom accent.",
   "flowers ~52% transparent, ~10 colours = stem greens + a small vivid petal cluster; the bloom is the only saturated thing."),
+ FLOWER_LESSON,
 ]
 
 def li(rows):
@@ -94,7 +99,7 @@ HTML = f"""<!doctype html><html lang="en"><head>
   <p class="lede">994 textures studied for craft — 25 wood families and a whole biome of plants, stone, sand and fruit. Every finding here is derived data (palettes, transparency, busyness); none of the mod’s pixels were rendered or kept.</p>
   <div class="meta">
     <span class="chip"><b>994</b> textures</span><span class="chip"><b>25</b> wood types</span>
-    <span class="chip"><b>3</b> lessons adopted</span><span class="chip"><b>4</b> candidate lessons</span>
+    <span class="chip"><b>3</b> lessons adopted</span><span class="chip"><b>5</b> candidate lessons</span>
     <span class="chip">study-only · <b>0</b> pixels committed</span>
   </div>
 </header>
@@ -118,8 +123,16 @@ HTML = f"""<!doctype html><html lang="en"><head>
   <p class="kicker">Material classes</p>
   <h2><span class="n">03</span>Value &amp; busyness place a material</h2>
   <p class="intro">Two cheap dials — where the value range sits and how busy the surface is — separate the classes cleanly. And two classes break the studio’s ‘few colours’ rule on purpose.</p>
-  <figure><img src="{uri('class-palettes.png')}" alt="Aggregate palette and colour/busyness stats per material class"><figcaption>aggregate palette + avg colour-count · busyness per class — derived from BWG</figcaption></figure>
+  <figure><img src="{uri('class-palettes.png')}" alt="Aggregate palette and colour/busyness stats per material class"><figcaption>aggregate palette + avg colour-count · busyness per class — derived from BWG. Caveat: one aggregate swatch misrepresents a <em>mixed</em> category (see bushes below).</figcaption></figure>
   <ul class="finds">{li(CANDIDATES[1:3])}</ul>
+</section>
+
+<section>
+  <p class="kicker">A correction — thanks to a sharp eye</p>
+  <h2><span class="n">04</span>Split the plant, not the pile</h2>
+  <p class="intro">The bush row above came out almost entirely purple, which is wrong for a “bush”. It’s an artefact: 13 of BWG’s 23 bushes are flowering jacaranda/allium/hydrangea variants, several of them <em>fully</em> purple, so a naive frequency count buries the green. Classify each pixel first — foliage (green), bloom (saturated non-green), structural (twig) — and the plant reads true: a green foliage ramp with a separate bloom accent.</p>
+  <figure><img src="{uri('bush-split-palette.png')}" alt="Bush and flower palettes split into foliage, bloom, and structural ramps"><figcaption>each plant category split by pixel class — foliage (green) · bloom (flower) · structural (twig), with the share of pixels in each</figcaption></figure>
+  <ul class="finds">{li([FLOWER_LESSON])}</ul>
 </section>
 
 <section>
