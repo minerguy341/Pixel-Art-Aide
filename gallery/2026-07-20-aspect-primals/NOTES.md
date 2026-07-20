@@ -183,3 +183,10 @@ Added a specular streak + glint on each ingot's top face (_facebox) so they read
 as polished metal, not bricks; _metal_shades now returns a 5th shine tone.
 All 12 aspects locked: 6 primals + Lumen(sparkle) Vita(heartbeat) Arcanum(pentacle)
 Vigor(bolt) Gemma(cut gem) Aes(iso stack). Milestone sheet: previews/locked-12.png.
+
+## Three more aspects, 5 candidates each (ice / death / aura)
+compounds.py + compound-{glacies,letum,aether}.png:
+- Glacies (ice #A9E7F5): snowflake · icicles · ice shards · frost sparkle · ice block
+- Letum (death #45403E): skull · scythe · crossed bones · tombstone · skull & crossbones
+- Aether (aura #B37FE8): radiant node · aura swirl · aura rings · spirit wisp · haloed mote
+Glacies/Aether are light beds -> dark glyphs; Letum is a dark bed -> light glyphs.

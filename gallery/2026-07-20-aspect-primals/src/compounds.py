@@ -472,6 +472,120 @@ AES5 = ("#ADAFBC", "metal / ore", [
     ("gear", "cog", aes_gear),
     ("nugget", "nugget cluster", aes_nugget)])
 
+# ===================== GLACIES — ice (#A9E7F5) =====================
+def gla_snowflake(d, f, k):
+    for i in range(6):
+        a = math.radians(i*60); dx, dy = math.cos(a), -math.sin(a); px, py = -dy, dx
+        _stroke_sharp(d, [(CX, CY), (CX+19*dx, CY+19*dy)], 2, f, k)
+        for rr in (10, 15):
+            bx, by = CX+rr*dx, CY+rr*dy
+            _stroke_sharp(d, [(bx, by), (bx+5*(dx+px)/1.4, by+5*(dy+py)/1.4)], 2, f, k)
+            _stroke_sharp(d, [(bx, by), (bx+5*(dx-px)/1.4, by+5*(dy-py)/1.4)], 2, f, k)
+    disc(d, CX, CY, 2.5, f, k)
+
+def gla_icicles(d, f, k):
+    _stroke_sharp(d, [(15, 18), (49, 18)], 3, f, k)
+    for x, ln in [(21, 15), (29, 22), (37, 13), (44, 18)]:
+        _poly(d, [(x-3, 18), (x+3, 18), (x, 18+ln)], f, k, 0.55)
+
+def gla_shards(d, f, k):
+    _poly(d, [(21, 48), (18, 25), (26, 33), (27, 48)], f, k, 0.7)
+    _poly(d, [(28, 49), (33, 15), (39, 49)], f, k, 0.78)
+    _poly(d, [(39, 48), (46, 27), (48, 48)], f, k, 0.7)
+
+def gla_frost(d, f, k):
+    _poly(d, star_pts(CX, CY, 4, 18, 4), f, k, 0.5)
+    _poly(d, star_pts(CX, CY, 4, 12, 3.5, math.radians(45)), f, k, 0.5)
+    for a in (45, 135, 225, 315):
+        spark(d, CX+20*math.cos(math.radians(a)), CY-20*math.sin(math.radians(a)), 2, f, k)
+
+def gla_cube(d, f, k):
+    hexp = [(32, 15), (47, 24), (47, 40), (32, 49), (17, 40), (17, 24)]
+    _poly(d, hexp, f, k, 0.9)
+    line(d, [(32, 15), (32, 32)], k); line(d, [(32, 32), (17, 24)], k); line(d, [(32, 32), (47, 24)], k)
+    spark(d, 26, 22, 2.6, f, k)
+
+# ===================== LETUM — death (#45403E) =====================
+def let_skull(d, f, k):
+    _poly(d, [(20, 18), (44, 18), (46, 31), (40, 38), (24, 38), (18, 31)], f, k, 0.9)
+    disc(d, 27, 28, 3.6, k, k); disc(d, 37, 28, 3.6, k, k)       # eye sockets
+    _poly(d, [(32, 30), (34, 35), (30, 35)], k, k)               # nose
+    _poly(d, [(25, 38), (39, 38), (38, 45), (26, 45)], f, k, 0.8)  # jaw
+    for x in (29, 32, 35):
+        line(d, [(x, 39), (x, 45)], k)                           # teeth
+
+def let_scythe(d, f, k):
+    _stroke(d, [(35, 50), (31, 14)], 3, f, k)                    # snath
+    _stroke(d, [(31, 15), (22, 16), (16, 21), (14, 29)], 3, f, k)  # curved blade
+
+def let_bones(d, f, k):
+    for ang in (35, -35):
+        a = math.radians(ang); dx, dy = math.cos(a), -math.sin(a); px, py = -dy, dx
+        _stroke(d, [(CX-16*dx, CY-16*dy), (CX+16*dx, CY+16*dy)], 3, f, k)
+        for s in (-1, 1):
+            ex, ey = CX+s*16*dx, CY+s*16*dy
+            disc(d, ex+2.5*px, ey+2.5*py, 2, f, k); disc(d, ex-2.5*px, ey-2.5*py, 2, f, k)
+
+def let_grave(d, f, k):
+    d.pieslice([18, 14, 46, 42], 180, 360, fill=k); d.pieslice([19, 15, 45, 41], 180, 360, fill=f)
+    _poly(d, [(18, 28), (46, 28), (46, 47), (18, 47)], f, k, 0.92)
+    _stroke_sharp(d, [(32, 32), (32, 43)], 2, k, k); _stroke_sharp(d, [(27, 36), (37, 36)], 2, k, k)
+    _stroke_sharp(d, [(13, 47), (51, 47)], 2, f, k)
+
+def let_skullcross(d, f, k):
+    _poly(d, [(23, 15), (41, 15), (43, 25), (38, 30), (26, 30), (21, 25)], f, k, 0.9)  # skull
+    disc(d, 29, 22, 2.6, k, k); disc(d, 35, 22, 2.6, k, k)
+    _poly(d, [(28, 30), (36, 30), (35, 34), (29, 34)], f, k, 0.8)
+    for ang in (28, -28):                                        # crossbones below
+        a = math.radians(ang); dx, dy = math.cos(a), -math.sin(a); px, py = -dy, dx
+        _stroke(d, [(20, 40-8*dx*0), (44, 40)] if False else [(CX-13*dx, 42-13*dy), (CX+13*dx, 42+13*dy)], 3, f, k)
+        for s in (-1, 1):
+            ex, ey = CX+s*13*dx, 42+s*13*dy
+            disc(d, ex+2*px, ey+2*py, 1.6, f, k); disc(d, ex-2*px, ey-2*py, 1.6, f, k)
+
+# ===================== AETHER — aura (#B37FE8) =====================
+def aeth_node(d, f, k):
+    _poly(d, star_pts(CX, CY, 4, 7, 3), f, k, 0.5)
+    for i in range(8):
+        a = math.radians(i*45); dx, dy = math.cos(a), -math.sin(a)
+        _stroke_sharp(d, [(CX+9*dx, CY+9*dy), (CX+17*dx, CY+17*dy)], 2, f, k)
+    for i in range(4):
+        a = math.radians(i*90+45); spark(d, CX+20*math.cos(a), CY-20*math.sin(a), 2, f, k)
+
+def aeth_swirl(d, f, k):
+    for arm in (0.0, math.pi):
+        pts = [(CX+(2+t*0.062)*math.cos(math.radians(t)+arm), CY-(2+t*0.062)*math.sin(math.radians(t)+arm))
+               for t in range(0, 200, 10)]
+        _stroke(d, pts, 3, f, k)
+    spark(d, 45, 21, 2.6, f, k); spark(d, 19, 42, 2.4, f, k)
+
+def aeth_rings(d, f, k):
+    disc(d, CX, CY, 4, f, k)
+    ring(d, CX, CY, 10, 2, f, k); ring(d, CX, CY, 16, 2, f, k)
+    for a in (0, 90, 180, 270):
+        spark(d, CX+16*math.cos(math.radians(a)), CY-16*math.sin(math.radians(a)), 2.4, f, k)
+
+def aeth_wisp(d, f, k):
+    _stroke(d, [(30, 49), (35, 40), (27, 32), (35, 23), (30, 15)], 4, f, k)
+    spark(d, 30, 14, 3, f, k); spark(d, 38, 30, 2.2, f, k)
+
+def aeth_mote(d, f, k):
+    _poly(d, star_pts(CX, CY, 4, 13, 4), f, k, 0.5)
+    ring(d, CX, CY, 18, 1, f, k)
+
+GLACIES5 = ("#A9E7F5", "ice", [
+    ("snowflake", "snowflake", gla_snowflake), ("icicles", "icicles", gla_icicles),
+    ("shards", "ice shards", gla_shards), ("frost", "frost sparkle", gla_frost),
+    ("cube", "ice block", gla_cube)])
+LETUM5 = ("#45403E", "death", [
+    ("skull", "skull", let_skull), ("scythe", "scythe", let_scythe),
+    ("bones", "crossed bones", let_bones), ("grave", "tombstone", let_grave),
+    ("skullcross", "skull & crossbones", let_skullcross)])
+AETHER5 = ("#B37FE8", "aura", [
+    ("node", "radiant node", aeth_node), ("swirl", "aura swirl", aeth_swirl),
+    ("rings", "aura rings", aeth_rings), ("wisp", "spirit wisp", aeth_wisp),
+    ("mote", "haloed mote", aeth_mote)])
+
 ASPECTS = {
     "Lumen":   ("#FFE066", "light", [
         ("sun", "sun disc + rays", lum_sun),
