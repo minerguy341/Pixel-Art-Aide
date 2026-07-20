@@ -495,3 +495,41 @@ committed).
   plain leaf base + SPARSE bright blossom/berry accents (that's all the high
   colour-count leaves are), not a busier field.
 - Source: BWG leaves + flowering/ripe leaf variants
+
+---
+
+# Studied lessons — 2026-07-19 (BWG broad field study, 994 textures)
+
+Approved by the user. Studied in the scratchpad (reference-policy.md); derived
+data only, no BWG pixels committed.
+
+## 2026-07-19 — transparency encodes how airy the object is
+- Rule: the share of transparent pixels tracks the subject's physical airiness
+  — solid ground 0-1%, ice ~8%, foliage 28-39%, cross-plants (flowers/cactus)
+  52-58%. Set a sprite's alpha from what it *is*, not a fixed value.
+- Source: BWG material-class survey
+
+## 2026-07-19 — value + busyness place a material class
+- Rule: two cheap dials separate materials — where the value range sits and how
+  busy the surface is. sand = pale (L59-82) + calm (busy ~5); stone = mid
+  (L50-75) + calm; foliage = darker + busier (~8-12).
+- Source: BWG material-class survey
+
+## 2026-07-19 — natural ground & ripe fruit break the "few colours" rule
+- Rule: soil (dirt/mud/moss ~24 colours) and ripening fruit (~19) deliberately
+  use many close tones for an organic/gradient read. "Few colours / tight ramp"
+  is for crafted/structured materials, not natural ground or fruit.
+- Source: BWG dirt/mud/moss + berry/fruit
+
+## 2026-07-19 — cross-plants are ~half transparent: stem + bloom
+- Rule: a cross-plant sprite is ~52% transparent, ~10 colours = green stem/leaf
+  + a small vivid petal cluster; the bloom is the only saturated thing.
+- Source: BWG flower/cross-plant set
+
+## 2026-07-19 — split a plant palette into foliage + bloom + structural
+- Rule: classify pixels BEFORE reading a palette — green hue = foliage,
+  saturated non-green = bloom, near-grey = structural (twig/stem) — and author
+  the three as separate ramps. Never aggregate a mixed category into one swatch;
+  it hides the greens under the most common bloom (BWG bushes read "all purple"
+  only because 13 of 23 are jacaranda-family blooms).
+- Source: BWG bush/flower split analysis (user caught the purple artefact)
