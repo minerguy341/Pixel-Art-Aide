@@ -193,10 +193,10 @@ ASPECTS = {
 
 # ---- Arcanum, batch 3: researched arcane/occult/alchemy iconography ----
 def mg_pentacle(d, f, k):
-    R = 17                                                        # star inscribed in the ring
+    R = 16.5                                                      # star inscribed in the ring
     p = [(CX+R*math.cos(math.radians(90+i*72)), CY-R*math.sin(math.radians(90+i*72))) for i in range(5)]
-    ring(d, CX, CY, 18, 2, f, k)                                 # circle first (star sits on top)
-    _stroke_sharp(d, [p[i] for i in (0, 2, 4, 1, 3, 0)], 2, f, k)  # {5/2} pentagram, points touch ring
+    _stroke_sharp(d, [p[i] for i in (0, 2, 4, 1, 3, 0)], 2, f, k)  # {5/2} pentagram first
+    ring(d, CX, CY, 18, 2, f, k)                                 # ring on top -> circle uninterrupted
 
 def mg_ouroboros(d, f, k):
     bb = [CX-14, CY-14, CX+14, CY+14]

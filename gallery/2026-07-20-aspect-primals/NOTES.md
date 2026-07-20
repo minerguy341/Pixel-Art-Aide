@@ -136,3 +136,9 @@ Pentacle tidied: star inscribed so its 5 points touch the ring (was floating wit
 a gap); ring drawn first, pentagram on top.
 Note: third eye overlaps conceptually with a future Acies (perception) aspect —
 flag if both get used.
+
+## Arcanum locked = Pentacle
+User chose the pentacle. Fixed so the circle is uninterrupted: draw the pentagram
+FIRST then the ring on top (was ring-first, star drawn over it broke the circle).
+R=16.5 so the 5 points tuck just under the ring. Final picks: Lumen=sparkle,
+Vita=heartbeat, Arcanum=pentacle.
