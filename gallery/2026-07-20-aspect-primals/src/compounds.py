@@ -318,12 +318,25 @@ def iso_pair(code):
     _iso_box(d, 23, 31, 15, 9, 5, 1.6, t, l, r, e)
     return im
 
+def _iso_scene(d, ox, oy, s, boxes, top, left, right, edge):
+    """Draw several boxes in ONE iso space, painter-sorted far->near so they
+    occlude correctly instead of clipping. Each box = (x0, y0, z0, W, D, H)."""
+    def P(x, y, z): return (ox + (x-z)*s, oy + (x+z)*s*0.5 - y*s)
+    for x0, y0, z0, W, D, H in sorted(boxes, key=lambda b: (b[0]+b[3]/2)+(b[2]+b[4]/2)+(b[1]+b[5]/2)):
+        south = [P(x0, y0, z0+D), P(x0+W, y0, z0+D), P(x0+W, y0+H, z0+D), P(x0, y0+H, z0+D)]
+        east = [P(x0+W, y0, z0), P(x0+W, y0+H, z0), P(x0+W, y0+H, z0+D), P(x0+W, y0, z0+D)]
+        topf = [P(x0, y0+H, z0), P(x0+W, y0+H, z0), P(x0+W, y0+H, z0+D), P(x0, y0+H, z0+D)]
+        for poly, col in ((south, left), (east, right), (topf, top)):
+            d.polygon(poly, fill=col, outline=edge)
+
 def iso_stack(code):
     im, d, _, _ = backdrop_canvas(code)
     t, l, r, e = _metal_shades(code)
-    _iso_box(d, 15, 32, 13, 8, 5, 1.55, t, l, r, e)             # bottom-left
-    _iso_box(d, 33, 26, 13, 8, 5, 1.55, t, l, r, e)             # bottom-right
-    _iso_box(d, 24, 20, 13, 8, 5, 1.55, t, l, r, e)             # top
+    W, D, H = 13, 7, 5
+    boxes = [(0, 0, 0, W, D, H),              # bottom, front
+             (0, 0, D+1, W, D, H),            # bottom, back (small gap, no clip)
+             (0, H, (D+1)/2, W, D, H)]        # top, centred on the two
+    _iso_scene(d, 33, 30, 1.5, boxes, t, l, r, e)
     return im
 
 # ---- Aes: ingot options, round 2 (researched real ingot shapes) ----
