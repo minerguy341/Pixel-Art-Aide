@@ -58,6 +58,6 @@ def sheet():
                 im.paste(sw,(xx,yy))
                 xx+=s+12
             xx+=10
-    im.save(PREV/"candidates-r2.png"); print("wrote",PREV/"candidates-r1.png",im.size)
+    im.save(PREV/"candidates-r3.png"); print("wrote",PREV/"candidates-r3.png",im.size)
 
 if __name__=="__main__": sheet()

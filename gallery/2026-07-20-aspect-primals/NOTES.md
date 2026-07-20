@@ -65,3 +65,13 @@ eyeball check.
 - Ventus swirl reads a touch like a "C"; a clearer double-gust would say "wind"
   harder.
 - Slightly stronger rim on the two light aspects (Forma, Ventus) for light GUIs.
+
+## r3 — Ventus & Flamma reworked (user feedback: loved the other 4)
+- Ventus: dropped the single spiral (read as a "C") for three flowing wind
+  gusts, each ending in an upward curl — the universal breeze glyph. Reads as
+  wind at 48/32px; slightly dense at 20px but still airy.
+- Flamma: replaced the plain teardrop with an asymmetric licking flame + an
+  amber hot-core (the one aspect that gets a second symbol colour, justified —
+  fire reads as white-hot body around a glowing centre). Distinct from Unda's
+  wave now.
+- Other 4 (Tellus/Unda/Forma/Discordia) unchanged — user-approved.

@@ -71,16 +71,19 @@ def _poly(d, pts, fill, key, keyw=0.80):
     d.polygon(scale_about(pts, keyw), fill=fill)
 
 def sym_swirl(d, fill, key):
-    # spiral gust
-    pts = []
-    for t in range(0, 300, 8):
-        a = math.radians(t)
-        rr = 3 + t*0.052
-        pts.append((CX + rr*math.cos(a), CY - rr*math.sin(a)))
-    _stroke(d, pts, 5, fill, key)
-    # a trailing gust line
-    g = [(CX+15, CY-13), (CX+3, CY-17), (CX-9, CY-14)]
-    _stroke(d, g, 4, fill, key)
+    # three flowing wind gusts, each ending in an upward curl (breeze glyph)
+    def gust(y, x0, x1):
+        pts = []
+        for x in range(x0, x1 + 1, 2):
+            pts.append((x, y + 2.4*math.sin((x - x0) / 6.5)))
+        cx, cy = pts[-1]                      # curl the tail into a loop
+        for a in range(0, 250, 18):
+            ang = math.radians(a)
+            pts.append((cx + 5.5*math.sin(ang), cy - (5.5 - 5.5*math.cos(ang))))
+        _stroke(d, pts, 4, fill, key)
+    gust(23, 14, 39)
+    gust(33, 12, 47)
+    gust(43, 17, 38)
 
 def sym_mountain(d, fill, key):
     base_y = 46
@@ -89,10 +92,19 @@ def sym_mountain(d, fill, key):
     # snow/strata notch: a horizon line
     _stroke(d, [(16, base_y-1), (48, base_y-1)], 3, fill, key)
 
-def sym_flame(d, fill, key):
-    pts = [(32, 14), (39, 26), (40, 34), (36, 44), (32, 48),
-           (28, 44), (24, 36), (26, 27), (30, 30), (31, 22)]
-    _poly(d, pts, fill, key, 0.80)
+def sym_flame(d, fill, key, core=None):
+    # asymmetric flame: rounded base, main tongue + a side lick; inner tongue
+    outer = [(31, 12), (35, 19), (40, 22), (42, 30), (41, 38), (38, 44),
+             (40, 47), (33, 50), (25, 49), (21, 42), (23, 34), (27, 37),
+             (26, 28), (31, 31), (30, 21)]
+    _poly(d, outer, fill, key, 0.84)
+    # inner tongue — a hot core if given, else the dark keyline for depth
+    inner = [(32, 27), (37, 34), (35, 43), (31, 47), (27, 42), (29, 34)]
+    if core is not None:
+        d.polygon(inner, fill=key)                 # thin dark rim
+        d.polygon(scale_about(inner, 0.78, 31, 38), fill=core)
+    else:
+        d.polygon(inner, fill=key)
 
 def sym_wave(d, fill, key):
     for oy in (-6, 6):
@@ -163,7 +175,10 @@ def make_backdrop(code, symkey):
         fill, key = sym_dark, sym_light
     else:           # dark/mid bed -> light symbol, dark keyline
         fill, key = sym_light, sym_dark
-    SYMS[symkey](d, fill, key)
+    if symkey == "flame":
+        SYMS[symkey](d, fill, sym_dark, core=hsv(0.11, 0.88, 1.0))  # white-hot body, amber core
+    else:
+        SYMS[symkey](d, fill, key)
     return im
 
 def make_frame(code, symkey):
@@ -185,7 +200,10 @@ def make_frame(code, symkey):
     # symbol in bright aspect tint on the dark interior
     fill, key = rp["hi"], (0, 0, 0)
     # if aspect is very light, hi still bright -> fine on dark interior
-    SYMS[symkey](d, fill, rp["deep"])
+    if symkey == "flame":
+        SYMS[symkey](d, fill, rp["deep"], core=hsv(0.11, 0.88, 1.0))
+    else:
+        SYMS[symkey](d, fill, rp["deep"])
     return im
 
 if __name__ == "__main__":
