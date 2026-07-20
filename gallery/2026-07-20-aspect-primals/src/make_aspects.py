@@ -86,11 +86,12 @@ def sym_swirl(d, fill, key):
     gust(43, 17, 38)
 
 def sym_mountain(d, fill, key):
-    base_y = 46
-    pts = [(14, base_y), (27, 22), (34, 32), (40, 24), (50, base_y)]
+    # centred range: a dominant central peak + a lower left shoulder, vertically
+    # balanced about the hexagon centre (bbox ~y19..44)
+    base_y = 44
+    pts = [(14, base_y), (22, 33), (27, 37), (32, 19), (41, 33), (50, base_y)]
     _poly(d, pts, fill, key, 0.86)
-    # snow/strata notch: a horizon line
-    _stroke(d, [(16, base_y-1), (48, base_y-1)], 3, fill, key)
+    _stroke(d, [(16, base_y-1), (48, base_y-1)], 3, fill, key)  # horizon
 
 def sym_flame(d, fill, key, core=None):
     # asymmetric flame: rounded base, main tongue + a side lick; inner tongue
@@ -254,25 +255,26 @@ def _hex_outline(d, rp, col, w=3):
     hexpts = hexagon(CX, CY, R)
     d.line(hexpts + [hexpts[0]], fill=col, width=w, joint="curve")
 
-def make_backdrop(code, symkey):
+def backdrop_canvas(code):
+    """the shared filled-hexagon bed + adaptive symbol colours (fill, key).
+    Symbol colours are pinned to near-white / near-black by the bed's luminance
+    so even extreme aspect codes (Forma light, Discordia dark) stay legible."""
     rp = ramp(code)
     im = Image.new("RGBA", (N, N), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
     _hex_shade(im, d, rp)
     _hex_outline(d, rp, rp["deep"], 3)           # dark rim for definition
-    _hex_outline(d, {}, rp["hi"], 1) if False else None
-    # adaptive symbol contrast — pinned to true near-white / near-black by
-    # luminance so even extreme aspect codes (Forma light, Discordia dark) read
     h, s, v = to_hsv(hx(code))
-    sym_light = hsv(h, 0.20, 0.95)   # near-white, faint aspect tint
+    sym_light = hsv(h, 0.20, 0.95)
     sym_dark  = hsv(h, min(1, s*1.1), 0.16)
     bed = lum(rp["base"])
-    if bed > 150:   # light bed -> dark symbol, light keyline
-        fill, key = sym_dark, sym_light
-    else:           # dark/mid bed -> light symbol, dark keyline
-        fill, key = sym_light, sym_dark
+    fill, key = (sym_dark, sym_light) if bed > 150 else (sym_light, sym_dark)
+    return im, d, fill, key
+
+def make_backdrop(code, symkey):
+    im, d, fill, key = backdrop_canvas(code)
     if symkey == "flame":
-        SYMS[symkey](d, fill, sym_dark, core=hsv(0.11, 0.88, 1.0))  # white-hot body, amber core
+        SYMS[symkey](d, fill, key, core=hsv(0.11, 0.88, 1.0))  # white-hot body, amber core
     else:
         SYMS[symkey](d, fill, key)
     return im

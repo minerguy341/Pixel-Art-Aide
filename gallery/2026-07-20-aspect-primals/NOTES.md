@@ -105,3 +105,17 @@ User picked the chaos star; reworked for legibility: even 45° arrow spacing
 shaft + a crisp filled triangle head (new _arrow2), and a clean central diamond
 hub so the shafts read as radiating instead of a blob. Discordia symbol in
 make_aspects.py switched burst->chaosstar. Final 6 primals: previews/candidates-r4.png.
+
+## Filled-backdrop locked + Tellus centred + compound candidates (user request)
+- Treatment decision final: **filled backdrop only** (frame dropped). Refactored
+  make_aspects: backdrop_canvas(code) -> (im,d,fill,key) shared bed + adaptive
+  contrast; make_backdrop uses it.
+- Tellus re-centred: dominant central peak + left shoulder, bbox ~y19..44,
+  vertically balanced about the hex centre (was bottom-heavy).
+- Picked 3 compounds and gave 5 candidates each (compounds.py + previews/
+  compound_sheets.py):
+  - Lumen (light #FFE066): sun / sparkle / radiant burst / dawn / haloed orb
+  - Vita (life #C43C55): heart / heartbeat / seedling / sprouting seed / frond
+  - Arcanum (magic #DD4FD0): rune / sparkle+orbits / arcane ring / wand+star / swirl
+  Adaptive contrast handled all: Lumen light bed -> dark glyph, Vita/Arcanum ->
+  light glyph. Fixed lum_dawn rays (first pass read as grass).
