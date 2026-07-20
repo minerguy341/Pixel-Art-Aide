@@ -13,6 +13,7 @@ textures and picking from contact sheets.
 | `styles/*.md` | Style cards — palettes in ```palette blocks + prose rules + checklist |
 | `knowledge/shading.md` | Craft reference; read before authoring |
 | `knowledge/lessons.md` | Append-only lessons log — **user-approved entries only** |
+| `knowledge/reference-policy.md` | Licensing: study the look, never ship others' pixels; refs stay in scratchpad |
 | `gallery/` | One dir per session: `src/*.pxg`, `out/*.png`, `previews/`, `NOTES.md` |
 | `tests/smoke.py` | End-to-end toolkit test |
 
@@ -38,7 +39,11 @@ textures and picking from contact sheets.
 4. `styles/thaumaturgy.md` mirrors `docs/art-direction.md` in the
    `thaumaturgy-the-new-age` repo; that doc is upstream. Don't invent palette
    values — sync from it.
-5. Analyzer thresholds encode house rules; if a rule changes, change
+5. **Study the look, never ship others' pixels** (`knowledge/reference-policy.md`).
+   Reference files (vanilla, mods) live in the session scratchpad only — never
+   commit them. Learn general craft (palettes, structure, idioms); never trace
+   or reproduce a specific mod's texture.
+6. Analyzer thresholds encode house rules; if a rule changes, change
    `aide/analyze.py` and the relevant doc together.
 
 ## Conventions

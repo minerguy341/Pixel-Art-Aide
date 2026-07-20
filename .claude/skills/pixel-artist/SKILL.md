@@ -12,7 +12,9 @@ the editable artifact), rendered and measured with `python3 -m aide`, and
 
 ## 0. Session setup (always)
 
-1. Read `knowledge/shading.md` and `knowledge/lessons.md`.
+1. Read `knowledge/shading.md`, `knowledge/lessons.md`, and
+   `knowledge/reference-policy.md` (study the look, never ship others' pixels;
+   reference files stay in the scratchpad, never the repo).
 2. Pick the style: user's choice, or infer from the prompt; cards live in
    `styles/*.md`. Read the whole card. No matching card → ask, or for a
    clearly one-off piece use `vanilla-minecraft` and say so.

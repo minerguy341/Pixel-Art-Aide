@@ -4,6 +4,10 @@ Read this before authoring. It is the accumulated craft knowledge the analyzer
 heuristics in `aide/analyze.py` were built to check. When a lesson in
 `knowledge/lessons.md` refines a rule here, fold it in (user-approved edits only).
 
+> **Before studying any external art**, read `knowledge/reference-policy.md`:
+> study the *look* (palettes, structure, idioms), never ship anyone's *pixels*;
+> reference files stay in the scratchpad, never a repo.
+
 ## Ramps
 
 A **ramp** is the ordered set of colors used to shade one material,
