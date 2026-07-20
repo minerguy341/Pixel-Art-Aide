@@ -85,3 +85,16 @@ Four on the same #4A3459 backdrop (previews/discordia-options.png):
 - scatter — a solid block dissolving into scattered squares; the most literal
   "entropy / order→disorder". Added _stroke_sharp helper + sym_crack/shards/
   scatter to make_aspects.py.
+
+## Discordia round 2 — researched chaos/entropy idioms
+Grounded in a web pass on chaos/entropy iconography (studied idioms only, own
+pixels — reference-policy). previews/discordia-options2.png:
+- chaosstar — radiating uneven arrows (Moorcock Symbol of Chaos idiom); iconic
+  but hub is busy at 20px.
+- vortex — two-arm turbulent spiral; clean, reads as whirl.
+- butterfly — Lorenz attractor (the scientific symbol of chaos); two overlapping
+  tilted loops; elegant, distinct.
+- hourglass — entropy/time + order<->chaos balance; top full, sand dispersing out
+  the base; clearest read at every size.
+Added _arrow/_ellipse_pts helpers + sym_chaosstar/vortex/butterfly/hourglass.
+Sources: Symbol of Chaos (Wikipedia); Lorenz attractor as the symbol of chaos.

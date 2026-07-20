@@ -164,9 +164,57 @@ def sym_scatter(d, fill, key):
         d.rectangle([x, y, x+s, y+s], fill=key)
         d.rectangle([x+1, y+1, x+s-1, y+s-1], fill=fill)
 
+def _arrow(d, cx, cy, ang, length, w, fill, key, head=6):
+    tx, ty = cx + length*math.cos(ang), cy - length*math.sin(ang)
+    _stroke_sharp(d, [(cx, cy), (tx, ty)], w, fill, key)
+    for da in (math.radians(148), math.radians(-148)):
+        bx, by = tx + head*math.cos(ang+da), ty - head*math.sin(ang+da)
+        _stroke_sharp(d, [(tx, ty), (bx, by)], w, fill, key)
+
+def sym_chaosstar(d, fill, key):
+    # radiating arrows of UNEVEN length (chaos = imbalance) — Moorcock idiom, our own
+    lens = [17, 12, 16, 11, 17, 13, 15, 12]
+    for i in range(8):
+        _arrow(d, 32, 31, math.radians(i*45 + 8), lens[i], 3, fill, key, head=6)
+
+def sym_vortex(d, fill, key):
+    # a two-armed turbulent spiral (whirl/vortex)
+    for arm in (0.0, math.pi):
+        pts = []
+        for t in range(0, 210, 9):
+            a = math.radians(t) + arm
+            rr = 2.2 + t*0.077
+            pts.append((32 + rr*math.cos(a), 31 - rr*math.sin(a)))
+        _stroke(d, pts, 4, fill, key)
+
+def _ellipse_pts(cx, cy, rx, ry, rot, steps=44):
+    r = math.radians(rot); out = []
+    for i in range(steps+1):
+        a = 2*math.pi*i/steps
+        x, y = rx*math.cos(a), ry*math.sin(a)
+        out.append((cx + x*math.cos(r) - y*math.sin(r), cy + x*math.sin(r) + y*math.cos(r)))
+    return out
+
+def sym_butterfly(d, fill, key):
+    # Lorenz-attractor butterfly: two overlapping tilted loops (symbol of chaos)
+    _stroke(d, _ellipse_pts(27, 31, 8.5, 15, 24), 3, fill, key)
+    _stroke(d, _ellipse_pts(37, 31, 8.5, 15, -24), 3, fill, key)
+
+def sym_hourglass(d, fill, key):
+    # entropy / order<->chaos: hourglass, top full, sand dispersing out the base
+    frame = [(19, 14), (45, 14), (33, 31), (45, 48), (19, 48), (31, 31)]
+    _stroke_sharp(d, frame + [frame[0]], 3, fill, key)
+    _poly(d, [(23, 17), (41, 17), (32, 29)], fill, key, 0.9)     # sand in the top
+    for x, y, s in [(31, 40, 3), (34, 44, 2), (29, 45, 2), (37, 47, 2),
+                    (26, 48, 2), (40, 44, 2), (24, 43, 2)]:       # dispersing grains
+        d.rectangle([x, y, x+s, y+s], fill=key)
+        d.rectangle([x, y, x+s-1, y+s-1], fill=fill)
+
 SYMS = {"swirl": sym_swirl, "mountain": sym_mountain, "flame": sym_flame,
         "wave": sym_wave, "grid": sym_grid, "burst": sym_burst,
-        "crack": sym_crack, "shards": sym_shards, "scatter": sym_scatter}
+        "crack": sym_crack, "shards": sym_shards, "scatter": sym_scatter,
+        "chaosstar": sym_chaosstar, "vortex": sym_vortex,
+        "butterfly": sym_butterfly, "hourglass": sym_hourglass}
 
 # ---------- treatments ----------
 def _hex_shade(im, d, rp, light_top=True):
