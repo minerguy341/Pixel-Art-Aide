@@ -61,5 +61,14 @@ live-recompute, lock w/ "why" tooltip). Matches the 3×3-grid top texture; reuse
 menu+screen+sync stack + C2S-validation + data-components. Fully-custom reserved for genuinely
 non-grid shapes (infusion pedestal-ring, research node-graph, essentia columns).
 
-**2 candidate lessons proposed in decision.md — user-gated, NOT written to lessons.md yet.**
-_Status: compiled; awaiting review + lesson approval._
+## Approved + productized (2026-07-20)
+- **Both lessons approved by the user** and written to `knowledge/lessons.md`
+  (UI-reuse contract · augment-don't-replace).
+- Authored a new skill in the thaumaturgy-the-new-age repo:
+  `.claude/skills/minecraft-crafting-station/SKILL.md` — routes the
+  reuse/overlay/fully-custom decision, lists the JEI/REI parity bill, chains the
+  existing impl skills (container-blocks, ui-design, c2s-validation,
+  data-components, gametests), and hands the UI *art* back to this studio's
+  pixel-artist skill (nine-slice panels, the block faces). It cites this study +
+  the two lessons as its rationale source.
+_Status: done — lessons recorded, skill shipped._

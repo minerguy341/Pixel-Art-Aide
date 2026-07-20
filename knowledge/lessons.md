@@ -801,3 +801,34 @@ Craft-applicable ones folded into shading.md.
   matte; express charge/corruption as a discrete state-driven colour lifecycle over
   a fixed silhouette; keep chunky vanilla proportions + one signature feature.
 - Source: Friends&Foes/Cataclysm/Alex's/Mowzie's.
+
+---
+
+# Workbench-UI lessons — 2026-07-20 (workbench vs custom-UI study, applied)
+
+Both **approved by the user**. Distilled from the workbench-vs-custom-UI study
+(`gallery/2026-07-20-workbench-ui-study/`, idioms + public docs only — no mod code/pixels).
+These back the `minecraft-crafting-station` skill in the thaumaturgy-the-new-age repo.
+
+## 2026-07-20 — UI-reuse contract: keep the vanilla grid unless the mechanic can't fit it
+- Rule: a crafting station should REUSE the vanilla 3×3 crafting screen unless it needs a
+  mechanic the grid structurally cannot hold. "The crafting table never changes its UI" is a
+  STABILITY CONTRACT — recipes are matched server-side against the container, and slot indices
+  mean fixed things (0=result, 1–9=grid), so the recipe book, JEI/REI "+" auto-fill, quick-move,
+  and universal recipe compat all work FOR FREE. Every step off that shape forfeits those, which
+  you then owe by hand: a JEI *and* an REI plugin + a recipe category + a validated transfer
+  handler (client viewers can't move server items — that's a C2S packet). Budget that rebuild as
+  part of any "go custom" decision.
+- Source: vanilla CraftingMenu / FastWorkbench / Crafting Station / Extended Crafting; JEI/REI docs.
+
+## 2026-07-20 — augment-don't-replace: default arcane-workbench UI is grid + overlay
+- Rule: the default UI for an arcane crafting station is the vanilla 3×3 grid + result slot
+  AUGMENTED with exactly a tool/battery slot (wand/focus, with a ghost-item empty-state hint) and
+  a ring of cost/validity chips that APPEAR ONLY WHEN the current recipe needs them, live-recompute
+  on every slot change, and lock the result with a "why" tooltip when unaffordable — never a
+  bespoke reskinned grid (the cardinal sin: pay the whole custom cost, break the recipe book + the
+  "+" button, gain nothing). Reserve FULLY-CUSTOM UIs for genuinely non-grid shapes: infusion
+  (central pedestal + orbiting input pedestals, in-world), the research web (node-and-line browser
+  + search), essentia (fill columns + tier-trim). Teach by addition — keep everything the player
+  already knows in its vanilla position; spend the novelty budget only on the arcane layer.
+- Source: Thaumcraft 4/6 Arcane Workbench (augment) vs Ars/Botania/Astral/Blood (justified custom).
