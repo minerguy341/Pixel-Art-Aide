@@ -124,15 +124,15 @@ for c in cats:
 north = "".join(f"<li>{n}</li>" for n in NORTH)
 HTML = f"""<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mod design study — 18 mods for Thaumaturgy</title><style>{CSS}</style></head>
+<title>Mod design study — 38 mods for Thaumaturgy</title><style>{CSS}</style></head>
 <body><div class="wrap">
 <header>
   <p class="eyebrow">Pixel-Art-Aide · Design study · 2026-07-20</p>
-  <h1>What the big mods do — <span class="g">18 mods</span> studied for Thaumaturgy</h1>
+  <h1>What the big mods do — <span class="g">38 mods</span> studied for Thaumaturgy</h1>
   <p class="lede">Design idioms from highly-downloaded mods that add UI, blocks, mobs, and effects — read for what a Thaumcraft successor should steal. Sections collapse; open one to read the per-mod breakdowns.</p>
   <div class="meta">
-    <span class="chip"><b>18</b> mods</span><span class="chip"><b>6</b> categories</span>
-    <span class="chip">magic · deco · effects · mobs · UI</span>
+    <span class="chip"><b>38</b> mods</span><span class="chip"><b>11</b> categories</span>
+    <span class="chip">magic·deco·effects·mobs·UI·storage</span>
     <span class="chip">study-only · <b>0</b> mod pixels used</span>
   </div>
   <div class="northstar"><h2>★ North star — the synthesis</h2><ul>{north}</ul></div>
