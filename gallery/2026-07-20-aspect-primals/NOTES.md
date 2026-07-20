@@ -177,3 +177,9 @@ a deliberate exception to the flat 2-tone glyph system — a metal ingot reads f
 better as a 3-face shaded mini-render (same reasoning as Flamma's hot core). The
 earlier flat aes_iso failed because 2 tones can't separate 3 faces; this fixes it
 with real face values. Holds down to ~20px (stack strongest).
+
+## Aes LOCKED = iso stack ×3 (with shine)
+Added a specular streak + glint on each ingot's top face (_facebox) so they read
+as polished metal, not bricks; _metal_shades now returns a 5th shine tone.
+All 12 aspects locked: 6 primals + Lumen(sparkle) Vita(heartbeat) Arcanum(pentacle)
+Vigor(bolt) Gemma(cut gem) Aes(iso stack). Milestone sheet: previews/locked-12.png.

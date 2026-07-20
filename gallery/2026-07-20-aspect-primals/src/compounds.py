@@ -286,57 +286,62 @@ def gem_toptilt_deep(d, f, k):   # a touch more side showing
 # ---- Aes: isometric ingots (3-face shaded mini-render, not a flat glyph) ----
 def _metal_shades(code):
     h, s, _ = to_hsv(hx(code))
-    return (hsv(h, s*0.55, 0.56),   # top  (lit)
-            hsv(h, s*0.75, 0.38),   # left / south face
-            hsv(h, s*0.85, 0.24),   # right / east face
-            hsv(h, min(1, s), 0.09))  # edge outline
+    return (hsv(h, s*0.55, 0.56),      # top  (lit)
+            hsv(h, s*0.75, 0.38),      # left / south face
+            hsv(h, s*0.85, 0.24),      # right / east face
+            hsv(h, min(1, s), 0.09),   # edge outline
+            hsv(h, s*0.28, 0.84))      # shine (specular streak)
 
-def _iso_box(d, ox, oy, W, D, H, s, top, left, right, edge):
-    def P(x, y, z): return (ox + (x-z)*s, oy + (x+z)*s*0.5 - y*s)
-    south = [P(0, 0, D), P(W, 0, D), P(W, H, D), P(0, H, D)]     # screen-left face
-    east = [P(W, 0, 0), P(W, H, 0), P(W, H, D), P(W, 0, D)]      # screen-right face
-    topf = [P(0, H, 0), P(W, H, 0), P(W, H, D), P(0, H, D)]      # top face
+def _facebox(d, P, x0, y0, z0, W, D, H, top, left, right, edge, shine):
+    south = [P(x0, y0, z0+D), P(x0+W, y0, z0+D), P(x0+W, y0+H, z0+D), P(x0, y0+H, z0+D)]
+    east = [P(x0+W, y0, z0), P(x0+W, y0+H, z0), P(x0+W, y0+H, z0+D), P(x0+W, y0, z0+D)]
+    topf = [P(x0, y0+H, z0), P(x0+W, y0+H, z0), P(x0+W, y0+H, z0+D), P(x0, y0+H, z0+D)]
     for poly, col in ((south, left), (east, right), (topf, top)):
         d.polygon(poly, fill=col, outline=edge)
+    # specular: a lengthwise streak across the top face + a glint at the lit end
+    streak = [P(x0+1.5, y0+H, z0+0.22*D), P(x0+W-1.5, y0+H, z0+0.22*D),
+              P(x0+W-2.5, y0+H, z0+0.40*D), P(x0+2.5, y0+H, z0+0.40*D)]
+    d.polygon(streak, fill=shine)
+    gx, gy = P(x0+3.5, y0+H, z0+0.31*D)
+    d.rectangle([gx-1, gy-1, gx+1, gy+1], fill=shine)
+    # a small highlight catching the top-front ridge
+    d.line([P(x0, y0+H, z0+D), P(x0+W, y0+H, z0+D)], fill=shine, width=1)
+
+def _iso_box(d, ox, oy, W, D, H, s, *shades):
+    def P(x, y, z): return (ox + (x-z)*s, oy + (x+z)*s*0.5 - y*s)
+    _facebox(d, P, 0, 0, 0, W, D, H, *shades)
 
 def iso_single(code):
     im, d, _, _ = backdrop_canvas(code)
-    t, l, r, e = _metal_shades(code)
-    _iso_box(d, 24, 27, 17, 10, 6, 1.7, t, l, r, e)
+    _iso_box(d, 24, 27, 17, 10, 6, 1.7, *_metal_shades(code))
     return im
 
 def iso_wide(code):
     im, d, _, _ = backdrop_canvas(code)
-    t, l, r, e = _metal_shades(code)
-    _iso_box(d, 20, 26, 21, 8, 5, 1.6, t, l, r, e)               # longer, flatter bar
+    _iso_box(d, 20, 26, 21, 8, 5, 1.6, *_metal_shades(code))     # longer, flatter bar
     return im
 
 def iso_pair(code):
     im, d, _, _ = backdrop_canvas(code)
-    t, l, r, e = _metal_shades(code)
-    _iso_box(d, 25, 20, 15, 9, 5, 1.6, t, l, r, e)
-    _iso_box(d, 23, 31, 15, 9, 5, 1.6, t, l, r, e)
+    sh = _metal_shades(code)
+    _iso_box(d, 25, 20, 15, 9, 5, 1.6, *sh)
+    _iso_box(d, 23, 31, 15, 9, 5, 1.6, *sh)
     return im
 
-def _iso_scene(d, ox, oy, s, boxes, top, left, right, edge):
+def _iso_scene(d, ox, oy, s, boxes, *shades):
     """Draw several boxes in ONE iso space, painter-sorted far->near so they
     occlude correctly instead of clipping. Each box = (x0, y0, z0, W, D, H)."""
     def P(x, y, z): return (ox + (x-z)*s, oy + (x+z)*s*0.5 - y*s)
     for x0, y0, z0, W, D, H in sorted(boxes, key=lambda b: (b[0]+b[3]/2)+(b[2]+b[4]/2)+(b[1]+b[5]/2)):
-        south = [P(x0, y0, z0+D), P(x0+W, y0, z0+D), P(x0+W, y0+H, z0+D), P(x0, y0+H, z0+D)]
-        east = [P(x0+W, y0, z0), P(x0+W, y0+H, z0), P(x0+W, y0+H, z0+D), P(x0+W, y0, z0+D)]
-        topf = [P(x0, y0+H, z0), P(x0+W, y0+H, z0), P(x0+W, y0+H, z0+D), P(x0, y0+H, z0+D)]
-        for poly, col in ((south, left), (east, right), (topf, top)):
-            d.polygon(poly, fill=col, outline=edge)
+        _facebox(d, P, x0, y0, z0, W, D, H, *shades)
 
 def iso_stack(code):
     im, d, _, _ = backdrop_canvas(code)
-    t, l, r, e = _metal_shades(code)
     W, D, H = 13, 7, 5
     boxes = [(0, 0, 0, W, D, H),              # bottom, front
              (0, 0, D+1, W, D, H),            # bottom, back (small gap, no clip)
              (0, H, (D+1)/2, W, D, H)]        # top, centred on the two
-    _iso_scene(d, 33, 30, 1.5, boxes, t, l, r, e)
+    _iso_scene(d, 33, 30, 1.5, boxes, *_metal_shades(code))
     return im
 
 # ---- Aes: ingot options, round 2 (researched real ingot shapes) ----
