@@ -827,6 +827,178 @@ ARCANUM_MORE = ("#DD4FD0", "magic", [
     ("crescent", "crescent + star", arc_crescent),
     ("comet", "comet", arc_comet)])
 
+# =====================================================================
+# Remaining aspects — ONE first-pass candidate each (for overnight review)
+# =====================================================================
+# --- Tier 1 ---
+def imp_motion(d, f, k):                     # Impetus — motion
+    for ox in (-10, 0, 10):
+        _poly(d, [(ox+22, 18), (ox+34, 31), (ox+22, 44), (ox+16, 44), (ox+28, 31), (ox+16, 18)], f, k, 0.5)
+
+def ina_void(d, f, k):                       # Inane — void / emptiness
+    ring(d, CX, CY, 16, 3, f, k)
+    ring(d, CX, CY, 9, 1, f, k)
+
+def pro_storm(d, f, k):                      # Procella — storm
+    for cx, cy, r in [(24, 25, 7), (33, 22, 8), (41, 26, 6)]:
+        disc(d, cx, cy, r, f, k)
+    _poly(d, [(18, 29), (46, 29), (44, 33), (20, 33)], f, k, 0.9)
+    _poly(d, [(33, 33), (27, 43), (32, 43), (29, 52), (39, 39), (34, 39), (37, 33)], f, k, 0.55)
+
+def tox_poison(d, f, k):                     # Toxicum — poison
+    _poly(d, [(32, 14), (40, 32), (38, 42), (32, 48), (26, 42), (24, 32)], f, k, 0.85)
+    disc(d, 29, 33, 2, k, k); disc(d, 35, 33, 2, k, k)
+    _poly(d, [(29, 39), (35, 39), (33, 43), (31, 43)], k, k)
+
+def mut_change(d, f, k):                     # Mutatio — change
+    d.arc([16, 16, 48, 48], 20, 160, fill=k, width=5); d.arc([16, 16, 48, 48], 20, 160, fill=f, width=3)
+    d.arc([16, 16, 48, 48], 200, 340, fill=k, width=5); d.arc([16, 16, 48, 48], 200, 340, fill=f, width=3)
+    _poly(d, [(46, 30), (40, 24), (40, 36)], f, k, 0.5)          # arrowheads
+    _poly(d, [(18, 34), (24, 40), (24, 28)], f, k, 0.5)
+
+# --- Tier 2 ---
+def ani_soul(d, f, k):                       # Anima — soul (ghost)
+    d.pieslice([20, 16, 44, 40], 180, 360, fill=k); d.pieslice([21, 17, 43, 39], 180, 360, fill=f)
+    _poly(d, [(20, 28), (44, 28), (44, 46), (40, 42), (36, 46), (32, 42), (28, 46), (24, 42), (20, 46)], f, k, 0.92)
+    disc(d, 28, 28, 2, k, k); disc(d, 36, 28, 2, k, k)
+
+def umb_dark(d, f, k):                        # Umbra — darkness (crescent + stars)
+    c1, R1, c2, R2 = (28, 31), 15, (35, 29), 14
+    o = [(c1[0]+R1*math.cos(math.radians(t)), c1[1]-R1*math.sin(math.radians(t))) for t in range(62, 300, 10)]
+    i2 = [(c2[0]+R2*math.cos(math.radians(t)), c2[1]-R2*math.sin(math.radians(t))) for t in range(299, 61, -10)]
+    poly = o + i2; cxc = sum(p[0] for p in poly)/len(poly); cyc = sum(p[1] for p in poly)/len(poly)
+    d.polygon(poly, fill=k); d.polygon(scale_about(poly, 0.88, cxc, cyc), fill=f)
+    for x, y in [(43, 18), (46, 27)]:
+        spark(d, x, y, 2, f, k)
+
+def avi_hunger(d, f, k):                      # Aviditas — hunger (toothed maw)
+    disc(d, CX, CY, 15, f, k); disc(d, CX, CY, 9, k, k)
+    for i in range(10):
+        a = math.radians(i*36); dx, dy = math.cos(a), -math.sin(a); px, py = -dy, dx
+        d.polygon([(CX+7*dx, CY+7*dy), (CX+13*dx-2.2*px, CY+13*dy-2.2*py),
+                   (CX+13*dx+2.2*px, CY+13*dy+2.2*py)], fill=f)
+
+def rem_heal(d, f, k):                        # Remedium — healing (plus)
+    _poly(d, [(27, 16), (37, 16), (37, 27), (48, 27), (48, 37), (37, 37), (37, 48),
+              (27, 48), (27, 37), (16, 37), (16, 27), (27, 27)], f, k, 0.9)
+
+def flo_flower(d, f, k):                      # Flora — plants (flower)
+    cy = 26
+    for i in range(6):
+        a = math.radians(i*60+90); px = CX+8*math.cos(a); py = cy-8*math.sin(a)
+        d.ellipse([px-4, py-4, px+4, py+4], fill=f, outline=k)
+    disc(d, CX, cy, 4, k, k)
+    _stroke(d, [(CX, cy+8), (CX, 47)], 2, f, k)
+    _poly(d, [(CX, 40), (CX-8, 37), (CX-2, 43)], f, k, 0.6)
+
+def fer_paw(d, f, k):                         # Fera — beasts (paw print)
+    disc(d, CX, 35, 8, f, k)
+    for ox, oy in [(-9, 26), (-3, 22), (3, 22), (9, 26)]:
+        disc(d, CX+ox, oy, 3.2, f, k)
+
+def via_sign(d, f, k):                        # Via — travel (signpost)
+    _stroke_sharp(d, [(32, 14), (32, 50)], 3, f, k)
+    _poly(d, [(14, 20), (36, 20), (42, 26), (36, 32), (14, 32)], f, k, 0.85)
+    _poly(d, [(50, 34), (28, 34), (22, 40), (28, 46), (50, 46)], f, k, 0.85)
+
+def ala_wing(d, f, k):                        # Ala — flight (symmetric spread wings)
+    for s in (-1, 1):
+        _poly(d, [(32, 22), (32+s*8, 18), (32+s*16, 19), (32+s*11, 24),
+                  (32+s*19, 24), (32+s*13, 29), (32+s*20, 30), (32+s*11, 34)], f, k, 0.85)
+        line(d, [(32+s*7, 23), (32+s*13, 24)], k)
+    _poly(d, [(29, 20), (35, 20), (34, 30), (30, 30)], f, k, 0.6)   # body between wings
+
+# --- Tier 3 ---
+def men_mind(d, f, k):                        # Mens — mind (head + thought spiral)
+    _poly(d, [(24, 13), (40, 15), (45, 26), (42, 36), (45, 45), (30, 49), (21, 44), (19, 28)], f, k, 0.9)
+    pts = [(30+(2+t*0.028)*math.cos(math.radians(t)), 29-(2+t*0.028)*math.sin(math.radians(t))) for t in range(0, 300, 15)]
+    d.line(pts, fill=k, width=1)
+
+def aci_eye(d, f, k):                         # Acies — perception (eye)
+    _stroke_sharp(d, [(16, 31), (24, 24), (40, 24), (48, 31)], 3, f, k)
+    _stroke_sharp(d, [(16, 31), (24, 38), (40, 38), (48, 31)], 3, f, k)
+    disc(d, CX, 31, 6, f, k); disc(d, CX, 31, 3, k, k)
+
+def mac_taint(d, f, k):                       # Macula — corruption (dripping blot)
+    _poly(d, [(20, 22), (30, 17), (42, 20), (48, 30), (44, 39), (47, 47),
+              (38, 43), (30, 48), (22, 42), (15, 31)], f, k, 0.86)
+    for x in (27, 38):
+        _poly(d, [(x-2, 45), (x+2, 45), (x, 52)], f, k, 0.5)
+    disc(d, 30, 30, 2, k, k); disc(d, 38, 34, 2, k, k)
+
+def sil_tree(d, f, k):                        # Silva — wood/forest (tree)
+    _poly(d, [(30, 50), (30, 34), (34, 34), (34, 50)], f, k, 0.7)   # trunk
+    for cx, cy, r in [(20, 29, 6), (44, 29, 6), (26, 23, 7), (38, 23, 7), (32, 26, 8), (32, 17, 6)]:
+        disc(d, cx, cy, r, f, k)                                 # wide bumpy crown
+
+def car_flesh(d, f, k):                       # Caro — flesh (meat on bone)
+    _poly(d, [(18, 31), (24, 22), (40, 20), (47, 28), (45, 40), (35, 46), (22, 44), (15, 37)], f, k, 0.86)
+    _stroke(d, [(43, 26), (52, 19)], 4, f, k); disc(d, 52, 18, 3, f, k)
+    line(d, [(26, 32), (35, 30)], k); line(d, [(29, 38), (40, 36)], k)
+
+def lar_undeath(d, f, k):                     # Larva — undeath (skeletal hand)
+    _stroke_sharp(d, [(18, 50), (50, 50)], 2, f, k)
+    _poly(d, [(26, 40), (38, 40), (38, 48), (26, 48)], f, k, 0.8)
+    for x in (27, 31, 35, 39):
+        _stroke_sharp(d, [(x, 40), (x, 24)], 2, f, k)
+    _stroke_sharp(d, [(24, 42), (19, 32)], 2, f, k)
+
+def per_mask(d, f, k):                        # Persona — humanity (mask)
+    _poly(d, [(20, 16), (44, 16), (46, 30), (40, 44), (32, 50), (24, 44), (18, 30)], f, k, 0.9)
+    disc(d, 27, 28, 2.5, k, k); disc(d, 37, 28, 2.5, k, k)
+    _poly(d, [(28, 40), (36, 40), (32, 45)], k, k)
+
+# --- Tier 4 ---
+def art_hammer(d, f, k):                      # Artificium — craft (hammer)
+    _stroke(d, [(37, 49), (28, 25)], 3, f, k)
+    _poly(d, [(17, 18), (38, 13), (40, 24), (19, 29)], f, k, 0.85)
+
+def aut_gears(d, f, k):                       # Automata — mechanism (gears)
+    def gear(cx, cy, rr):
+        for i in range(8):
+            a = math.radians(i*45); x, y = cx+rr*math.cos(a), cy-rr*math.sin(a)
+            _poly(d, [(x-2, y-2), (x+2, y-2), (x+2, y+2), (x-2, y+2)], f, k, 0.7)
+        disc(d, cx, cy, rr-2, f, k); disc(d, cx, cy, 3, k, k)
+    gear(24, 25, 9); gear(41, 39, 8)
+
+def ens_sword(d, f, k):                       # Ensis — weaponry (sword)
+    _poly(d, [(30, 11), (34, 11), (35, 37), (32, 43), (29, 37)], f, k, 0.6)
+    _stroke_sharp(d, [(23, 38), (41, 38)], 3, f, k)
+    _stroke(d, [(32, 38), (32, 50)], 3, f, k); disc(d, 32, 51, 2.5, f, k)
+
+def pra_shield(d, f, k):                      # Praesidium — protection (shield)
+    _poly(d, [(18, 16), (46, 16), (46, 32), (32, 50), (18, 32)], f, k, 0.9)
+    _stroke_sharp(d, [(32, 20), (32, 42)], 2, k, k); _stroke_sharp(d, [(22, 26), (42, 26)], 2, k, k)
+
+def opes_coins(d, f, k):                      # Opes — wealth (coin stack)
+    for yy in (44, 38, 32):
+        d.ellipse([22, yy-4, 42, yy+4], fill=f, outline=k)
+    d.ellipse([27, 14, 45, 32], fill=f, outline=k)
+    line(d, [(36, 18), (36, 28)], k); line(d, [(33, 20), (39, 20)], k)
+
+def bar_eldritch(d, f, k):                    # Barathrum — the eldritch / abyss (eye + tentacles)
+    _poly(d, [(18, 30), (32, 22), (46, 30), (32, 38)], f, k, 0.6)
+    disc(d, 32, 30, 4.5, k, k); d.rectangle([31, 26, 33, 34], fill=f)
+    for x0 in (22, 32, 42):
+        _stroke(d, [(x0, 38), (x0-3, 45), (x0+2, 51)], 2, f, k)
+
+REMAINING = [
+    ("Impetus", "#9FD8DC", "motion", imp_motion, 1), ("Inane", "#6E6480", "void", ina_void, 1),
+    ("Procella", "#7CA6C9", "storm", pro_storm, 1), ("Toxicum", "#7CA82E", "poison", tox_poison, 1),
+    ("Mutatio", "#B097D6", "change", mut_change, 1),
+    ("Anima", "#BFE3F7", "soul", ani_soul, 2), ("Umbra", "#2E2A3A", "darkness", umb_dark, 2),
+    ("Aviditas", "#99885C", "hunger", avi_hunger, 2), ("Remedium", "#F5BFD0", "healing", rem_heal, 2),
+    ("Flora", "#6EC24A", "plants", flo_flower, 2), ("Fera", "#A66A3E", "beasts", fer_paw, 2),
+    ("Via", "#C2B280", "travel", via_sign, 2), ("Ala", "#DDF0F7", "flight", ala_wing, 2),
+    ("Mens", "#DCC3F0", "mind", men_mind, 3), ("Acies", "#F5D9A6", "perception", aci_eye, 3),
+    ("Macula", "#7A2E8F", "corruption", mac_taint, 3), ("Silva", "#7A5A34", "wood", sil_tree, 3),
+    ("Caro", "#DE8878", "flesh", car_flesh, 3), ("Larva", "#9DB86B", "undeath", lar_undeath, 3),
+    ("Persona", "#E7C39A", "humanity", per_mask, 3),
+    ("Artificium", "#C9A85C", "craft", art_hammer, 4), ("Automata", "#8C9EB5", "mechanism", aut_gears, 4),
+    ("Ensis", "#C24A4A", "weaponry", ens_sword, 4), ("Praesidium", "#6E8CA8", "protection", pra_shield, 4),
+    ("Opes", "#F5D142", "wealth", opes_coins, 4), ("Barathrum", "#33203D", "abyss", bar_eldritch, 4),
+]
+
 def render(code, drawfn):
     im, d, fill, key = backdrop_canvas(code)
     drawfn(d, fill, key)

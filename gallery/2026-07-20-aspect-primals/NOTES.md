@@ -219,3 +219,19 @@ so the 15 locked icons don't change.)
 6 primals + Lumen(sparkle) Vita(heartbeat) Arcanum(pentacle) Vigor(bolt)
 Gemma(cut gem) Aes(iso stack) Glacies(snowflake) Letum(celtic cross) Aether(radiant orb).
 Milestone: previews/locked-15.png.
+
+## Overnight batch — first-pass candidate for EVERY remaining aspect (26)
+One draft icon each for all 26 remaining compounds (REMAINING list in
+compounds.py), grouped by tier, for morning review. Concepts:
+T1: Impetus(motion chevrons) Inane(void rings) Procella(storm cloud+bolt)
+    Toxicum(poison drop) Mutatio(cyclic arrows)
+T2: Anima(ghost) Umbra(crescent+stars) Aviditas(toothed maw) Remedium(plus)
+    Flora(flower) Fera(paw) Via(signpost) Ala(spread wings)
+T3: Mens(head+spiral) Acies(eye) Macula(dripping taint) Silva(tree) Caro(meat)
+    Larva(skeletal hand) Persona(mask)
+T4: Artificium(hammer) Automata(gears) Ensis(sword) Praesidium(shield)
+    Opes(coin stack) Barathrum(eldritch eye+tentacles)
+Fixed Silva (was lollipop → wide bumpy crown) and Ala (was blocky → spread wings).
+Deliverables: previews/remaining-26.png (labelled by tier/concept),
+previews/full-41.png (all 41 = 15 locked + 26 candidates). These are DRAFTS,
+user picks/refines per aspect tomorrow.
