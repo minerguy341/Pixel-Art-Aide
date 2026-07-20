@@ -214,3 +214,8 @@ off, plus the weathered chip broke silhouette symmetry). Symbol asymmetry ~halve
 crack instead of a full-height split. (Backdrop hexagon carries ~5.9% sub-pixel
 rasterisation asymmetry — baked into all icons, not visually lopsided; left as-is
 so the 15 locked icons don't change.)
+
+## Letum LOCKED = celtic cross. 15 aspects locked.
+6 primals + Lumen(sparkle) Vita(heartbeat) Arcanum(pentacle) Vigor(bolt)
+Gemma(cut gem) Aes(iso stack) Glacies(snowflake) Letum(celtic cross) Aether(radiant orb).
+Milestone: previews/locked-15.png.
