@@ -199,3 +199,9 @@ Glacies/Aether are light beds -> dark glyphs; Letum is a dark bed -> light glyph
 - Aether batch 2 (compound-aether2.png): radiant orb · crystal node · aura mist
   · aurora bands · drifting motes · aura pulse. (Batch 1 was node/swirl/rings/
   wisp/mote.)
+
+## Aether locked + Letum tombstone candidates
+- Aether = radiant orb (aeth_orb).
+- Letum: 5 tombstone/grave candidates (compound-letum2.png): rounded+cross ·
+  cross marker · gothic arch · weathered · celtic cross. Improves the earlier
+  plain grave.

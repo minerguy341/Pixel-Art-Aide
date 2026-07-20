@@ -600,6 +600,48 @@ def iso_skull(code):
         d.line([P(W-0.02, -4, 6+t*2.2), P(W-0.02, 0, 6+t*2.2)], fill=dark, width=1)
     return im
 
+# ---- Letum: tombstone / grave-marker candidates ----
+def grave_rip(d, f, k):
+    d.pieslice([19, 13, 45, 39], 180, 360, fill=k); d.pieslice([20, 14, 44, 38], 180, 360, fill=f)
+    _poly(d, [(19, 26), (45, 26), (45, 45), (19, 45)], f, k, 0.92)
+    _stroke_sharp(d, [(32, 30), (32, 41)], 2, k, k); _stroke_sharp(d, [(27, 34), (37, 34)], 2, k, k)  # cross
+    _stroke_sharp(d, [(13, 46), (51, 46)], 2, f, k)                # ground
+    for gx in (17, 47):
+        _stroke_sharp(d, [(gx, 46), (gx-2, 42)], 1, f, k); _stroke_sharp(d, [(gx, 46), (gx+2, 42)], 1, f, k)
+
+def grave_cross(d, f, k):
+    _poly(d, [(29, 14), (35, 14), (35, 44), (29, 44)], f, k, 0.85)  # upright
+    _poly(d, [(21, 22), (43, 22), (43, 28), (21, 28)], f, k, 0.85)  # arms
+    d.pieslice([16, 40, 48, 54], 180, 360, fill=k); d.pieslice([17, 41, 47, 53], 180, 360, fill=f)  # mound
+    _stroke_sharp(d, [(13, 47), (51, 47)], 2, f, k)
+
+def grave_arch(d, f, k):
+    _poly(d, [(20, 45), (20, 24), (32, 13), (44, 24), (44, 45)], f, k, 0.92)  # gothic pointed arch
+    for yy in (29, 34, 39):
+        line(d, [(25, yy), (39, yy)], k)                           # engraved lines
+    _stroke_sharp(d, [(14, 46), (50, 46)], 2, f, k)
+
+def grave_crack(d, f, k):
+    d.pieslice([19, 13, 45, 39], 180, 360, fill=k); d.pieslice([20, 14, 44, 38], 180, 360, fill=f)
+    _poly(d, [(19, 26), (45, 26), (45, 45), (19, 45)], f, k, 0.92)
+    _stroke_sharp(d, [(30, 15), (33, 24), (29, 33), (32, 45)], 1, k, k)   # crack
+    d.polygon([(45, 26), (45, 33), (40, 27)], fill=k)              # chipped corner
+    _stroke_sharp(d, [(13, 46), (51, 46)], 2, f, k)
+
+def grave_celtic(d, f, k):
+    _poly(d, [(29, 12), (35, 12), (35, 45), (29, 45)], f, k, 0.85)  # upright
+    _poly(d, [(21, 23), (43, 23), (43, 29), (21, 29)], f, k, 0.85)  # arms
+    ring(d, 32, 26, 8, 2, f, k)                                    # halo ring
+    d.pieslice([16, 41, 48, 55], 180, 360, fill=k); d.pieslice([17, 42, 47, 54], 180, 360, fill=f)
+    _stroke_sharp(d, [(13, 47), (51, 47)], 2, f, k)
+
+LETUM_GRAVES = ("#45403E", "death", [
+    ("rip", "rounded + cross", grave_rip),
+    ("cross", "cross marker", grave_cross),
+    ("arch", "gothic arch", grave_arch),
+    ("crack", "weathered", grave_crack),
+    ("celtic", "celtic cross", grave_celtic)])
+
 # ---- Aether: more aura candidates (batch 2) ----
 def aeth_orb(d, f, k):
     disc(d, CX, CY, 8, f, k)
