@@ -119,3 +119,9 @@ make_aspects.py switched burst->chaosstar. Final 6 primals: previews/candidates-
   - Arcanum (magic #DD4FD0): rune / sparkle+orbits / arcane ring / wand+star / swirl
   Adaptive contrast handled all: Lumen light bed -> dark glyph, Vita/Arcanum ->
   light glyph. Fixed lum_dawn rays (first pass read as grass).
+
+## Picks + Arcanum round 2
+- Chosen: Lumen = sparkle (candidate 2); Vita = heartbeat/pulse (candidate 2).
+- Arcanum: user wanted more options. Second batch (compound-arcanum2.png):
+  runic seal · 6-point star · scrying orb · alchemical sigil · crescent+star ·
+  comet. (First batch was rune/sparkle+orbits/ring/wand+star/swirl.)

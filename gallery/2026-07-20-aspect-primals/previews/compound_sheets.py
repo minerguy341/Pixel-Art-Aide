@@ -16,13 +16,13 @@ def font(s):
     return ImageFont.load_default()
 FT=font(21); FB=font(14); FS=font(12)
 
-def sheet(name):
-    code, concept, cands = C.ASPECTS[name]
+def sheet(title, code, concept, cands, outname):
+    name=title
     cell=170; x0=20; top=120; n=len(cands)
     W=x0+n*cell+10; H=top+cell+96
     im=Image.new("RGB",(W,H),BG); d=ImageDraw.Draw(im)
     d.text((x0,24),f"{name} — {concept}  ·  {code}",font=FT,fill=INK)
-    d.text((x0,54),"5 symbol candidates · filled backdrop · shown 2.3x; strip = 48/32/20px on dark & light",font=FS,fill=DIM)
+    d.text((x0,54),f"{n} symbol candidates · filled backdrop · shown 2.3x; strip = 48/32/20px on dark & light",font=FS,fill=DIM)
     for i,(key,desc,fn) in enumerate(cands):
         ic=C.render(code,fn); cx=x0+i*cell
         d.text((cx+cell//2,86),f"{i+1}. {desc}",font=FB,fill=TEAL,anchor="mm")
@@ -36,7 +36,10 @@ def sheet(name):
                 sw=Image.new("RGB",(s+6,s+6),bgc); r=ic.resize((s,s),Image.NEAREST)
                 sw.paste(r,(3,3),r); im.paste(sw,(x2,yy)); x2+=s+6
             xx=x2+8
-    out=PREV/f"compound-{name.lower()}.png"; im.save(out); print("wrote",out,im.size)
+    out=PREV/outname; im.save(out); print("wrote",out,im.size)
 
 if __name__=="__main__":
-    for n in C.ASPECTS: sheet(n)
+    for n,(code,concept,cands) in C.ASPECTS.items():
+        sheet(n, code, concept, cands, f"compound-{n.lower()}.png")
+    code,concept,cands = C.ARCANUM_MORE
+    sheet("Arcanum — more options", code, concept, cands, "compound-arcanum2.png")

@@ -76,9 +76,9 @@ def vit_pulse(d, f, k):
     _stroke(d, [(13, 32), (23, 32), (27, 22), (32, 42), (37, 26), (41, 32), (51, 32)], 3, f, k)
 
 def vit_sprout(d, f, k):
-    _stroke(d, [(32, 46), (32, 26)], 3, f, k)                     # stem
-    _poly(d, [(32, 30), (22, 24), (24, 33)], f, k, 0.7)           # left leaf
-    _poly(d, [(32, 27), (43, 20), (41, 30)], f, k, 0.7)           # right leaf
+    _stroke(d, [(32, 47), (32, 29)], 4, f, k)                     # stem
+    _poly(d, [(31, 35), (23, 29), (18, 32), (22, 38), (30, 38)], f, k, 0.80)  # left leaf
+    _poly(d, [(33, 31), (41, 22), (46, 26), (41, 33), (34, 34)], f, k, 0.80)  # right leaf
 
 def vit_seed(d, f, k):
     _poly(d, [(32, 46), (39, 36), (37, 27), (32, 23), (27, 27), (25, 36)], f, k, 0.82)  # seed
@@ -125,6 +125,51 @@ def arc_swirl(d, f, k):
     _stroke(d, pts, 4, f, k)
     spark(d, 46, 24, 3, f, k); spark(d, 20, 40, 2.6, f, k)
 
+# ---- Arcanum, second batch (user wanted more magic options) ----
+def arc_seal(d, f, k):
+    ring(d, CX, CY, 15, 2, f, k)
+    for i in range(12):                                           # runic rim ticks
+        a = math.radians(i*30); L = 20 if i % 2 == 0 else 18
+        _stroke_sharp(d, [(CX+15*math.cos(a), CY-15*math.sin(a)),
+                          (CX+L*math.cos(a), CY-L*math.sin(a))], 2, f, k)
+    spark(d, CX, CY, 5.5, f, k)
+
+def arc_hexstar(d, f, k):
+    _poly(d, star_pts(CX, CY, 6, 18, 8, rot=math.radians(90)), f, k, 0.62)
+    disc(d, CX, CY, 3, f, k)
+
+def arc_orb(d, f, k):
+    cy = 29
+    ring(d, CX, cy, 13, 2, f, k)                                  # crystal sphere
+    d.arc([CX-8, cy-8, CX+3, cy+3], 205, 300, fill=f, width=2)    # highlight
+    _stroke_sharp(d, [(CX-8, 45), (CX+8, 45)], 3, f, k)           # stand
+    _stroke_sharp(d, [(CX-5, 42), (CX-7, 46)], 2, f, k)
+    _stroke_sharp(d, [(CX+5, 42), (CX+7, 46)], 2, f, k)
+    spark(d, CX+10, 20, 2.8, f, k)
+
+def arc_sigil(d, f, k):
+    ring(d, CX, CY, 15, 2, f, k)
+    tri = [(32, 18), (45, 40), (19, 40)]                          # alchemical triangle
+    _stroke_sharp(d, tri + [tri[0]], 2, f, k)
+    disc(d, CX, 33, 2.6, f, k)
+
+def arc_crescent(d, f, k):
+    c1, R1 = (30, 31), 15
+    c2, R2 = (37, 30), 13
+    outer = [(c1[0]+R1*math.cos(math.radians(t)), c1[1]-R1*math.sin(math.radians(t)))
+             for t in range(58, 303, 9)]
+    inner = [(c2[0]+R2*math.cos(math.radians(t)), c2[1]-R2*math.sin(math.radians(t)))
+             for t in range(302, 57, -9)]
+    poly = outer + inner
+    cxc = sum(p[0] for p in poly)/len(poly); cyc = sum(p[1] for p in poly)/len(poly)
+    d.polygon(poly, fill=k); d.polygon(scale_about(poly, 0.86, cxc, cyc), fill=f)
+    spark(d, 43, 20, 3.2, f, k)                                   # star in the hollow
+
+def arc_comet(d, f, k):
+    _stroke(d, [(38, 25), (23, 42)], 4, f, k)                     # tail
+    _stroke(d, [(40, 27), (29, 45)], 2, f, k)
+    _poly(d, star_pts(40, 22, 4, 8, 2.6), f, k, 0.5)             # head
+
 ASPECTS = {
     "Lumen":   ("#FFE066", "light", [
         ("sun", "sun disc + rays", lum_sun),
@@ -145,6 +190,14 @@ ASPECTS = {
         ("wand", "wand + star", arc_wand),
         ("swirl", "magic swirl", arc_swirl)]),
 }
+
+ARCANUM_MORE = ("#DD4FD0", "magic", [
+    ("seal", "runic seal", arc_seal),
+    ("hexstar", "6-point star", arc_hexstar),
+    ("orb", "scrying orb", arc_orb),
+    ("sigil", "alchemical sigil", arc_sigil),
+    ("crescent", "crescent + star", arc_crescent),
+    ("comet", "comet", arc_comet)])
 
 def render(code, drawfn):
     im, d, fill, key = backdrop_canvas(code)
