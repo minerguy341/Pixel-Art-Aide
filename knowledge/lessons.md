@@ -451,3 +451,14 @@ All 6 approved by the user (study-batch findings, `gallery/2026-07-19-study-batc
   in NOISE level — clean symmetric for civilised magic, veiny/asymmetric for
   corruption.
 - Source: FTB Wiki (Arcane Stone, Aspects) https://ftb.fandom.com/wiki/Aspects_(Thaumcraft_4) ; Thaumcraft 4 Wiki (Silverwood, Thaumium, Taint, Aura Node) https://thaumcraft-4.fandom.com/wiki/Thaumium
+
+## 2026-07-19 — leaves need vanilla-density transparent holes
+- Context: greatwood/silverwood leaves read as solid green cubes; user flagged
+- Observation: vanilla oak/spruce/birch leaves are 32-43% TRANSPARENT with holes
+  scattered high-frequency across the whole tile; ours were ~8% (edge holes) and
+  read as a solid cube
+- Rule: leaves need ~30-40% scattered transparent holes (per-cell, not blobs;
+  break up any 2x2 fully-transparent block). CHECK TRANSPARENCY when matching a
+  material, not just colour. (Folded into shading.md leaves shorthand;
+  generator: make_leaves.py.)
+- Source: vanilla 1.21.1 oak/spruce/birch_leaves.png (mcasset / InventivetalentDev)
