@@ -127,8 +127,46 @@ def sym_burst(d, fill, key):
     pts = [(x, y) for x, y, _ in spikes]
     _poly(d, pts, fill, key, 0.62)
 
+def _stroke_sharp(d, pts, w, fill, key):
+    """stroke with no ball end-caps — for angular cracks."""
+    d.line(pts, fill=key, width=w+2, joint="curve")
+    d.line(pts, fill=fill, width=w, joint="curve")
+
+def sym_crack(d, fill, key):
+    # shattered-glass fracture: radial cracks from an off-centre impact + a web
+    ip = (33, 27)
+    radials = [[(32, 20), (30, 13)], [(40, 25), (46, 21)], [(41, 33), (48, 38)],
+               [(34, 40), (35, 50)], [(26, 37), (18, 43)], [(25, 27), (14, 25)]]
+    for r in radials:
+        _stroke_sharp(d, [ip, r[0], r[1]], 3, fill, key)
+    web = [[(32, 20), (25, 27)], [(40, 25), (41, 33)],
+           [(41, 33), (34, 40)], [(26, 37), (25, 27)]]
+    for wseg in web:
+        _stroke_sharp(d, wseg, 2, fill, key)
+
+def sym_shards(d, fill, key):
+    # a form broken into separated shards (gaps = flying apart)
+    shards = [
+        [(32, 12), (41, 25), (24, 25)],            # top
+        [(45, 29), (39, 45), (32, 33)],            # right
+        [(20, 30), (31, 36), (22, 49)],            # lower-left
+        [(35, 40), (30, 51), (26, 42)],            # small bottom bit
+    ]
+    for s in shards:
+        _poly(d, s, fill, key, 0.72)
+
+def sym_scatter(d, fill, key):
+    # order -> disorder: a solid block dissolving into scattered squares (entropy)
+    _poly(d, [(15, 21), (27, 21), (27, 43), (15, 43)], fill, key, 0.80)
+    bits = [(30, 24, 5), (34, 31, 5), (31, 39, 4), (37, 26, 4), (39, 35, 4),
+            (36, 43, 3), (43, 29, 4), (46, 38, 3), (44, 23, 3), (48, 32, 3)]
+    for x, y, s in bits:
+        d.rectangle([x, y, x+s, y+s], fill=key)
+        d.rectangle([x+1, y+1, x+s-1, y+s-1], fill=fill)
+
 SYMS = {"swirl": sym_swirl, "mountain": sym_mountain, "flame": sym_flame,
-        "wave": sym_wave, "grid": sym_grid, "burst": sym_burst}
+        "wave": sym_wave, "grid": sym_grid, "burst": sym_burst,
+        "crack": sym_crack, "shards": sym_shards, "scatter": sym_scatter}
 
 # ---------- treatments ----------
 def _hex_shade(im, d, rp, light_top=True):

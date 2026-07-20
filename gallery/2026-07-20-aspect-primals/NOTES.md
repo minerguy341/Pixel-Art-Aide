@@ -75,3 +75,13 @@ eyeball check.
   fire reads as white-hot body around a glowing centre). Distinct from Unda's
   wave now.
 - Other 4 (Tellus/Unda/Forma/Discordia) unchanged — user-approved.
+
+## Discordia symbol options (user asked for a few designs)
+Four on the same #4A3459 backdrop (previews/discordia-options.png):
+- burst — spiky solid star (current r3); reads explosion/burst.
+- crack — shattered-glass web (radial cracks + connecting web; sharp capless
+  strokes so it doesn't bead); reads "broken surface".
+- shards — a form split into separated flying triangular pieces.
+- scatter — a solid block dissolving into scattered squares; the most literal
+  "entropy / order→disorder". Added _stroke_sharp helper + sym_crack/shards/
+  scatter to make_aspects.py.
