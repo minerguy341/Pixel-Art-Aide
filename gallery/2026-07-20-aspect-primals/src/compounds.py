@@ -170,6 +170,114 @@ def arc_comet(d, f, k):
     _stroke(d, [(40, 27), (29, 45)], 2, f, k)
     _poly(d, star_pts(40, 22, 4, 8, 2.6), f, k, 0.5)             # head
 
+def line(d, seg, col):
+    d.line(seg, fill=col, width=1)
+
+# ===================== VIGOR — energy (#F2C230) =====================
+def vig_bolt(d, f, k):
+    _poly(d, [(35, 13), (23, 33), (31, 33), (27, 51), (43, 29), (35, 29), (39, 13)], f, k, 0.72)
+
+def vig_boltcircle(d, f, k):
+    ring(d, CX, CY, 17, 2, f, k)
+    _poly(d, [(34, 18), (26, 32), (32, 32), (29, 45), (40, 30), (33, 30), (37, 18)], f, k, 0.66)
+
+def vig_core(d, f, k):
+    for i in range(8):
+        a = math.radians(i*45); dx, dy = math.cos(a), -math.sin(a)
+        _stroke_sharp(d, [(CX+9*dx, CY+9*dy), (CX+18*dx, CY+18*dy)], 2, f, k)
+    disc(d, CX, CY, 7, f, k)
+
+def vig_battery(d, f, k):
+    _stroke_sharp(d, [(23, 21), (41, 21), (41, 48), (23, 48), (23, 21)], 2, f, k)
+    _poly(d, [(29, 16), (35, 16), (35, 21), (29, 21)], f, k, 0.5)
+    _poly(d, [(34, 25), (29, 34), (33, 34), (31, 44), (38, 33), (33, 33), (36, 25)], f, k, 0.55)
+
+def vig_dblbolt(d, f, k):
+    _poly(d, [(30, 14), (21, 31), (27, 31), (24, 48), (35, 30), (29, 30), (33, 14)], f, k, 0.55)
+    _poly(d, [(44, 20), (36, 35), (41, 35), (38, 50), (47, 34), (42, 34), (46, 20)], f, k, 0.55)
+
+# ===================== GEMMA — crystal (#9FE6C9) =====================
+def gem_brilliant(d, f, k):
+    _poly(d, [(24, 23), (40, 23), (48, 31), (32, 50), (16, 31)], f, k, 0.86)
+    for seg in ([(16, 31), (48, 31)], [(32, 23), (32, 31)], [(24, 23), (32, 31)],
+                [(40, 23), (32, 31)], [(24, 31), (32, 50)], [(40, 31), (32, 50)]):
+        line(d, seg, k)
+
+def gem_cluster(d, f, k):
+    _poly(d, [(20, 46), (26, 27), (31, 46)], f, k, 0.68)
+    _poly(d, [(28, 48), (35, 17), (41, 48)], f, k, 0.78)
+    _poly(d, [(38, 46), (44, 31), (49, 46)], f, k, 0.68)
+
+def gem_emerald(d, f, k):
+    # rectangular step (emerald) cut — distinct from the hexagon backdrop
+    outer = [(20, 22), (44, 22), (47, 42), (17, 42)]
+    inner = [(25, 27), (39, 27), (41, 37), (23, 37)]
+    _poly(d, outer, f, k, 0.86)
+    for a, b in zip(inner, inner[1:] + inner[:1]):
+        line(d, [a, b], k)
+    for o, i2 in zip(outer, inner):
+        line(d, [o, i2], k)
+
+def gem_point(d, f, k):
+    _poly(d, [(27, 21), (37, 21), (37, 41), (32, 50), (27, 41)], f, k, 0.86)
+    _poly(d, [(30, 14), (34, 14), (37, 21), (27, 21)], f, k, 0.82)
+    for seg in ([(32, 14), (32, 50)], [(27, 21), (37, 21)]):
+        line(d, seg, k)
+
+def gem_round(d, f, k):
+    disc(d, CX, CY, 13, f, k)                                     # round brilliant, top view
+    d.ellipse([CX-6, CY-6, CX+6, CY+6], outline=k, width=1)       # table
+    for i in range(8):                                            # crown facets
+        a = math.radians(i*45 + 22)
+        line(d, [(CX+6*math.cos(a), CY-6*math.sin(a)), (CX+13*math.cos(a), CY-13*math.sin(a))], k)
+    spark(d, CX+10, CY-11, 2.6, f, k)
+
+# ===================== AES — metal / ore (#ADAFBC) =====================
+def aes_ingot(d, f, k):
+    _poly(d, [(15, 39), (49, 39), (44, 29), (20, 29)], f, k, 0.82)
+    line(d, [(23, 33), (41, 33)], k)
+
+def aes_anvil(d, f, k):
+    _poly(d, [(15, 23), (49, 23), (44, 29), (39, 29), (41, 33), (23, 33), (25, 29), (20, 29)], f, k, 0.82)
+    _poly(d, [(27, 33), (37, 33), (41, 46), (23, 46)], f, k, 0.82)
+
+def aes_ore(d, f, k):
+    _poly(d, [(18, 41), (16, 28), (26, 19), (40, 20), (48, 30), (44, 43), (30, 47)], f, k, 0.88)
+    for x, y in [(28, 30), (35, 26), (31, 38), (40, 35)]:
+        disc(d, x, y, 2.4, k, k)
+
+def aes_gear(d, f, k):
+    for i in range(8):
+        a = math.radians(i*45); dx, dy = math.cos(a), -math.sin(a)
+        x, y = CX+14*dx, CY+14*dy
+        _poly(d, [(x-3, y-3), (x+3, y-3), (x+3, y+3), (x-3, y+3)], f, k, 0.7)
+    disc(d, CX, CY, 13, f, k)
+    disc(d, CX, CY, 4.5, k, k)
+
+def aes_nugget(d, f, k):
+    for x, y, r in [(25, 29, 7), (39, 31, 6), (31, 41, 6)]:
+        disc(d, x, y, r, f, k)
+        d.arc([x-r+2, y-r+2, x+2, y+2], 205, 300, fill=k, width=1)
+
+VIGOR5 = ("#F2C230", "energy", [
+    ("bolt", "lightning bolt", vig_bolt),
+    ("boltcircle", "bolt in circle", vig_boltcircle),
+    ("core", "power core", vig_core),
+    ("battery", "charged cell", vig_battery),
+    ("dblbolt", "double bolt", vig_dblbolt)])
+GEMMA5 = ("#9FE6C9", "crystal", [
+    ("brilliant", "cut gem", gem_brilliant),
+    ("cluster", "crystal cluster", gem_cluster),
+    ("emerald", "emerald cut", gem_emerald),
+    ("point", "crystal point", gem_point),
+    ("round", "polished jewel", gem_round)])
+AES5 = ("#ADAFBC", "metal / ore", [
+    ("ingot", "ingot", aes_ingot),
+    ("anvil", "anvil", aes_anvil),
+    ("ore", "ore chunk", aes_ore),
+    ("gear", "cog", aes_gear),
+    ("nugget", "nugget cluster", aes_nugget)])
+
 ASPECTS = {
     "Lumen":   ("#FFE066", "light", [
         ("sun", "sun disc + rays", lum_sun),

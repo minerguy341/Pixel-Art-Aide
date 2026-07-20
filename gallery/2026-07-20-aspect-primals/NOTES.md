@@ -142,3 +142,11 @@ User chose the pentacle. Fixed so the circle is uninterrupted: draw the pentagra
 FIRST then the ring on top (was ring-first, star drawn over it broke the circle).
 R=16.5 so the 5 points tuck just under the ring. Final picks: Lumen=sparkle,
 Vita=heartbeat, Arcanum=pentacle.
+
+## Three more aspects, 5 candidates each (material/energy set)
+compounds.py + compound-{vigor,gemma,aes}.png:
+- Vigor (energy #F2C230): bolt · bolt-in-circle · power core · charged cell · double bolt
+- Gemma (crystal #9FE6C9): cut gem · crystal cluster · emerald cut · crystal point · polished jewel
+- Aes (metal/ore #ADAFBC): ingot · anvil · ore chunk · cog · nugget cluster
+All three are light beds -> dark glyphs. Swapped Gemma hex-gem (blended with the
+hexagon backdrop) for an emerald cut; gave polished jewel real facets.
