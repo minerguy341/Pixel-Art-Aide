@@ -48,4 +48,18 @@ that free familiarity + tooling.
   arcane worktable, with a concrete recommendation.
 - Proposed lessons (user-gated) if any generalize.
 
-_Status: research fanned out; compiling on return._
+## Compiled (2026-07-20)
+- `findings.html` — 6 collapsible sections + recommendation card: (1) the stability contract,
+  (2) reuse family, (3) custom family table (TC4/6, Ars, Botania, Astral, Blood, Eidolon,
+  Occultism/Malum + Create/AE2/Tinkers/Mekanism contrast), (4) the 10 forcing functions,
+  (5) the JEI/REI parity bill, (6) checklist + smell tests.
+- `decision.md` — terse reuse / overlay / fully-custom checklist + T.N.A. verdict.
+
+**Verdict:** arcane worktable = **grid + arcane overlay** (Thaumcraft augment-don't-replace) —
+real 3×3 + result, a wand/focus slot, a ring of aspect/vis cost chips (appear-when-relevant,
+live-recompute, lock w/ "why" tooltip). Matches the 3×3-grid top texture; reuses the Orrery's
+menu+screen+sync stack + C2S-validation + data-components. Fully-custom reserved for genuinely
+non-grid shapes (infusion pedestal-ring, research node-graph, essentia columns).
+
+**2 candidate lessons proposed in decision.md — user-gated, NOT written to lessons.md yet.**
+_Status: compiled; awaiting review + lesson approval._

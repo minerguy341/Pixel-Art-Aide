@@ -1,0 +1,303 @@
+<meta charset="utf-8">
+<title>Workbench UI vs Custom UI — T.N.A. design study</title>
+<style>
+  :root{
+    --bg:#14121c; --panel:#1c1930; --chrome:#241b33; --edge:#332a4a;
+    --ink:#e8d9ff; --dim:#9a8cbf; --faint:#5f5876; --teal:#7fe8d8; --accent:#b99be0;
+    --good:#8fd8a0; --warn:#e0b070; --bad:#e08a8a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;padding:0 0 80px}
+  header{padding:34px 32px 22px;background:linear-gradient(180deg,#1c1930,#14121c);
+    border-bottom:1px solid var(--edge)}
+  h1{margin:0 0 6px;font-size:26px;color:#fff}
+  .sub{color:var(--dim);max-width:70ch}
+  .wrap{max-width:60rem;margin:0 auto;padding:0 24px}
+  .tension{margin:22px 0 6px;padding:16px 18px;background:#1a1728;border:1px solid var(--edge);
+    border-left:3px solid var(--teal);border-radius:8px}
+  .tension b{color:var(--teal)}
+  details{margin:12px 0;background:var(--panel);border:1px solid var(--edge);border-radius:8px;overflow:hidden}
+  summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:16px;color:#fff;
+    background:var(--chrome);list-style:none;display:flex;justify-content:space-between;align-items:center}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"▸";color:var(--accent);transition:transform .15s}
+  details[open] summary::after{transform:rotate(90deg)}
+  .body{padding:6px 20px 18px}
+  h3{color:var(--teal);margin:20px 0 6px;font-size:15px}
+  h4{color:var(--accent);margin:16px 0 2px;font-size:14px}
+  p{margin:6px 0}
+  ul{margin:6px 0 6px;padding-left:20px}
+  li{margin:4px 0}
+  code{background:#0f0d18;border:1px solid var(--edge);border-radius:4px;padding:1px 5px;
+    font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:#d8c8f5}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13.5px}
+  th,td{border:1px solid var(--edge);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:#0f0d18;color:var(--accent)}
+  td.keep{color:var(--good)}td.drop{color:var(--warn)}
+  .pill{display:inline-block;font-size:11px;padding:1px 7px;border-radius:10px;border:1px solid var(--edge);
+    color:var(--dim);margin-left:6px}
+  .rec{background:#161a1e;border:1px solid #2c5c53;border-left:3px solid var(--teal);
+    border-radius:8px;padding:18px 20px;margin:16px 0}
+  .rec h2{margin:0 0 8px;color:var(--teal);font-size:18px}
+  .smell{color:var(--bad)}
+  .foot{color:var(--faint);font-size:12px;margin-top:26px;border-top:1px solid var(--edge);padding-top:12px}
+  .cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:12px 0}
+  .card{background:#171426;border:1px solid var(--edge);border-radius:8px;padding:12px 14px}
+  .card h4{margin-top:0}
+  @media(max-width:720px){.cols{grid-template-columns:1fr}}
+</style>
+<header>
+  <div class="wrap" style="padding:0">
+    <h1>Workbench UI vs Custom UI</h1>
+    <div class="sub">A UX design study for T.N.A.'s <b>arcane worktable</b>: when to reuse
+    the vanilla crafting-grid screen (the one crafting tables never change) and when a custom
+    UI earns its keep. Idioms &amp; public docs only — no mod code or pixels used.</div>
+  </div>
+</header>
+<div class="wrap">
+
+  <div class="tension">
+    <b>The one tension.</b> "The crafting table never changes its UI" is a <b>stability
+    contract</b>, not laziness: recipes are matched server-side against the container, so the
+    3×3 screen can stay frozen forever while content grows without bound. Because slot indices
+    mean fixed things (0 = result, 1–9 = grid), <b>the recipe book, JEI/REI "+" auto-fill, and
+    shift-click all work for free</b>. Every step away from that standard shape buys expressive
+    power (cost meters, a wand slot, previews) and <b>costs you that free infrastructure</b> —
+    which you then owe by hand. The whole decision is: does my crafting concept truly need
+    shapes/axes the grid can't hold, and will I pay to rebuild the parity I'm discarding?
+  </div>
+
+  <details open>
+    <summary>1 · Why the crafting table never changes its UI (the contract)</summary>
+    <div class="body">
+      <p>Minecraft splits every container into a server-side <code>AbstractContainerMenu</code>
+      (which slots exist, quick-move, recipe resolution) and a client
+      <code>AbstractContainerScreen</code> (rendering only). <code>CraftingMenu</code> fixes the
+      layout: <b>index 0 = result, 1–9 = the 3×3 grid</b>, then inventory + hotbar. The player
+      inventory's 2×2 is the same shape minus the outer ring.</p>
+      <p>The UI is frozen <i>on purpose</i>:</p>
+      <ul>
+        <li><b>Recipes are decoupled from the screen.</b> Shaped, shapeless, and special recipes
+        are all matched by <code>RecipeManager</code> against the container. The screen never
+        knows which kind it is — it only shows "grid in, one result out." Adding a recipe never
+        touches the UI, so one screen renders every recipe that will ever exist.</li>
+        <li><b>One result slot, one behavior.</b> Taking the output runs fixed
+        <code>ResultSlot</code> logic; muscle memory transfers across every table-like block.</li>
+        <li><b>The recipe book plugs into a known shape</b> via <code>RecipeBookMenu</code> hooks
+        that address the grid by fixed indices.</li>
+      </ul>
+      <p>So invariance is a <b>guarantee</b>: because recipes, the recipe book, JEI/REI, and
+      quick-move all address a fixed slot shape, the screen can stay frozen while the game grows.
+      A player who learned the grid in 2011 still knows it.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>2 · The reuse family — mods that keep the grid, and why</summary>
+    <div class="body">
+      <p>These change <i>where/when/how-fast</i> you craft, not <i>how</i> — so they keep vanilla
+      <code>CraftingMenu</code> and inherit JEI, the recipe book, and quick-move for free.</p>
+      <ul>
+        <li><b>FastWorkbench / FastBench</b> — pure performance: caches the last matched recipe.
+        Not a UI mod at all; keeping the vanilla menu <i>is</i> the compatibility surface.</li>
+        <li><b>Crafting Station / Visual Workbench</b> — keep ingredients in the grid after close,
+        pull from neighbors, render on the block. The feature is <b>container behavior + world
+        render</b>, not slot layout.</li>
+        <li><b>Portable / backpack crafting</b> (Sophisticated Backpacks' Crafting Upgrade, etc.) —
+        open the ordinary 3×3 with no placed block. Changes context, not interaction.</li>
+        <li><b>Quark tweaks</b> — leave the screen vanilla, tweak behavior around it; touching the
+        screen would forfeit the recipe book + JEI hooks.</li>
+      </ul>
+      <h4>Instructive counter-example — Extended Crafting's Basic Table</h4>
+      <p>A 3×3 <i>visually</i>, but a <b>separate recipe pool</b> that rejects vanilla recipes —
+      to keep progression tiers from collapsing into vanilla. Proof that "3×3 grid shape" and
+      "vanilla recipe contract" are separable: it kept the shape for familiarity but broke the
+      contract on purpose, paying the compat cost knowingly (and scaling to 5×5/7×7/9×9 above).</p>
+      <p class="rec" style="border-color:#3a3550;border-left-color:var(--accent);background:#181528">
+      <b>Reuse is right when the feature is orthogonal to the interaction</b> — performance,
+      persistence, portability, neighbor-pulling, cosmetic variants. The tell: if it's expressible
+      as <i>container behavior</i>, keep the screen. The moment it needs new slots, new dimensions,
+      or new on-screen widgets, you're forced custom.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>3 · The custom family — what each UI <i>buys</i> over a grid</summary>
+    <div class="body">
+      <p><b>Magic workbenches</b> — the ones most relevant to us:</p>
+      <table>
+        <tr><th>Mod / station</th><th>Grid?</th><th>What it adds</th><th>What it buys</th></tr>
+        <tr><td><b>Thaumcraft 4/6 Arcane Workbench</b></td><td class="keep">keeps 3×3</td>
+          <td>wand slot + 6 primal vis-cost meters ringing the grid; still does vanilla crafts</td>
+          <td><b>The reference "augment don't replace."</b> A 2nd resource axis + validity gate
+          (wand vis, research-gating, cost modifiers) layered onto familiar crafting. Teaches by
+          addition — the 6 meters are the entire vis-economy onboarding. TC6 also draws chunk/aura
+          vis → crafting becomes <i>place-sensitive</i>.</td></tr>
+        <tr><td><b>Ars Nouveau</b> Spell Book</td><td class="drop">no grid</td>
+          <td>ordered glyph list (Form → Effects → Augments); live mana cost; 10 save slots</td>
+          <td>A combinatorial <b>sequence editor</b> — order &amp; adjacency carry meaning (a tiny
+          language). None of ordering, cost preview, or save-slots fits a 3×3.</td></tr>
+        <tr><td><b>Botania</b> Petal Apothecary / Runic Altar</td><td class="drop">in-world</td>
+          <td>throw petals in a basin; charge from mana spreaders over time</td>
+          <td>Diegetic + <b>natively automatable</b> (real dropped entities + mana). Trades away
+          discoverability → offloaded to the Lexicon.</td></tr>
+        <tr><td><b>Astral Sorcery</b> Starlight Altars</td><td class="keep">grid that grows</td>
+          <td>tiers add input slots (4→8); starlight fill state; crystal socket for constellation</td>
+          <td>A <b>charge resource</b> (sky/time/altitude-dependent) + <b>progression encoded as
+          slot count</b> + a per-craft config input.</td></tr>
+        <tr><td><b>Blood Magic</b> Altar / Hellfire Forge</td><td class="drop">1-input / ring</td>
+          <td>Life Essence drained over time; Forge = 4 inputs + center output + Tartaric Gem slot</td>
+          <td>A <b>consumable fuel axis</b> spent over time; the gem slot is Thaumcraft's wand idea
+          reskinned (a battery the recipe reads from).</td></tr>
+        <tr><td><b>Eidolon</b> Worktable / Crucible / Brazier</td><td>spectrum</td>
+          <td>soul-shard ingredient (grid-ish) · ordered crucible steps · in-world rituals</td>
+          <td>Picks the UI <b>per shape of mechanic</b> — near-vanilla when the only new thing is an
+          ingredient; sequence when order matters; in-world when it's a ritual, not an item.</td></tr>
+        <tr><td><b>Occultism / Malum</b></td><td class="drop">in-world</td>
+          <td>pentacle patterns + sacrificial bowls · altar with ring of item pedestals + spirits</td>
+          <td>Recipe = <b>spatial pattern in the world</b>; ceremonial + automatable; consumed
+          magical resource (spirits) as a distinct axis.</td></tr>
+      </table>
+      <p><b>Tech contrast</b> (same forcing functions, different flavor):</p>
+      <ul>
+        <li><b>Create Mechanical Crafter</b> — no screen; the <b>physical block layout IS the
+        recipe shape</b>, breaking the 3×3 ceiling.</li>
+        <li><b>AE2 Terminals</b> — grid fused with <b>network-wide search/scroll</b>; the Pattern
+        terminal <b>decouples "describe a recipe" from "perform" it</b> (arbitrary multi-output
+        processing recipes).</li>
+        <li><b>Tinkers' Construct</b> — <b>typed, role-named slots</b> ("head here, handle there")
+        + a buildable-item browser + live stat readouts. Assembly, not shape-matching.</li>
+        <li><b>Mekanism</b> — energy bar + secondary-buffer bar + progress arrow + side-config tabs.
+        Process machines, not craft-on-demand.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>4 · The forcing functions — what pushes a design off the grid</summary>
+    <div class="body">
+      <p>Every custom UI above clusters around a small set of things the 3×3 <i>structurally
+      cannot express</i>. A mod diverges when it needs one of:</p>
+      <div class="cols">
+        <div class="card"><h4>Resource axis</h4>A magical energy/fuel/power to <b>show and
+        spend</b> — vis, mana, starlight, essence, souls, RF. The grid is resourceless.</div>
+        <div class="card"><h4>Tool / battery slot</h4>A persistent object the craft draws
+        <b>from</b>, not <b>of</b> — wand, Tartaric gem, impetus.</div>
+        <div class="card"><h4>Cost / validity readout</h4>Show the price &amp; legality
+        <b>before commit</b>; reject illegal states; gate on research / tier / reputation.</div>
+        <div class="card"><h4>Non-grid shape</h4>Bigger than 3×3, ordered sequences where
+        position means something, or typed stat-bearing components.</div>
+        <div class="card"><h4>Time / charge</h4>Recipes that <b>accumulate</b> over ticks →
+        need a progress or fill display.</div>
+        <div class="card"><h4>Browse / search</h4>Network inventories, buildable-item lists,
+        upgrade tabs — navigation at scale.</div>
+        <div class="card"><h4>Not "item from shape"</h4>A ritual, transform, summon, or ward —
+        no grid metaphor applies.</div>
+        <div class="card"><h4>In-world payoff</h4>Externalizing to placed blocks/dropped items =
+        fiction + native automation + decoration (costs discoverability).</div>
+        <div class="card"><h4>Per-craft config</h4>A choice that isn't an ingredient — a mode
+        toggle, a constellation, side routing.</div>
+      </div>
+      <p>And a 10th that's really a side effect: <b>the UI doubles as the progression display</b>
+      — slot count, tabs, or tiers that visibly grow with advancement (Astral, Tinkers).</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>5 · The hidden bill — JEI/REI parity you throw away going custom</summary>
+    <div class="body">
+      <p>The most underestimated cost. What the vanilla-shaped grid gives free vs what breaks:</p>
+      <table>
+        <tr><th>Capability</th><th>Vanilla grid</th><th>Custom menu</th></tr>
+        <tr><td>Recipes appear in JEI/REI</td><td class="keep">free (vanilla Crafting category)</td>
+          <td class="drop">invisible until you write a plugin</td></tr>
+        <tr><td>"+" recipe transfer / auto-fill</td><td class="keep">free (built-in handler)</td>
+          <td class="drop">dies — extra/ghost slots unrecognized; write <code>IRecipeTransferHandler</code></td></tr>
+        <tr><td>Vanilla recipe book</td><td class="keep">free via <code>RecipeBookMenu</code></td>
+          <td class="drop">gone unless you re-implement its hooks</td></tr>
+        <tr><td>Shift-click / quick-move</td><td class="keep">inherited conventions</td>
+          <td class="drop">hand-write <code>quickMoveStack</code> without duping</td></tr>
+        <tr><td>Universal mod-recipe compat</td><td class="keep">any datapack recipe just works</td>
+          <td class="drop">your recipe type only, plus a catalyst registration</td></tr>
+      </table>
+      <p><b>To restore parity you owe, realistically:</b> a JEI plugin <i>and</i> an REI plugin,
+      a recipe <b>category</b> (draws the cost/aspects in the lookup panel), a
+      <b>transfer handler</b> (for ghost/battery slots, that means a <b>validated C2S packet</b> —
+      client viewers can't move server items), and <b>catalyst registration</b>. Budget that as
+      part of the "go custom" decision, not a nice-to-have follow-up.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>6 · The decision checklist + smell tests</summary>
+    <div class="body">
+      <h3>Reuse the vanilla grid IF</h3>
+      <ul>
+        <li>Crafting is genuinely 3×3 shaped/shapeless with no cost the player must see.</li>
+        <li>You want recipe-book + JEI/REI auto-fill free, zero plugin work.</li>
+        <li>The "magic" is in the ingredients &amp; outputs, not the act of crafting.</li>
+        <li>No new per-craft resource axis, no non-grid shape, no preview step.</li>
+      </ul>
+      <h3>Add an arcane overlay (grid + readout) IF <span class="pill">default for an arcane workbench</span></h3>
+      <ul>
+        <li>Still grid-shaped, but a <b>cost/requirement</b> (vis/aspects) must be shown and can
+        gate the craft.</li>
+        <li>A <b>non-consumed tool</b> (wand/focus) participates without joining the recipe.</li>
+        <li>You want the arcane fantasy legible while keeping muscle memory + most parity.</li>
+        <li>The new mechanic is a <i>modifier on grid crafting</i> — chips/bars/labels around an
+        unchanged grid.</li>
+      </ul>
+      <h3>Go fully custom IF (need ≥1) — <i>and</i> you've budgeted the full stack</h3>
+      <ul>
+        <li>The recipe <b>shape</b> isn't a grid (radial, node-graph, pedestal-orbit, sequential).</li>
+        <li>A resource axis must be <b>interactively manipulated</b>, not just displayed.</li>
+        <li>Validity/cost is a <b>live-recomputing feedback surface</b> central to the interaction.</li>
+        <li>You need <b>search/category browsing</b> of a large set (research tree, spell builder).</li>
+        <li>You need <b>preview-then-commit</b>.</li>
+      </ul>
+      <h3 class="smell">Smell tests — signs you picked wrong</h3>
+      <ul>
+        <li class="smell"><b>Reskin sin:</b> your custom screen is a 3×3 with a prettier background
+        and nothing else → you broke the recipe book + "+" for zero gain. Revert to grid/overlay.</li>
+        <li class="smell">Can't name the mechanic the grid couldn't hold in one sentence → don't go custom.</li>
+        <li class="smell">Recipe JSON grew parallel fields (cost, aspects, tool) explained in the
+        tooltip/wiki instead of the UI → the mechanic wants an <b>overlay</b>.</li>
+        <li class="smell">Cost readout only updates on reopen → you're not recomputing on slot
+        change / not syncing.</li>
+        <li class="smell">A failed craft gives no reason → add the "why" tooltip.</li>
+        <li class="smell">Empty arcane slots look identical to grid slots → add ghost hints/labels.</li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="rec">
+    <h2>Recommendation for the T.N.A. arcane worktable</h2>
+    <p><b>Grid + arcane overlay — augment, don't replace.</b> Keep a real vanilla-shaped 3×3 +
+    result slot (so vanilla recipes work and JEI/recipe-book largely survive), then decorate the
+    frame with exactly the two things Thaumcraft's Arcane Workbench added:</p>
+    <ul>
+      <li>A <b>wand/focus slot</b> off to the side, with a ghost-wand hint in the empty state.</li>
+      <li>A <b>ring of aspect/vis cost chips</b> that <b>appear only when the recipe needs them</b>
+      and live-recompute on every slot change; the result slot locks (with a "why" tooltip —
+      "Requires 12 Vis, chunk has 4") when unaffordable.</li>
+    </ul>
+    <p>This matches the <b>3×3 grid top face we just shipped</b> in the texture pass — the block's
+    exterior and its screen now tell the same story. It also reuses what the repo already has:
+    the <b>Arcane Orrery's</b> menu+screen+sync stack, the dark-purple UI palette
+    (<code>0xF0100A18</code> / <code>0xE8D9FF</code>), the <b>C2S-validation</b> checklist for the
+    craft packet, and <b>data-components</b> for wand vis / research state.</p>
+    <p><b>Deliberately NOT fully custom for the worktable</b> — a bespoke screen that's just a
+    reskinned grid is the cardinal sin. Reserve fully-custom for the systems that are genuinely a
+    different <i>shape</i>: <b>infusion</b> (central pedestal + orbiting input pedestals, in-world),
+    the <b>research web</b> (node-and-line browser, search), and <b>essentia</b> handling
+    (fill columns + tier trim). Those earn their custom UIs; the crafting worktable does not.</p>
+  </div>
+
+  <p class="foot">Study compiled from three research passes (vanilla-reuse family · custom
+  arcane/tech family · UX decision framework), public wikis/docs only, no mod code or pixels used.
+  Grounded against this repo's <code>minecraft-ui-design</code>, <code>minecraft-c2s-validation</code>,
+  and <code>minecraft-data-components</code> skills. See <code>decision.md</code> for the terse
+  checklist and <code>NOTES.md</code> for session framing.</p>
+
+</div>
