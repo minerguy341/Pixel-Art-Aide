@@ -720,3 +720,84 @@ one-off). Durable rules folded into shading.md → "GUI icons & glyphs".
 - Rule: check every GUI icon at its ACTUAL sizes (16–64px) on BOTH a dark and a
   light background before shipping. (Extends "judge at 1×" to variable GUI
   backgrounds.) [folded into shading.md]
+
+---
+
+# Mod-study lessons — 2026-07-20 (38-mod design study, applied)
+
+All 9 **approved by the user**. Distilled from the mod design study
+(`gallery/2026-07-20-mod-design-study/`, idioms only — no mod pixels) and applied
+in the greatwood/silverwood wood-sets + the arcane-casing apparatus prototype.
+Craft-applicable ones folded into shading.md.
+
+## 2026-07-20 — wood-set completion = plank + few new faces + vanilla parents
+- Rule: to complete a wood set, author only the plank texture + the ~4–5
+  genuinely-new faces (door top/bottom, trapdoor, sign, boat, crafting-table);
+  UV-map the plank through VANILLA PARENT models for every shape
+  (stairs/slab/fence/gate/button/pressure-plate) — no new pixels there; bind the
+  family with ONE shared iron hardware ramp, invariant across woods (the accent is
+  the brand, the wood is the variable). [folded into shading.md]
+- Source: Framed/Macaw's/Supplementaries; applied to greatwood+silverwood.
+
+## 2026-07-20 — arcane apparatus grammar: neutral material + framed panel + one emissive core
+- Rule: magic apparatus blocks are a restrained NEUTRAL material (cool dressed
+  arcane stone / brass), framed with a recessed panel + beveled rim + corner
+  rune-studs, and carry a SINGLE emissive core (teal glint / aspect hue) marking
+  active/charged — the only saturated thing on the block. Distinguish from Create
+  by MATERIAL, not by copying its brass. Tier = engraved-rune density, not new
+  palette; anchor progression with one hero altar. [folded into shading.md]
+- Source: Create/Mekanism/Embers/Astral/F&A; applied to the arcane-casing proto.
+
+## 2026-07-20 — effects: one neutral sprite recolored per aspect, sparse & lifetime-driven
+- Rule: author ONE neutral white-hot soft POT sprite and recolor it at runtime by
+  a per-aspect colour-over-lifetime gradient (hot core → aspect hue → clear tail) +
+  a size curve (grow→peak→shrink) + alpha blink for shimmer, under bloom — never
+  per-aspect hand-painted sheets. Motes stay SPARSE, SLOW, context-gated (density =
+  aura strength); wander/arc, never straight lines; beams/wisps are fading TRAIL
+  ribbons, not particle spam. [folded into shading.md]
+- Source: Photon/Particular/Effective/Malum/Embers.
+
+## 2026-07-20 — container readout: glass column + tier trim + fill-bar primitive
+- Rule: a reagent/essentia container reads coarse-to-fine — a glass/liquid COLUMN
+  on the block shows fill height + aspect colour; a thin METAL tier-trim ring
+  encodes tier (copper→netherite ramp), kept as a separate layer from the aspect
+  tint; exact amount lives in a reusable fill-bar tooltip primitive + comparator.
+  Reserve a recessed inset panel as the "contents" area. [folded into shading.md]
+- Source: Crystal Chest/Storage Drawers/Sophisticated Storage/Jade.
+
+## 2026-07-20 — framed-relic item idiom
+- Rule: arcane relic/focus/charm items read "precious & magical" at 16px via a
+  bright metal RIM enclosing a dark arcane CORE + 1–2 hyper-saturated accent
+  pixels for glow (not full-sprite emissivity). Class by silhouette: framed/round =
+  charm, jagged shard = fragment, clasp-book = tome/focus. [folded into shading.md]
+- Source: Reliquary.
+
+## 2026-07-20 — block-as-stage for workstations
+- Rule: a workstation/apparatus surface that displays an item is a plain,
+  LOW-CONTRAST stage whose job is to frame the in-world item render — don't
+  over-decorate it. Encode process state as a SINGLE swappable quad (a broth disc,
+  a glowing grate, a fill layer), not a whole-block repaint. [folded into shading.md]
+- Source: Farmer's Delight.
+
+## 2026-07-20 — systematic family completion + palette-by-re-lay
+- Rule: when adding an arcane material, ship its FULL vanilla derivative set
+  (block/slab/vertical-slab/stairs/wall/post) or it reads unfinished; expand a
+  palette by RE-LAY (herringbone/mosaic/timber-frame/brick of the same ramp), not
+  by new hue; group decorative variants under one base + a picker, not N recipes.
+- Source: Quark/Blockus/Rechiseled.
+
+## 2026-07-20 — themed-biome lighting key
+- Rule: a themed biome/dimension commits to ONE lighting key; biomes deviate in
+  HUE, not value structure. Taint/eldritch = near-monochrome dark base + ONE
+  emissive accent ("taint gleam") as the only real light, with a whole block
+  family derived from one corrupted stone; reserve one hyper-saturated palette as
+  the "special grove" payoff (silverwood grove = the bright exception).
+- Source: Twilight Forest/Deeper&Darker.
+
+## 2026-07-20 — creature = material-ramp identity + one emissive cue + state lifecycle
+- Rule: build a creature's whole texture from ONE core-material value ramp
+  (silverwood/brass/thaumium/taint-crystal); give it exactly ONE emissive cue
+  (glowing eyes / socketed arcane core) as the alive/charged tell, everything else
+  matte; express charge/corruption as a discrete state-driven colour lifecycle over
+  a fixed silhouette; keep chunky vanilla proportions + one signature feature.
+- Source: Friends&Foes/Cataclysm/Alex's/Mowzie's.

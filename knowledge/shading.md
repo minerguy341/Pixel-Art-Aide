@@ -166,6 +166,15 @@ Deriving a wood family's blocks from one plank ramp (studied across 25 woods):
   foliage-coloured sprout on a thin wood-brown stem; inherits the species/leaf
   identity.
 
+**Completing a wood set** (applied to greatwood/silverwood): author only the
+plank + the ~4–5 genuinely-new faces (door top/bottom, trapdoor, sign, boat,
+crafting-table); **UV-map the plank through vanilla parent models** for every
+shape (stairs/slab/fence/gate/button/pressure-plate) — no new pixels there. Bind
+the family with **one shared iron hardware ramp**, invariant across woods (the
+accent is the brand, the wood is the variable). Grain on doors/trapdoors is RUNS
+(3px+) along the plank, never per-pixel noise. Generator: wood-set gallery
+`make_woodset.py` + `woodset_models.py`.
+
 ## Multi-shape blocks (stairs, slabs, walls, fences)
 
 - These author **no new texture** — they sub-sample the parent block's
@@ -346,6 +355,29 @@ role, never copy pixels). Applies when authoring for the `thaumaturgy` style.
   glowing-outlined glyphs legible at 16px.
 - Encode **order-vs-chaos in noise level**: clean/symmetric for civilised
   magic, veiny/asymmetric for corruption.
+
+**Apparatus / container / relic / effect grammar** (from the 38-mod study,
+2026-07-20 — idioms only):
+- **Apparatus block** = restrained NEUTRAL material (cool dressed arcane stone /
+  brass) + framed recessed panel + corner rune-studs + a **single emissive core**
+  (teal glint / aspect hue) for active/charged — the only saturated thing.
+  Distinguish from Create by *material*, not brass. Tier = engraved-rune density,
+  not new palette; anchor with one hero altar. Proto: apparatus-proto gallery.
+- **The block IS the gauge**: show resource in the block (rising fluid level,
+  filling glow, bubbling+steam over a fire block) so cost is visible.
+- **Container** (essentia jar) = glass/liquid COLUMN showing fill height + aspect
+  colour, a thin metal tier-trim ring (separate layer from aspect tint), a
+  recessed inset "contents" panel; exact amount → a reusable fill-bar tooltip +
+  comparator.
+- **Relic/focus item** = bright metal RIM + dark arcane CORE + 1–2 hyper-saturated
+  accent pixels (not full emissivity); class by silhouette (round=charm,
+  jagged=fragment, clasp-book=tome).
+- **Workstation = a stage**: plain low-contrast surface framing the in-world item
+  render; process state = a SINGLE swappable quad, not a whole-block repaint.
+- **Effects**: ONE neutral white-hot soft POT sprite recolored at runtime by a
+  per-aspect colour-over-lifetime gradient (hot core → aspect hue → clear) + size
+  curve + alpha blink; motes sparse/slow/context-gated, wander not straight;
+  beams/wisps as fading trail ribbons.
 
 ## Animated, mod, and pack specifics
 
