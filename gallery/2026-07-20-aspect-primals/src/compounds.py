@@ -6,7 +6,7 @@ docs/aspects.md. Run via previews/compound_sheets.py.
 import math, sys
 sys.path.insert(0, "gallery/2026-07-20-aspect-primals/src")
 from make_aspects import (backdrop_canvas, _poly, _stroke, _stroke_sharp,
-                          scale_about, N)
+                          scale_about, N, hx, to_hsv, hsv)
 
 CX = CY = 31.5
 
@@ -282,6 +282,49 @@ def gem_toptilt_flat(d, f, k):   # more top-down (shallower body)
 
 def gem_toptilt_deep(d, f, k):   # a touch more side showing
     gem_toptilt(d, f, k, cy=23, ry=8, culet=51)
+
+# ---- Aes: isometric ingots (3-face shaded mini-render, not a flat glyph) ----
+def _metal_shades(code):
+    h, s, _ = to_hsv(hx(code))
+    return (hsv(h, s*0.55, 0.56),   # top  (lit)
+            hsv(h, s*0.75, 0.38),   # left / south face
+            hsv(h, s*0.85, 0.24),   # right / east face
+            hsv(h, min(1, s), 0.09))  # edge outline
+
+def _iso_box(d, ox, oy, W, D, H, s, top, left, right, edge):
+    def P(x, y, z): return (ox + (x-z)*s, oy + (x+z)*s*0.5 - y*s)
+    south = [P(0, 0, D), P(W, 0, D), P(W, H, D), P(0, H, D)]     # screen-left face
+    east = [P(W, 0, 0), P(W, H, 0), P(W, H, D), P(W, 0, D)]      # screen-right face
+    topf = [P(0, H, 0), P(W, H, 0), P(W, H, D), P(0, H, D)]      # top face
+    for poly, col in ((south, left), (east, right), (topf, top)):
+        d.polygon(poly, fill=col, outline=edge)
+
+def iso_single(code):
+    im, d, _, _ = backdrop_canvas(code)
+    t, l, r, e = _metal_shades(code)
+    _iso_box(d, 24, 27, 17, 10, 6, 1.7, t, l, r, e)
+    return im
+
+def iso_wide(code):
+    im, d, _, _ = backdrop_canvas(code)
+    t, l, r, e = _metal_shades(code)
+    _iso_box(d, 20, 26, 21, 8, 5, 1.6, t, l, r, e)               # longer, flatter bar
+    return im
+
+def iso_pair(code):
+    im, d, _, _ = backdrop_canvas(code)
+    t, l, r, e = _metal_shades(code)
+    _iso_box(d, 25, 20, 15, 9, 5, 1.6, t, l, r, e)
+    _iso_box(d, 23, 31, 15, 9, 5, 1.6, t, l, r, e)
+    return im
+
+def iso_stack(code):
+    im, d, _, _ = backdrop_canvas(code)
+    t, l, r, e = _metal_shades(code)
+    _iso_box(d, 15, 32, 13, 8, 5, 1.55, t, l, r, e)             # bottom-left
+    _iso_box(d, 33, 26, 13, 8, 5, 1.55, t, l, r, e)             # bottom-right
+    _iso_box(d, 24, 20, 13, 8, 5, 1.55, t, l, r, e)             # top
+    return im
 
 # ---- Aes: ingot options, round 2 (researched real ingot shapes) ----
 def _goldbar(d, cx, cy, w, f, k, stamp=True):

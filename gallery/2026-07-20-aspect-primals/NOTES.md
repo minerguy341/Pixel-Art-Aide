@@ -168,3 +168,12 @@ hexagon backdrop) for an emerald cut; gave polished jewel real facets.
   boat ingot). 5 candidates in compound-aes2.png: gold bar (bullion, 3/4 with
   stamp) · stacked bars · sycee (boat ingot, swept ends + knob) · flat bar
   (vanilla-ish) · cast loaf. Sources: Sycee (Wikipedia), bullion bar refs.
+
+## Aes isometric ingots (user: "maybe an isometric angle?")
+Added a small iso-box renderer (_iso_box) + _metal_shades deriving a 4-tone metal
+ramp (top lit / left mid / right dark / edge) from the aspect code. 4 candidates
+(iso_single, iso_wide, iso_pair, iso_stack ×3) in compound-aes-iso.png. These are
+a deliberate exception to the flat 2-tone glyph system — a metal ingot reads far
+better as a 3-face shaded mini-render (same reasoning as Flamma's hot core). The
+earlier flat aes_iso failed because 2 tones can't separate 3 faces; this fixes it
+with real face values. Holds down to ~20px (stack strongest).
