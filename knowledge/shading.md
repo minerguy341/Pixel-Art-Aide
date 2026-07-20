@@ -151,6 +151,21 @@ canvas with a 1px margin; 11 leaves room for glow/outline effects.
   what says "leaves"; ~8% holes reads as a solid green cube. Scatter per-cell,
   not in blobs; break up any 2×2 fully-transparent block.
 
+## Wood-derived blocks (how far the wood identity reaches)
+
+Deriving a wood family's blocks from one plank ramp (studied across 25 woods):
+
+- **Door / trapdoor** ≈ the plank ramp near-verbatim (~90%) + a small hardware
+  accent (handle/hinge). Full door geometry is 3 × 16 × 32 (two 16×16 halves,
+  `door_bottom`/`door_top`); preview with `aide.modelrender.render_door`.
+- **Crafting table**: front = wood base + a tool/saw motif (~30% new colour);
+  top is a free choice (woody grid or a dark non-wood grid overlay).
+- **Bookshelf**: ~50% wood (the shelf frame) + book spines from a SEPARATE
+  bright accent palette, not the wood.
+- **Sapling**: rides the **leaf** colour (~75%), not the plank (~46%) — a
+  foliage-coloured sprout on a thin wood-brown stem; inherits the species/leaf
+  identity.
+
 ## Multi-shape blocks (stairs, slabs, walls, fences)
 
 - These author **no new texture** — they sub-sample the parent block's

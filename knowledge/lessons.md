@@ -533,3 +533,30 @@ data only, no BWG pixels committed.
   it hides the greens under the most common bloom (BWG bushes read "all purple"
   only because 13 of 23 are jacaranda-family blooms).
 - Source: BWG bush/flower split analysis (user caught the purple artefact)
+
+## 2026-07-19 — door/trapdoor ≈ the plank ramp near-verbatim
+- Rule: a wood's door and trapdoor are ~90% its plank palette (doors avg 91%,
+  most 95-100%) — recolour the planks and add only a small hardware accent
+  (handle/hinge). The most wood-faithful derived block.
+- Source: BWG furniture set (25 woods)
+
+## 2026-07-19 — crafting table = wood base + tool motif; top is the wildcard
+- Rule: the crafting-table FRONT keeps ~71% wood under a saw/grid graphic (a
+  ~30% non-wood tool motif); the TOP is bimodal — either a woody grid (~100%)
+  or a dark non-wood grid overlay (~5-20%). Front is consistent; the top is a
+  free design choice. (Our arcane worktable = wood + brass/aetherium accent fits.)
+- Source: BWG furniture set
+
+## 2026-07-19 — bookshelf = plank frame + independent book-spine accent set
+- Rule: a bookshelf is only ~50% the wood (the shelf frame); the other half is
+  book spines whose bright colours are a SEPARATE accent palette, not drawn
+  from the wood. Author the frame from the plank ramp, the books from their own
+  set. (T.N.A.: greatwood frame + colourful codex/tome spines.)
+- Source: BWG furniture set
+
+## 2026-07-19 — sapling rides the LEAF colour, not the plank
+- Rule: a sapling is ~75% its leaf palette and only ~46% its plank palette — a
+  foliage-coloured sprout on a thin wood-brown stem. It reads as the young
+  tree's leaves, so it inherits the leaf/species identity, not the wood.
+  Reinforces "leaf colour is the independent species axis".
+- Source: BWG sapling set (25 woods)

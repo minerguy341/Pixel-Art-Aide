@@ -156,10 +156,10 @@ HTML = f"""<!doctype html><html lang="en"><head>
 </section>
 
 <section>
-  <div class="pending cand">
-    <p class="kicker" style="color:var(--brass)">Proposed — pending your approval</p>
-    <h2>Candidate lessons</h2>
-    <p class="note" style="color:var(--brass)">↳ From the broad study. Approve any and they’ll join knowledge/lessons.md &amp; shading.md. Nothing here is committed yet.</p>
+  <div class="pending">
+    <p class="kicker" style="color:var(--accent-2)">Adopted into the knowledge base</p>
+    <h2>Lessons</h2>
+    <p class="note" style="color:var(--accent-2)">✓ All 9 lessons from this study — the 5 broad-study findings below plus the 4 wood-furniture findings in §05 — are approved and written to knowledge/lessons.md, with the operational rules folded into shading.md.</p>
     <ol>{cand}</ol>
   </div>
   <div class="policy" style="margin-top:22px">
