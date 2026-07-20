@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_left",
+  "textures": {
+    "top": "new_age_thaum:block/greatwood_door_top",
+    "bottom": "new_age_thaum:block/greatwood_door_bottom"
+  }
+}

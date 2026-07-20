@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "new_age_thaum:block/greatwood_planks",
+    "top": "new_age_thaum:block/greatwood_planks",
+    "side": "new_age_thaum:block/greatwood_planks"
+  }
+}

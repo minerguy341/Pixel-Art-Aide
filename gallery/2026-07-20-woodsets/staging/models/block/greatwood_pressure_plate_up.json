@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/pressure_plate_up",
+  "textures": {
+    "texture": "new_age_thaum:block/greatwood_planks"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_side",
+  "textures": {
+    "texture": "new_age_thaum:block/greatwood_planks"
+  }
+}

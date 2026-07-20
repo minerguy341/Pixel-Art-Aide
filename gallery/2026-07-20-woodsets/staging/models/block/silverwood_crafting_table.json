@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "new_age_thaum:block/silverwood_crafting_table_front",
+    "down": "new_age_thaum:block/silverwood_planks",
+    "up": "new_age_thaum:block/silverwood_crafting_table_top",
+    "north": "new_age_thaum:block/silverwood_crafting_table_front",
+    "south": "new_age_thaum:block/silverwood_crafting_table_side",
+    "east": "new_age_thaum:block/silverwood_crafting_table_side",
+    "west": "new_age_thaum:block/silverwood_crafting_table_front"
+  }
+}

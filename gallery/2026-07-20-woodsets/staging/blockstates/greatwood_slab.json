@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "new_age_thaum:block/greatwood_slab"
+    },
+    "type=double": {
+      "model": "new_age_thaum:block/greatwood_planks"
+    },
+    "type=top": {
+      "model": "new_age_thaum:block/greatwood_slab_top"
+    }
+  }
+}

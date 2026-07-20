@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "new_age_thaum:block/greatwood_pressure_plate"
+    },
+    "powered=true": {
+      "model": "new_age_thaum:block/greatwood_pressure_plate_down"
+    }
+  }
+}
