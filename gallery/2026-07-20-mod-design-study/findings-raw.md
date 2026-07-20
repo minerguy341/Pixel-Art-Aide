@@ -149,3 +149,108 @@ Since 1.20.5+, GUI textures are individual sprites under `assets/<ns>/textures/g
 > live cost readout for the Arcane Worktable/vis display; JEI/REI's filterable
 > slot-grid + prefix search for browsing aspects; Jade's nine-slice info card
 > with stacked typed rows for arcane tooltips. All on 1.21 nine-slice sprites.
+
+<!-- ============ BATCH 2 ============ -->
+# CATEGORY: Magic — celestial / occult / witchcraft (batch 2)
+
+## Astral Sorcery
+**Meta.** Celestial/starlight magic — marble apparatus family, constellation Journal UI, starlight beam/particle effects. ~10^7 (~70M+ CF). License: **All Rights Reserved** (assets off-limits).
+**Techniques.** Cool desaturated palette: bluish-white marble (raw/chiseled/engraved/runed/pillar) as the structural family, offset by cyan/teal starlight glow + gold-amber crystal. 16x; the marble family reads as one apparatus set via shared base stone + escalating engraved-rune overlays — tier legibility from carving density, not new palette. Celestial altars are multiblocks (Luminous→Starlight→Celestial→Iridescent), each ringing the core with pillars + floating relays. Cosmic mood carried by EMISSIVE rendering: vertical starlight beams, drifting sparkles, rotating constellation glyphs. Journal = hand-drawn parchment sky-atlas; constellations are dot-and-line line art you trace to discover.
+**Takeaways.** (1) One neutral base stone + escalating engraved-rune overlays = legible tiered-apparatus family without palette sprawl. (2) Push celestial mood into emissive/particle layers, keep blocks restrained. (3) Constellation UI as node-and-line line art on parchment — a superb model for the aspect/research web. (4) Multiblock altars ringed by pillars + relays make progression read spatially.
+**Signature.** The hand-drawn constellation Journal — dot-and-line celestial glyphs you trace to unlock; research as intimate sky-cartography.
+
+## Blood Magic
+**Meta.** Visceral/sacrificial — filling Blood Altar, Blood-Rune tiers, floor-glyph rituals, sigils/Living Armor. ~10^8 (~108M CF). License: **CC BY 4.0** (attribution-permissive; still study-only per policy).
+**Techniques.** Warm grim palette: arterial reds, blackened iron, bone/ash grey, demonic teal-green (Demon Will) as a second-resource accent. 16x. The Blood Altar's interior RED FLUID LEVEL RISES with stored LP — a live gauge built into the block via dynamic liquid render, with drain particles + failure smoke. Tiers grow pyramidally: rings of Blood Runes (dark stone tile + inscribed blood-red glyph) so power reads as an expanding engraved footprint. Rituals = Master Ritual Stone + patterned stones laid as floor sigils. Disciplined red-on-black + one accent.
+**Takeaways.** (1) A live fluid-level gauge inside the altar turns the block into a resource readout — steal for a crucible/altar. (2) Inscribed glyph-runes tiled around a core convey tier as an engraved footprint. (3) Floor-laid glyph arrangements make rituals legible top-down. (4) A disciplined 2-colour story sells "visceral" like Astral's blue-on-white sells "cosmic".
+**Signature.** The blood-filling altar basin — dynamic liquid render that doubles as a live resource gauge.
+
+## Eidolon: Repraised
+**Meta.** Dark alchemy/necromancy (port of Elucent's Eidolon). ~10^7 (~9M CF). License: **LGPL-3.0** (permissive for study).
+**Techniques.** Low-sat near-vanilla 16px, grimdark palette — desaturated greys, bone-ivory, cold blues, sickly greens vs candle-warm accents. Sells occult through gloom + a few glowing focal pixels, not hue variety. Apparatus reads as a shabby-Gothic alchemist's study: Wooden Worktable (recipe overlay), a Crucible heated by a fire block below (bubbling, steam), a Brazier/Effigy/Altar ritual cluster emitting particle chants. Codex = hand-drawn tome with rune diagrams. Signature ambiance: floating soul-glyph particles, purple/green wisps, glowing sigils drawn mid-air during chants.
+**Takeaways.** (1) Heat-from-below crucible: a block whose glow/bubbling reacts to an adjacent fire block — cheap legible research apparatus. (2) Emissive sigil/rune particles drawn in-air are the whole arcane read. (3) Muted grimdark base + a single warm candle accent per block. (4) Codex with hand-drawn rune plates sets tone.
+**Signature.** Mid-air glowing glyph particle chants as the ritual's visual payload.
+
+## Forbidden & Arcanus
+**Meta.** Gothic dark-magic content/deco (explicitly Thaumcraft-inspired). ~10^7–10^8 (~66.7M CF). License: **All Rights Reserved** (assets look-study only).
+**Techniques.** The cleanest "finished-AAA" texturing here — crisp 16px, tight high-contrast edges, richly saturated arcane accents (deep purples, gold Deorum, ember-orange, dark polished stone). Grammar is arcane-gothic: Polished Darkstone masonry set (chiseled/pillar/tile) + glowing Arcane Crystal blocks + the Arcane Crystal Obelisk. Centerpiece Hephaestus Forge = large multi-tier ritual altar, a strong hero-block silhouette. Edelwood = a gnarled dark tree with a full tool/wood set. Glow used sparingly but punchily.
+**Takeaways.** (1) A cohesive cut-darkstone masonry family (base/chiseled/pillar/polished/tiled) = instant arcane-gothic vocabulary. (2) One hero ritual-altar block with a bold silhouette anchors progression. (3) A named exotic wood with a full set makes the mod feel like a material, not a gadget pack. (4) Reserve saturated glow for crystal/reagent focal blocks.
+**Signature.** The tiered hero-altar (Hephaestus Forge) as a single visually dominant crafting monument.
+
+## Hexerei
+**Meta.** Cozy witchcraft / cottage-magic. ~10^7 (~26.4M CF). License: **MIT** (+ note in LICENSE.txt; confirm per-asset). Study-friendly.
+**Techniques.** Warmest "cozy-occult" register: 16x, homey woody browns (Willow/Mahogany), sage greens, dried-herb ochres, candle-yellow. Soft shading, clutter-friendly props. Witch-cottage aesthetic from decorative density: colored Candles that MELT through visible burn stages, Herb Jars (drawer storage, contents on the label), hanging dried herbs, coffers, crystals, a Mixing Cauldron brew station. Broomstick traversal; Book of Shadows takes its cover colour from the dye used to craft it. Gentle glow (candle flicker, cauldron particles).
+**Takeaways.** (1) Multi-stage "consumable state" blocks (melting candles) add life cheaply — model for burning reagents/incense. (2) Label-front storage jars that display contents = functional + decorative reagent shelving. (3) A dense kit of small decor props makes a space feel inhabited. (4) Tint-on-craft covers / dyeable items give ownership.
+**Signature.** State-driven decorative props (candles that melt across visible stages) — living ambiance from block-state textures.
+
+# CATEGORY: Decorative — texture-variant & furniture (batch 2)
+
+## Rechiseled
+**Meta.** Decorative block-variant / chisel mod (SuperMartijn642). ~10^7. License: **All Rights Reserved** (Extras pack GPLv2).
+**Techniques.** One base block → a family of decorative tiles picked in a chiseling GUI, via tag-like "chiseling recipes" that auto-merge across packs. Each variant ships plain AND connecting-texture forms (tiles cut from one sheet, auto-selected by neighbour state; connection carries across full/stair/slab). Detail-density stays vanilla: variants are re-cuts, bevels, brick coursing, offset grids of the SAME palette — never new hues, only new geometry/layout.
+**Takeaways.** (1) Group arcane variants under one base + a picker, not N recipes. (2) Author each variant as a re-cut of the base palette (brick/tile/herringbone/panel) — no new colours. (3) Offer plain + connecting versions of large-motif tiles; design the connecting set as one sheet. (4) Make connection span full/stair/slab.
+**Signature.** Connecting-texture tiles cut from a single sheet, keyed by neighbours, sharing the base palette.
+
+## Blockus
+**Meta.** Block/material-expansion. ~10^7 (~9.3M CF). License: **LGPL-3.0**.
+**Techniques.** Two moves. (1) Palette expansion by LAYOUT not hue: Herringbone Planks, Timber Frames, Mosaics for every wood — same plank palette rearranged into new tiling motifs, shipped as first-class blocks. (2) Coherent new-material families: new bases (Viridite, limestone/marble-like) each built out to the FULL shape matrix (block/stairs/slab/wall/pillar) so they feel vanilla-complete. Tight 3–5 value ramps, low busyness matching vanilla, seamless 16px motifs; stonecutter recipes reinforce "one source, many cuts".
+**Takeaways.** (1) For a new arcane material, ship the WHOLE shape matrix or it reads unfinished. (2) Add herringbone/mosaic/timber-frame relays of our woodset — new motif, same plank ramp. (3) Keep each material to a 3–5 value ramp at vanilla busyness. (4) Gate variants behind stonecutter-style recipes.
+**Signature.** Motif re-lays (herringbone/mosaic/timber frame) that expand a palette by rearrangement, not recoloring.
+
+## Handcrafted
+**Meta.** Furniture/decoration (Terrarium, makers of Chipped). ~10^7 (~19.9M Modrinth — top furniture mod). License: **Terrarium Licence** (custom; treat as ARR).
+**Techniques.** 250+ pieces built from small reusable ELEMENT MODELS, not unique art per piece. A chair = a few box elements (legs/seat/back) skinned with the existing plank texture of a wood — one model auto-generates the full woodset by swapping material. Axis-aligned box UVs onto plank/log atlases so grain reads on legs/rails; detail is silhouette-driven (chunky legs, thin backs), vanilla density. Cushions/sheets are separate DYEABLE overlay layers.
+**Takeaways.** (1) Build furniture from a small library of shared box elements; instantiate the whole woodset by swapping our plank texture — author planks once. (2) Keep box UVs axis-aligned onto the plank/log atlas so grain flows; don't paint bespoke furniture textures. (3) Model detail in silhouette, not texel busyness. (4) Add a dyeable overlay layer (cushions/cloth) for recolor without new models.
+**Signature.** One parametric element-model skinned by material — the whole woodset of a piece falls out of a single model + our plank texture.
+
+# CATEGORY: Themed dimensions & creature art (batch 2)
+
+## The Twilight Forest
+**Meta.** Themed dimension (biomes + boss-gated progression + block families). ~10^8 (~200M+ CF). License: code LGPL-2.1; assets separate ASSET_LICENSE (CC BY-NC-SA on the port); structures/sounds ARR. Study only.
+**Techniques.** Whole dimension commits to ONE lighting key: perpetual dim twilight, desaturated ambient, warm-vs-cool contrast doing the mood work. Cohesion from a shared canopy palette that biomes push off of — Fire Swamp red/charred, Snowy/Aurora blue-white, Enchanted Forest a saturated rainbow (per-block hue-shifted leaves) as a deliberate palette reward. Bosses silhouette-first, each a one-glance read (segmented Naga, robe+crown Lich, crying-face Ur-Ghast). Dungeon block sets (mazestone/towerwood) make a room read as belonging to its boss.
+**Takeaways.** (1) Pick one dimension-wide lighting key (for taint: a sickly desaturated cast); let biomes deviate in HUE, not value structure. (2) Give each structure/boss arena its own tight block set. (3) Reserve one hyper-saturated palette (rainbow-oak) as the "special grove" payoff — make the silverwood grove the bright exception. (4) Design each mob to a one-glance silhouette + one identifying accent.
+**Signature.** A single committed twilight lighting key unifying wildly different biomes into "one place".
+
+## Deeper and Darker
+**Meta.** Themed dimension + block families + mobs (sculk/Otherside). ~10^6–10^7. License: **GPL-3.0** (assets reference-only).
+**Techniques.** Monochrome-plus-one-accent masterclass: the Otherside is a cold blue-black sculk/gloomslate value range, and the ONLY natural light is sculk gleam — a teal-cyan emissive that becomes the signature accent against near-black. Because the base is so dark/low-chroma, tiny emissive touches carry huge weight (Echo trees = purple leaves + gleam nodes). Coherent, vanilla-legible families: sculk stone → brick/tiled/chiseled/pillar, gloomslate, echo wood, all sharing the cold palette. The Stalker boss = tall Enderman-height dark figure with a central splitting mouth — one uncanny feature. Ambient ash/smoke at zero palette cost.
+**Takeaways.** (1) Build the taint/eldritch biome as low-chroma dark base + ONE emissive accent hue (corrupt violet or bilious green "taint gleam") as the only real light. (2) Derive a whole block family from one corrupted stone. (3) Eldritch boss = tall humanoid-but-wrong silhouette + a single uncanny feature. (4) Drifting particles sell atmosphere at zero palette cost.
+**Signature.** Near-monochrome dark palette where a single emissive accent is the ONLY light — max eerie contrast from minimal colour.
+
+## Friends & Foes
+**Meta.** Vanilla-plus mobs (design-relevant: Copper Golem, Tuff Golem). ~10^7 (~60M+ CF). License: **CC BY-NC-ND 4.0** (no-derivatives; look-and-learn only).
+**Techniques.** "Reads as vanilla, animates as character." Copper Golem = material-as-identity: stubby copper body, tiny limbs, villager-nose head, lightning-rod crown, bright glowing copper-bulb eyes (the one emissive cue). Signature = OXIDATION AS PALETTE LIFECYCLE: four discrete stages walk the vanilla copper ramp (bright orange → exposed → weathered → oxidized turquoise) so the same silhouette tells a time-story through hue/chroma alone. Tuff Golem applies it to stone + a "holds an item" hook. Both keep chunky vanilla proportions.
+**Takeaways.** (1) For our golems, let the CORE MATERIAL be the identity (silverwood/brass/taint-crystal) and build the whole texture from that material's ramp. (2) Give each golem exactly ONE emissive cue (glowing eyes / socketed core) as the alive/charged tell; everything else matte. (3) A state-driven palette lifecycle (charge/taint) as a discrete hue/chroma ramp over a fixed silhouette. (4) Keep proportions chunky/vanilla-legible.
+**Signature.** Oxidation-as-lifecycle — one silhouette, a discrete multi-stage colour ramp of the same material; reuse as a corruption/charge ramp.
+
+# CATEGORY: Particles & effects (deep dive · batch 2)
+
+## Particular
+**Meta.** Ambience/particles (fireflies, leaves, cave dust). ~10^5–10^6. License: **LGPL-3.0**.
+**Techniques.** Curated hand-authored ambient effects, not a generic engine: environmental storytelling through SPARSE SLOW particles. Fireflies = small emissive point-sprites spawned at flowers, dusk-gated, drifting on sine wander paths and BLINKING (alpha pulse) rather than moving fast. Cave dust = low-density slow motes reading as suspended air. Leaves arc/flutter (rotation + lateral drift). Everything biome/light-gated — density is the mood control. Sprites are tiny, soft-alpha, tinted per context.
+**Takeaways.** (1) Essentia motes should be sparse and slow — a handful of drifting emissive dots reads as "magic in the air"; density, not brightness, sells it. (2) Blink/pulse alpha on aura shimmer (fade out and back), not constant glow. (3) Gate spawns by context (aura level, node proximity) so the effect MEANS something. (4) Give motes a lateral wander/arc, never straight-line.
+**Signature.** Dusk-gated, blink-pulsing emissive point sprites with wander drift — the fireflies idiom, ideal for per-aspect essentia motes.
+
+## Effective
+**Meta.** Ambience + environmental-interaction particles (absorbed Illuminations bioluminescence). ~10^6. License: **unknown/ARR** (Ladysnake; confirm LICENSE before any reuse).
+**Techniques.** Two families. (1) Water interaction: splashes/droplets/ripples on entity entry, waterfall mist where flow hits a source; splash sprites TINTED toward the water/biome colour so effects integrate. (2) Bioluminescence: glowing plankton (blue emissive points in dark), fireflies tracking humidity, will-o'-wisps in soul-sand valleys, floating sculk dust — additive emissive points visible in darkness. Plus non-particle polish: screen shake on big roars, entity trails.
+**Takeaways.** (1) Tint interaction particles (crucible splashes, flux bursts) toward the SOURCE's colour so they read as belonging to the liquid/aura. (2) Low-light emissive point clouds are the template for taint/flux corruption haze (sickly-green/purple plankton-analog). (3) Distinct silhouette per phenomenon (wisp vs petal vs dust). (4) Screen shake is a cheap texture-free amplifier for a big ritual/flux beat.
+**Signature.** Environment-integrated, biome/liquid-tinted interaction bursts (splash + drifting mist) — the model for reactive crucible/infusion effects.
+
+## Photon
+**Meta.** Particle/VFX engine (author tool). ~10^6 (~3.9M CF). License: **CC BY-NC-SA 4.0** (study module design; don't lift code/assets).
+**Techniques.** Unity-inspired particle system: emitters with emission shapes (point/sphere/cone/edge), COLOR-OVER-LIFETIME gradients, SIZE-OVER-LIFETIME curves, velocity/rotation modules, texture-sheet flipbook animation, a TRAIL system for beams, and built-in BLOOM so emissive sprites glow without a shader pack. Philosophy: animate every property along the particle's lifetime via a curve/gradient rather than static sprites — a small POT sprite + a colour ramp + a size curve produces most of the look.
+**Takeaways.** (1) Drive essentia motes with a colour-over-lifetime gradient keyed to the per-aspect hue (hot core → aspect hue → transparent tail) — one neutral white-hot soft dot recolors to ANY aspect; never per-aspect hand-painted sheets. (2) Size-over-lifetime: spawn small, bloom mid-life, shrink to zero — breathing shimmer. (3) Author beams/wisps as trail geometry (a moving head emitting a fading ribbon), not particle spam. (4) Additive soft-alpha POT sprites so one sheet + bloom serves motes, sparkles, beam cores across all aspects.
+**Signature.** A neutral emissive POT sprite recolored by a per-aspect colour-over-lifetime gradient + shaped by a size curve, under bloom — one asset, every aspect hue.
+
+> **Batch-2 north star (adds to batch 1):** Research web = Astral's node-and-line
+> constellation Journal on parchment. Apparatus tiers = one neutral stone +
+> escalating engraved-rune overlays (Astral) with a hero altar anchoring
+> progression (F&A). Crucible/altar = a LIVE fluid/glow gauge in the block
+> (Blood Magic/Eidolon). Taint biome = near-monochrome dark + ONE emissive
+> "taint gleam" (Deeper&Darker). Golems = material-as-identity + one emissive
+> cue + a state-driven colour lifecycle (Friends&Foes). Effects = ONE neutral
+> emissive POT sprite recolored per-aspect by a colour-over-lifetime gradient,
+> sparse/slow/context-gated, beams as trail ribbons (Photon/Particular/Effective).
+> Decorative build-out = motif re-lays + variant pickers + element-model furniture
+> off our plank (Blockus/Rechiseled/Handcrafted).
