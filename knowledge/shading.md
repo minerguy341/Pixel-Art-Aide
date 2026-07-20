@@ -350,3 +350,8 @@ role, never copy pixels). Applies when authoring for the `thaumaturgy` style.
 - **labPBR** specular/normal maps (`_s`: R=smoothness, G=reflectance,
   A=emission where 254=full and 255=ignored; `_n`=normal): shader-pack only.
   Renders nothing in unmodified 1.21.1 — never a default deliverable.
+- **Runtime asset generation / respriting** (e.g. Every Compat via Moonlight
+  `Respriter`): textures built at load by recolouring one base to a palette
+  sampled from the target material's own texture + a stored detail mask. Opt-in
+  ONLY when a project wants dynamic assets; the default deliverable stays authored
+  `.pxg` → PNG. See lessons.md → "Dynamic Generation".

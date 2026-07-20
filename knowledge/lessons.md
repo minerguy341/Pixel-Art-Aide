@@ -563,6 +563,45 @@ data only, no BWG pixels committed.
 
 ---
 
+# Dynamic Generation — 2026-07-20 (Every Compat / Wood Good)
+
+**Conditional category — opt-in.** These lessons describe *runtime* asset
+generation (textures built at load, not authored as files). They apply ONLY when
+a project explicitly wants dynamic/generated assets (e.g. a compat mod that must
+cover every installed wood type). They are NOT a default technique — the studio's
+normal deliverable is still authored `.pxg` sources → PNGs. Approved by the user,
+who directed they be filed here as dynamic-generation-only. Study:
+`gallery/2026-07-20-woodgood-study/`.
+
+## 2026-07-20 — runtime respriting: recolor one base, palette from the target wood
+- Context: studied MehVahdJukaar/WoodGood; its client is a Moonlight
+  `DynamicClientResourceProvider` that generates ~all textures at boot
+- Observation: for each block it takes the block's OWN existing texture and runs
+  Moonlight's `Respriter` — `Respriter.of(image)` or `Respriter.masked(image,
+  mask)` — remapping it to a `Palette` read from the TARGET wood's own planks
+  (`Palette.fromAnimatedImage`); a small stored grayscale `_m` detail mask
+  (measured 1-colour, 51–98% transparent) protects the non-wood parts (books,
+  saw, hinges) so only the wood area recolours. It stores no per-wood textures.
+- Rule (dynamic-generation only): to cover an open-ended material set at runtime,
+  recolour ONE base texture to a palette sampled from the target material's own
+  reference texture (planks), and composite a small stored **detail mask** over
+  the parts that must not recolour. Store masks (one per SHAPE), not per-material
+  textures. This is the industrial form of "one arrangement, many palettes".
+
+## 2026-07-20 — budget automation effort for the fix-ups, not the happy path
+- Context: same study; `CompatSpritesHelper` in WoodGood
+- Observation: ~277 hardcoded `addOptional(...) / registerSpecialTextureForBlock`
+  registrations across 107 mods — nearly all FIX-UPS where a source texture is
+  the wrong size/format (joshua_log is 8×8; twilightforest mangrove planks throws
+  an index error), pointing the generator at a stored substitute. One generic
+  recolor path, wrapped in hundreds of exceptions.
+- Rule (dynamic-generation only): when automating a texture family, expect most
+  of the code to be **special-case fix-ups** for wrong-size/format source art,
+  not the generic path. Plan for a stored override + a per-entry escape hatch
+  from the start; the happy path is the easy 10%.
+
+---
+
 # Studied lessons — 2026-07-20 (Chipped decorative blocks)
 
 Approved by the user. Studied from terrarium-earth/Chipped (branch 1.21.x) in
