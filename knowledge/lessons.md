@@ -643,3 +643,80 @@ pixels committed). Findings: `gallery/2026-07-20-chipped-blocks-study/`.
   custom models for furniture/hero pieces where the eye lingers. Resolution is a
   budget — don't spend it on wallpaper. [folded into shading.md → "Decorative
   variant families"]
+
+---
+
+# GUI aspect icons — 2026-07-20 (Thaumaturgy primal & compound aspects)
+
+Approved by the user. Design lessons from building the HD hexagonal aspect icon
+set (6 primals + compounds), `gallery/2026-07-20-aspect-primals/`. The
+even-spacing/uneven-length "controlled chaos" observation was NOT kept (user:
+one-off). Durable rules folded into shading.md → "GUI icons & glyphs".
+
+## 2026-07-20 — colour-coded icon: key the glyph to VALUE, not hue
+- Context: 41 aspect hexagons, each a fixed aspect colour; two codes are extreme
+  (Forma #EDE9DC near-white, Discordia #4A3459 near-black)
+- Observation: a symbol drawn in the aspect's own colour (or a single fixed
+  light/dark) failed at the extremes — pale glyph lost on the light aspect, dark
+  glyph lost on the dark aspect
+- Rule: in a colour-coded icon set, pin the symbol to true near-white OR
+  near-black chosen by the BACKDROP's luminance (light bed → dark glyph, dark bed
+  → light glyph) + a thin opposite-value keyline (selout). Hue carries identity;
+  value carries legibility — never lean on the aspect hue to separate glyph from
+  bed. [folded into shading.md → "GUI icons & glyphs"]
+
+## 2026-07-20 — full backdrop beats a frame for colour identity
+- Context: frame (thin coloured ring, neutral interior) vs full backdrop (whole
+  hexagon is the aspect colour), tested 20–64px on dark and light
+- Observation: the frame shrank the colour to a ring that vanished at small size
+  and collapsed for dark aspects (dark ring on a dark GUI slot); the full
+  backdrop stayed identifiable by colour at every size
+- Rule: for a colour-coded icon set, fill the whole shape with the identity
+  colour; reserve thin frames for when the interior must show something else.
+  Colour identity must survive the smallest render size. [folded into shading.md]
+
+## 2026-07-20 — draw the enclosed motif before the enclosing ring
+- Context: pentacle (star inside a circle)
+- Observation: ring drawn first + star on top broke the circle where the star's
+  points met it; the enclosing line must stay continuous
+- Rule: when a motif sits inside a frame/ring, draw the inner motif FIRST and the
+  enclosing ring ON TOP so the ring is one unbroken line and the motif tucks
+  under it. General z-order rule for enclosed glyphs. [folded into shading.md]
+
+## 2026-07-20 — match render style to the material, even inside a flat icon set
+- Context: glyphs are flat 2-tone; the metal (Aes) ingot read as a flat brick and
+  fire wanted an inner core
+- Observation: a flat 2-tone glyph can't convey metal or real 3D — two same-value
+  faces don't separate. A 3-face iso shade + a specular streak made it read as
+  polished metal; a hot amber core made the flame read as fire
+- Rule: keep one glyph language for the set, but let material-specific symbols
+  take the extra tones they genuinely need — a shaded iso mini-render + specular
+  shine for metal, a hot inner core for fire. A sanctioned exception, only where
+  the flat glyph can't carry the material. [folded into shading.md]
+
+## 2026-07-20 — composite stacked 3D objects in ONE projection, painter-sorted
+- Context: iso ingot stack ×3, first built from three independently-placed sprites
+- Observation: independent per-object origins made the bottom two bars clip and
+  occlude wrongly
+- Rule: arrange multiple 3D boxes (stacks, piles) in ONE shared iso coordinate
+  space and draw far→near (painter's algorithm; sort by x+y+z of each box centre).
+  Independent origins can't occlude correctly. [folded into shading.md]
+
+## 2026-07-20 — study real iconography before inventing a concept glyph
+- Context: chaos, magic, and ingot symbols
+- Observation: the strongest, most legible options came from established visual
+  traditions — Moorcock chaos star, Lorenz-attractor butterfly, pentacle /
+  ouroboros / triquetra, Chinese sycee boat ingot — not from first-principles
+  doodling
+- Rule: for a meaning-bearing glyph, research the concept's real iconography
+  first, then draw your own pixels of the idiom (reference-policy: study the look,
+  never trace). Grounded symbols read as the concept; invented ones read as noise.
+- Source: web study this session (chaos/entropy, arcane/occult/alchemy, ingot shapes)
+
+## 2026-07-20 — verify icons at render size on BOTH background polarities
+- Context: aspect sheets carried a 48/32/20px strip on dark and light
+- Observation: a glyph clean at 4× can turn to mush at 20px, and a
+  light-on-light or dark-on-dark failure only shows on the opposite background
+- Rule: check every GUI icon at its ACTUAL sizes (16–64px) on BOTH a dark and a
+  light background before shipping. (Extends "judge at 1×" to variable GUI
+  backgrounds.) [folded into shading.md]

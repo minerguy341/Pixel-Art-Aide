@@ -248,6 +248,39 @@ of a hero texture — cohesion first, novelty second.
   next to vanilla without glowing or reading as a hole. Accents may exceed it
   deliberately.
 
+## GUI icons & glyphs (HD, the exception to 16x)
+
+For a **colour-coded icon set** (e.g. the aspect hexagons — one fixed colour per
+aspect, symbol inside). These are GUI sprites, exempt from POT/atlas rules.
+
+- **Full backdrop, not a frame.** Fill the whole shape with the identity colour
+  so it reads at any size; a thin coloured ring shrinks to nothing at 20px and
+  vanishes for dark colours on a dark GUI slot. Reserve frames for when the
+  interior must show something else.
+- **Key the glyph to VALUE, not hue.** Pin the symbol to true near-white *or*
+  near-black chosen by the **backdrop's luminance** (light bed → dark glyph, dark
+  bed → light glyph) + a thin opposite-value keyline (selout). Hue carries
+  identity; value carries legibility. Never rely on the aspect hue to separate
+  the symbol from its bed — it fails at near-white and near-black codes.
+- **Draw the enclosed motif before the enclosing ring.** Inner motif first, ring
+  on top, so the ring stays one unbroken line and the motif tucks under it (the
+  pentacle fix). General z-order for any glyph-in-a-frame.
+- **Match render style to the material — a sanctioned exception.** Keep one flat
+  glyph language for the set, but a symbol whose *material* the flat 2-tone can't
+  carry may take the tones it needs: a **3-face iso mini-render + specular streak**
+  for metal (two same-value faces don't separate → reads as a brick without it),
+  a **hot inner core** for fire. Only where genuinely needed, not a free-for-all.
+- **Composite stacked 3D objects in ONE iso space, painter-sorted** (far→near by
+  x+y+z of each box centre) — independent per-object origins clip/occlude wrong.
+- **Study real iconography first.** For a meaning-bearing glyph, research the
+  concept's established visual tradition (chaos star, Lorenz butterfly, pentacle/
+  ouroboros/triquetra, sycee boat ingot) and draw your own pixels of the idiom
+  (reference-policy). Grounded symbols read as the concept; invented ones read as
+  noise. Keep silhouettes distinct **across the set**, not just per-icon.
+- **Verify at render size on BOTH polarities.** Check every icon at 16–64px on a
+  dark *and* a light background; a glyph clean at 4x can mush at 20px, and
+  light-on-light / dark-on-dark failures only show on the opposite background.
+
 ## Directional face shading (the engine pre-shades for you)
 
 Minecraft multiplies each face by a fixed constant **before** your texture's
