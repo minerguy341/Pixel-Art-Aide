@@ -160,3 +160,11 @@ hexagon backdrop) for an emerald cut; gave polished jewel real facets.
   aes_pyramid 3-bar pile) via a shared _bar() helper. Dropped aes_iso — two
   same-tone faces can't separate with only 2 colours (read as a dark blob).
   Sheet: previews/gemma-aes-r3.png.
+
+## Gemma locked + Aes ingots round 2 (researched real ingots)
+- Gemma = original cut gem (#1 gem_brilliant, front brilliant). Tilt experiments
+  set aside.
+- Aes: web pass on real ingot shapes (bullion draft angle; Chinese sycee/yuanbao
+  boat ingot). 5 candidates in compound-aes2.png: gold bar (bullion, 3/4 with
+  stamp) · stacked bars · sycee (boat ingot, swept ends + knob) · flat bar
+  (vanilla-ish) · cast loaf. Sources: Sycee (Wikipedia), bullion bar refs.

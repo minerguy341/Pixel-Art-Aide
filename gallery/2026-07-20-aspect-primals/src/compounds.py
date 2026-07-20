@@ -283,7 +283,49 @@ def gem_toptilt_flat(d, f, k):   # more top-down (shallower body)
 def gem_toptilt_deep(d, f, k):   # a touch more side showing
     gem_toptilt(d, f, k, cy=23, ry=8, culet=51)
 
-# ---- Aes: ingot options ----
+# ---- Aes: ingot options, round 2 (researched real ingot shapes) ----
+def _goldbar(d, cx, cy, w, f, k, stamp=True):
+    # 3/4 bullion bar: top face wider, tapering DOWN (mould draft); top parallelogram recedes up-right
+    fTL, fTR = (cx-w, cy), (cx+w, cy)
+    fBL, fBR = (cx-w+3, cy+10), (cx+w-3, cy+10)
+    tBL, tBR = (cx-w+5, cy-8), (cx+w+5, cy-8)
+    _poly(d, [tBL, tBR, fTR, fBR, fBL, fTL], f, k, 0.94)
+    line(d, [fTL, fTR], k)                               # top/front seam
+    line(d, [tBL, fTL], k); line(d, [tBR, fTR], k)       # back edges
+    if stamp:
+        line(d, [(cx-w+7, cy-5), (cx+w+2, cy-5)], k)     # top-face shine
+        d.rectangle([cx-5, cy+3, cx+5, cy+7], outline=k, width=1)  # front stamp
+
+def aes_goldbar(d, f, k):
+    _goldbar(d, 30, 28, 17, f, k)
+
+def aes_goldstack(d, f, k):
+    _goldbar(d, 31, 21, 13, f, k, stamp=False)
+    _goldbar(d, 29, 34, 17, f, k)
+
+def aes_sycee(d, f, k):
+    # Chinese sycee / yuanbao boat ingot: up-swept pointed ends, concave waist, centre knob
+    outer = [(14, 29), (23, 39), (28, 36), (32, 38), (36, 36), (41, 39), (50, 29),
+             (52, 40), (41, 46), (23, 46), (12, 40)]
+    _poly(d, outer, f, k, 0.9)
+    d.pieslice([25, 27, 39, 41], 180, 360, fill=k)        # centre knob
+    d.pieslice([26, 28, 38, 40], 180, 360, fill=f)
+    line(d, [(20, 42), (44, 42)], k)                      # hull waterline
+
+def aes_flatbar(d, f, k):
+    # vanilla-style beveled bar lying flat, lit from the top-left
+    _poly(d, [(15, 31), (20, 27), (44, 27), (49, 31), (44, 37), (20, 37)], f, k, 0.9)
+    line(d, [(21, 29), (43, 29)], k)                      # top shine
+    line(d, [(20, 34), (44, 34)], k)                      # lower groove
+
+def aes_loaf(d, f, k):
+    # rough cast loaf ingot: flat base, rounded top
+    d.pieslice([16, 22, 48, 46], 180, 360, fill=k)
+    d.pieslice([17, 23, 47, 45], 180, 360, fill=f)
+    _poly(d, [(16, 34), (48, 34), (46, 42), (18, 42)], f, k, 0.9)
+    line(d, [(22, 29), (34, 27)], k)                      # top highlight
+
+# ---- Aes: ingot options (first pass) ----
 def _bar(d, cx, cy, w, f, k, shine=True):
     outer = [(cx-w+6, cy-7), (cx+w+6, cy-7), (cx+w, cy), (cx+w-3, cy+9),
              (cx-w+3, cy+9), (cx-w, cy)]
