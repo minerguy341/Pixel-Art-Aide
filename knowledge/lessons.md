@@ -866,3 +866,19 @@ first flat-square attempt read as "just a colored square, not a fancy cloth."
 - Rule: a decorative mat behind a slot cluster should hug the cluster (small even margin), and
   the slots over it should be drawn translucent (dim fill + bevel) so the mat shows through —
   opaque vanilla slot cells over a mat read as holes cut in it, not items resting on it.
+
+## 2026-07-21 — ground a UI's palette in its subject's in-world material, not a house color
+- Context: the Arcane Worktable GUI first shipped as a flat dark-purple "arcane" panel and
+  felt out of place (user: "our purple UI feels very out of place"). Separately, in another
+  session the Arcane Orrery was redesigned off the same purple onto a wood-study-desk look
+  (parchment + brass). Two different UIs, the same correction.
+- Observation: the flat saturated-purple panel read as wrong on BOTH a crafting UI and a
+  research UI because the purple wasn't grounded in any material the block is made of — it
+  was a mod "house color" applied as wallpaper. Re-skinning each UI to its own block's
+  materials fixed it: Worktable → greatwood + brass + red/gold cloth; Orrery → a wood study
+  desk + parchment + brass.
+- Rule: ground a GUI's palette in the materials of the block/tool it belongs to, not in an
+  abstract per-mod "arcane color." Match chrome, panel, and text to that subject's real
+  materials (greatwood/brass/parchment/cloth); reserve saturated arcane hues (teal, purple)
+  for small accents and emissive cues — glyph lights, charge glints — never the whole panel.
+  A magic mod doesn't get one house UI color; each station wears its own material.
