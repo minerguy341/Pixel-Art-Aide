@@ -1,0 +1,23 @@
+size: 16x16
+[palette]
+a = 3E2C1F
+b = 2A1C16
+c = 4F3B25
+d = 60492C
+[grid]
+abbbabbbabbbabbb
+aaaaaaaaaaaacccc
+aaaaaaaaaaaaaaaa
+aaaaaaaaccacaaaa
+ddadddddddaddddd
+ddadddddddaddddd
+aaaaaaaaccacaaaa
+aaaaaaaaaaaaaaaa
+bbbabbbabbbabbba
+ccacaaaaccacaaaa
+aaaaaaaaaaaacccc
+ccacaaaaaaaaaaaa
+ddadccccccacdddd
+aaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaa

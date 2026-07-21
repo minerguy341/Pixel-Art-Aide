@@ -28,3 +28,18 @@ tones, broken dark seam rows, staggered board-end joints. Two decorative arrange
 Style card already carries greatwood_planks / silverwood_planks palettes; these use those ramps.
 `.pxg` sources + PNGs in src/ + out/. Not yet placed in the mod (planks textures already exist there
 from the woodsets session — swap in once a candidate is picked).
+
+## r2 (make_planks_r2.py) — 8 MORE, all BOARD STYLE
+User picked board style; these stay in the horizontal-board family (no basketweave/diagonal).
+Fixed after first pass: grain now runs ALONG the board (horizontal broken streaks, per wood
+grammar) instead of vertical; tight-clean's end-joints softened so it reads smooth not gridded.
+1. random-width — mixed board heights (natural)
+2. shiplap — recessed shadow channel between boards
+3. v-groove — tongue-&-groove bevel per board (paneling)
+4. tight-clean — smooth wide boards, minimal grain, subtle joints (refined; good for silverwood)
+5. pegged — board-end dowel pegs (busiest)
+6. wide-grain — tall 8px boards, prominent grain
+7. board-and-batten — wide board + raised batten strip (distinct rhythm)
+8. weathered — hairline checks along the grain (aged character)
+Eyeball leans: 1 random-width / 2 shiplap / 3 v-groove for character; 4 tight-clean for a refined
+silverwood; 7 board-and-batten for a distinct siding look.
