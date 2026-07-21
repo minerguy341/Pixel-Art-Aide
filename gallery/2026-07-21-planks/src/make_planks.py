@@ -19,12 +19,12 @@ for d in (OUT, SRC, PREV):
 sys.path.insert(0, str(SESS.parent.parent))
 from aide import grid as G          # noqa: E402
 from aide import blockrender as BR  # noqa: E402
+from aide import render as RENDER   # noqa: E402
 
 N = 16
 T = (0, 0, 0, 0)
 BG = (110, 110, 116, 255)
 INK = (250, 250, 250, 255)
-SHADES = BR.SHADES
 
 
 def hx(v):
@@ -146,61 +146,8 @@ LABELS = {
 
 
 # ------------------------------------------------------------- renderers
-def iso_slab(top, side, scale=8, height=0.5):
-    n = top.width
-    s = scale
-    pt = top.convert("RGBA").load()
-    ps = side.convert("RGBA").load()
-    pad = int(0.15 * n * s)
-    W = Hh = int(2 * n * s) + 2 * pad
-    out = Image.new("RGBA", (W, Hh), T)
-    d = ImageDraw.Draw(out, "RGBA")
-    ox, oy = n * s + pad, n * s + pad
-
-    def P(X, Y, Z):
-        return (ox + (X - Z) * n * s, oy + (X + Z) * n * s * 0.5 - Y * n * s)
-
-    def sh(c, f):
-        return (int(c[0] * f), int(c[1] * f), int(c[2] * f), c[3])
-
-    hc = int(round(height * n))
-    # side x=1 (right, 0.6)
-    for i in range(n):
-        for j in range(hc):
-            c = ps[i, n - 1 - j]
-            if c[3] == 0:
-                continue
-            q = [P(1, (j + 1) / n, i / n), P(1, (j + 1) / n, (i + 1) / n),
-                 P(1, j / n, (i + 1) / n), P(1, j / n, i / n)]
-            d.polygon(q, fill=sh(c, SHADES[2]))
-    # front z=1 (left, 0.8)
-    for i in range(n):
-        for j in range(hc):
-            c = ps[i, n - 1 - j]
-            if c[3] == 0:
-                continue
-            q = [P(i / n, (j + 1) / n, 1), P((i + 1) / n, (j + 1) / n, 1),
-                 P((i + 1) / n, j / n, 1), P(i / n, j / n, 1)]
-            d.polygon(q, fill=sh(c, SHADES[1]))
-    # top y=height (1.0)
-    for i in range(n):
-        for j in range(n):
-            c = pt[i, j]
-            if c[3] == 0:
-                continue
-            q = [P(i / n, height, j / n), P((i + 1) / n, height, j / n),
-                 P((i + 1) / n, height, (j + 1) / n), P(i / n, height, (j + 1) / n)]
-            d.polygon(q, fill=sh(c, SHADES[0]))
-    return out
-
-
 def tile3(img, scale=5):
-    w, h = img.size
-    c = Image.new("RGBA", (w * 3, h * 3), T)
-    for r in range(3):
-        for cc in range(3):
-            c.alpha_composite(img, (cc * w, r * h))
-    return c.resize((c.width * scale, c.height * scale), Image.NEAREST)
+    return RENDER.upscale(RENDER.tiled(img, 3, 3), scale)
 
 
 def lbl(img, text, top=16):
@@ -213,7 +160,7 @@ def lbl(img, text, top=16):
 def row(img, label, sc=6):
     tiled = lbl(tile3(img, 4), "tiled 3x3")
     block = lbl(BR.iso_block(img, img, img, scale=sc), "block")
-    slab = lbl(iso_slab(img, img, scale=sc), "slab")
+    slab = lbl(BR.iso_slab(img, img, scale=sc), "slab")
     stair = lbl(BR.iso_stair(img, img, scale=sc), "stair")
     views = [tiled, block, slab, stair]
     gap = 16

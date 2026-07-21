@@ -6,17 +6,19 @@ and edge detail. Palette-parameterised, recoloured per wood. Reuses make_planks 
 (tiled/block/slab/stair). Deterministic.
 """
 import make_planks as MP
-from PIL import Image
 
 GW, SW, N = MP.GW, MP.SW, MP.N
 h2, blank = MP.h2, MP.blank
 
 
 def boards(pal, spec, phases, grain=0.34, sh_p=0.26, hi_p=0.20, seam="dark",
-           groove=False, batten=False, pegs=False, checks=False, joint="full", seed=1):
+           groove=False, pegs=False, checks=False, joint="full", seed=1):
     """spec: list of (height, kind) summing to 16; kind in {'board','batten'}.
     Grain runs ALONG the board (horizontal broken streaks), per wood grammar."""
     dk, sh, bs, hi = pal["dk"], pal["sh"], pal["bs"], pal["hi"]
+    # A row is a grain streak when its hash falls below `lo` (shadow) or above `1-hi_t`
+    # (highlight); `grain` scales those bands relative to the sh_p/hi_p defaults (0.26/0.20).
+    lo, hi_t = grain * sh_p / 0.26, grain * hi_p / 0.20
     im = blank()
     px = im.load()
     ys, y = [], 0
@@ -31,12 +33,11 @@ def boards(pal, spec, phases, grain=0.34, sh_p=0.26, hi_p=0.20, seam="dark",
             continue
         for ry in range(bh):                              # board body + HORIZONTAL grain streaks
             rt = h2(bi, ry, seed)                          # is this row a grain streak?
-            tone = sh if rt < grain * sh_p / 0.26 else (hi if rt > 1 - grain * hi_p / 0.20 else None)
+            tone = sh if rt < lo else (hi if rt > 1 - hi_t else None)
+            # broken run along the board length: one hash per 4-px group, not per pixel
+            streak = [h2(g, bi * 7 + ry, seed + 2) < 0.72 for g in range(4)] if tone else None
             for x in range(N):
-                c = bs
-                if tone is not None and h2(x // 4, bi * 7 + ry, seed + 2) < 0.72:
-                    c = tone                              # broken run along the board length
-                px[x, y0 + ry] = c
+                px[x, y0 + ry] = tone if (streak and streak[x // 4]) else bs
         # seam row (board top)
         if seam == "dark":
             for x in range(N):

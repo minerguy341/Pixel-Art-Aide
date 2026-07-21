@@ -136,6 +136,54 @@ def iso_stair(top: Image.Image, side: Image.Image, scale: int = 8,
     return out
 
 
+def iso_slab(top: Image.Image, side: Image.Image, scale: int = 8, height: float = 0.5,
+             shades: tuple[float, float, float] = SHADES) -> Image.Image:
+    """Render a bottom slab (a box filling Y0..height) with the vanilla face multipliers.
+    Same dimetric projection as iso_stair; shows the top tread + one N/S front + one E/W side."""
+    n = top.width
+    s = scale
+    px_top = top.convert("RGBA").load()
+    px_side = side.convert("RGBA").load()
+    pad = int(0.15 * n * s)
+    side_px = int(2 * n * s) + 2 * pad
+    out = Image.new("RGBA", (side_px, side_px), (0, 0, 0, 0))
+    d = ImageDraw.Draw(out, "RGBA")
+    ox, oy = n * s + pad, n * s + pad
+
+    def P(X, Y, Z):
+        return (ox + (X - Z) * n * s, oy + (X + Z) * n * s * 0.5 - Y * n * s)
+
+    hc = int(round(height * n))
+    # side x=1 (E/W, shades[2])
+    for i in range(n):
+        for j in range(hc):
+            c = px_side[i, n - 1 - j]
+            if c[3] == 0:
+                continue
+            quad = [P(1, (j + 1) / n, i / n), P(1, (j + 1) / n, (i + 1) / n),
+                    P(1, j / n, (i + 1) / n), P(1, j / n, i / n)]
+            d.polygon(quad, fill=_shade(c, shades[2]))
+    # front z=1 (N/S, shades[1])
+    for i in range(n):
+        for j in range(hc):
+            c = px_side[i, n - 1 - j]
+            if c[3] == 0:
+                continue
+            quad = [P(i / n, (j + 1) / n, 1), P((i + 1) / n, (j + 1) / n, 1),
+                    P((i + 1) / n, j / n, 1), P(i / n, j / n, 1)]
+            d.polygon(quad, fill=_shade(c, shades[1]))
+    # top y=height (shades[0])
+    for i in range(n):
+        for j in range(n):
+            c = px_top[i, j]
+            if c[3] == 0:
+                continue
+            quad = [P(i / n, height, j / n), P((i + 1) / n, height, j / n),
+                    P((i + 1) / n, height, (j + 1) / n), P(i / n, height, (j + 1) / n)]
+            d.polygon(quad, fill=_shade(c, shades[0]))
+    return out
+
+
 def lineup(blocks: list[tuple[str, Image.Image]], pad: int = 12) -> Image.Image:
     """Labelled row of iso-rendered blocks on the sheet background."""
     from aide.render import SHEET_BG, LABEL_FG
