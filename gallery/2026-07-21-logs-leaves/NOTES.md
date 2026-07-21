@@ -70,3 +70,15 @@ Study: study-wood-r3.md. Both leaves DECIDED (gw r1 accent+rot, sw r2 frost+rot)
 - **Greatwood cores**: 1 rings / 2 heart (dark heartwood→sapwood gradient) / 3 burl.
 - **Silverwood cores**: 1 heart (single teal whisper) / 2 halo (one soft teal ring) / 3 pale (no teal).
 Eyeball leans: gw bark A furrowed; sw bark A serene or B birch; cores gw 2 heart, sw 1 heart / 3 pale.
+
+## r4 (make_r4.py) — more logs + silverwood grain with/without teal heart
+Approved tree-growth lessons landed in knowledge/lessons.md this session.
+- **Greatwood bark**: G deep-fissured (clean deep wide fissures — standout) / H interlaced
+  (diagonal interlocked grain — distinctive, polarizing) / I knotted (branch-scar knot, but the
+  single knot tiles into a regular grid → reads repetitive). All keep the r3 edge-flow fix.
+- **Silverwood grain (teal-free bark)**: A silk (ultra-pristine near-flat) / B woven (gentle wavy
+  interlocked) / C dappled (soft canopy-light dapples) — each shown as a trunk WITH the teal-heart
+  core and WITHOUT (plain), + the two cores compared. Bark carries no teal so the heart is the only
+  variable; per the study the teal heart is CANON, offered both ways per user request.
+Eyeball leans: gw G deep-fissured; sw B woven or A silk; heart = with (canon) unless a plain
+non-magical grain is wanted.
