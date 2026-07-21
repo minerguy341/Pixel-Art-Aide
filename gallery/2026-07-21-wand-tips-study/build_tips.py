@@ -39,6 +39,10 @@ RECIPES = {
     "D-broadhead":  ("radial",  "3-blade broadhead",    dict(blades=3, bladethick=0.20)),
     "E-harpoon":    ("lens",    "lenticular barbed",    dict(flat=0.40)),
     "F-winged":     ("radial",  "4-blade winged",       dict(blades=4, bladethick=0.20)),
+    "G-trilobate":  ("poly",    "trilobate (poly-3)",   dict(sides=3)),
+    "H-swallowtail": ("lens",   "swallowtail forked",   dict(flat=0.42)),
+    "I-winged-spear": ("midrib", "boar spear + stop-ring", dict(flat=0.45, ridge=0.5)),
+    "J-flamberge":  ("diamond", "flamberge (wavy)",     dict(flat=0.55)),
 }
 
 

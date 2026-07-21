@@ -95,11 +95,16 @@ def _model_payload(name, faces, vol: Volume, mode: str) -> dict:
     }
 
 
-def build_payloads(models: dict[str, tuple[Volume, str]]) -> list[dict]:
-    """models: name -> (Volume, mode-label). Returns viewer-ready records."""
+def build_payloads(models: dict[str, tuple[Volume, str]],
+                   group: str | None = None) -> list[dict]:
+    """models: name -> (Volume, mode-label). Returns viewer-ready records. Pass
+    `group` to tag a whole set so the viewer can render labelled chip rows."""
     out = []
     for name, (vol, mode) in models.items():
-        out.append(_model_payload(name, exposed_faces(vol), vol, mode))
+        rec = _model_payload(name, exposed_faces(vol), vol, mode)
+        if group:
+            rec["group"] = group
+        out.append(rec)
     return out
 
 
@@ -132,6 +137,7 @@ _TEMPLATE = r"""<style>
   canvas{display:block;width:100%;height:100%}
   #hint{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:11px;color:var(--muted);pointer-events:none}
   #bar{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:10px 10px 6px}
+  .grp{flex-basis:100%;text-align:center;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:8px 0 -2px}
   .chip{border:1px solid var(--edge);background:var(--panel);color:var(--ink);border-radius:999px;padding:7px 12px;font-size:13px;cursor:pointer;transition:.12s}
   .chip:hover{border-color:var(--accent)}
   .chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -241,7 +247,11 @@ function select(i){curModel=i;const m=MODELS[i];upload(buildGeom(m,inset));
 
 // ---- UI ----
 const bar=document.getElementById('bar');
-MODELS.forEach((m,i)=>{const b=document.createElement('button');b.className='chip';
+let lastG=null;
+MODELS.forEach((m,i)=>{
+ if(m.group&&m.group!==lastG){lastG=m.group;const g=document.createElement('div');
+  g.className='grp';g.textContent=m.group;bar.appendChild(g);}
+ const b=document.createElement('button');b.className='chip';
  b.textContent=m.name;b.onclick=()=>select(i);bar.appendChild(b);});
 const mats=document.getElementById('mats');
 MATKEYS.forEach(k=>{const s=document.createElement('button');s.className='sw';

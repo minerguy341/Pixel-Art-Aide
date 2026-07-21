@@ -28,6 +28,7 @@ plus a **radial** lifter:
 | `midrib` | lens + raised central spine | stiff leaf spearhead |
 | `diamond` | rhombic, four facets + ridge | estoc / thrusting point |
 | `square` | quadrangular | bodkin (armour-piercer) |
+| `poly` | solid regular `sides`-gon | trilobate (3) / faceted spire (6) |
 | `radial` | N fins at 360/N° (Y or +) | broadhead / winged pike |
 
 `revolve` is now just `sweep(cross='round')`; `hybrid` takes a `head_mode`, so
@@ -43,6 +44,16 @@ every tip keeps a round turned collar (fits a wand core) welded to a forged head
 | D broadhead | radial (3 blades) | three-fin Y broadhead + rear barbs |
 | E harpoon | lens (flat 0.40) | flat lenticular leaf with deep barbs |
 | F winged | radial (4 blades) | four-fin `+` winged pike head |
+| G trilobate | poly (sides 3) | solid triangular pyramidal 'Scythian' point |
+| H swallowtail | lens (flat 0.42) | forked head, two tines + a forward V-notch |
+| I winged-spear | midrib + stop-ring | boar spear: leaf blade with a round lug flange |
+| J flamberge | diamond (flat 0.55) | flame blade, undulating edges |
+
+## Everything so far, in one page
+
+`gallery/build_showcase.py` builds `gallery/wand-showcase-3d.html` — a single
+grouped viewer with all 17 models (the 7 caps + these 10 tips). That combined
+page is the thing to publish/share; the two per-set viewers still build too.
 
 ## Verified (headless)
 

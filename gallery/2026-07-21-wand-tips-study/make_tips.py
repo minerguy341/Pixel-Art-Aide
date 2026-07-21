@@ -149,6 +149,61 @@ def head_winged(m):
         fill_col(m, x, base_half * (1 - 0.85 * t))
 
 
+def head_trilobate(m):
+    """Slender socketed point → lifted as a solid triangular (poly-3) section:
+    the pyramidal 'Scythian' trilobate arrowhead."""
+    xs = list(head_span())
+    x0, tip = xs[0], xs[-1]
+    mid = x0 + (tip - x0) * 0.34
+    hm = 5.5
+    for x in xs:
+        half = hm * (x - x0) / (mid - x0) if x <= mid else hm * (1 - (x - mid) / (tip - mid))
+        fill_col(m, x, max(0.0, half))
+
+
+def head_swallowtail(m):
+    """Forked/swallowtail head: a broad base that splits into two diverging tines
+    with a deep V-notch opening forward (a rope-cutter / flight broadhead)."""
+    xs = list(head_span())
+    x0, tip = xs[0], xs[-1]
+    base_x = x0                                     # start at the neck so it welds
+    fork = x0 + int((tip - x0) * 0.42)
+    base_half = 8.5
+    for x in range(base_x, fork):
+        fill_col(m, x, base_half * (1 - 0.28 * (x - base_x) / max(1, fork - base_x)))
+    for x in range(fork, tip + 1):
+        t = (x - fork) / max(1, tip - fork)
+        center = base_half * (0.38 + 0.55 * t)      # tine centres diverge outward
+        halfw = max(0.6, 2.4 * (1 - t))             # each tine tapers to a point
+        for sgn in (-1, 1):
+            yc = CY + sgn * center
+            for y in range(int(round(yc - halfw)), int(round(yc + halfw)) + 1):
+                if 0 <= y < H:
+                    m[y][x] = True
+
+
+def head_winged_spear(m):
+    """Leaf-blade boar spear: a lenticular/midrib blade with a round stop-flange
+    (the lugs/wings) at the base that keeps it from over-penetrating."""
+    xs, hs = _leaf_halfs(8.0)
+    for x, half in zip(xs, hs):
+        fill_col(m, x, half)
+    for x in (12, 13):                              # flange -> revolves to a stop-ring
+        fill_col(m, x, 6)
+
+
+def head_flamberge(m):
+    """Flame blade: a slender leaf whose edges undulate down its length."""
+    xs = list(head_span())
+    x0, tip, L = xs[0], xs[-1], xs[-1] - xs[0]
+    hm = 5.6
+    for i, x in enumerate(xs):
+        t = i / L
+        env = hm * ((t + 0.03) ** 0.4) * (1 - t) / 0.33
+        wave = 1.0 + 0.26 * math.sin(t * math.pi * 5)
+        fill_col(m, x, min(hm, max(0.0, env * wave)))
+
+
 HEADS = {
     "A-leaf-spear": head_leaf_spear,
     "B-bodkin":     head_bodkin,
@@ -156,6 +211,10 @@ HEADS = {
     "D-broadhead":  head_broadhead,
     "E-harpoon":    head_harpoon,
     "F-winged":     head_winged,
+    "G-trilobate":  head_trilobate,
+    "H-swallowtail": head_swallowtail,
+    "I-winged-spear": head_winged_spear,
+    "J-flamberge":  head_flamberge,
 }
 
 

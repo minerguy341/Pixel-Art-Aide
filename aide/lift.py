@@ -178,18 +178,34 @@ def _zhalf(name, dy, r, flat, ridge):
 _ZPROFILE_CROSS = ("round", "lens", "diamond", "square", "midrib")
 
 
-def sweep(mask, w, h, cross="round", flat=0.5, ridge=0.45,
+def _poly_inside(ny, nz, sides):
+    """Is normalised point (ny, nz) inside a regular `sides`-gon of circumradius 1
+    with a vertex pointing up (+Y)? A faceted point — triangle (3) is the solid
+    'pyramidal' trilobate section, hexagon (6) a many-faceted spire, etc."""
+    import math
+    ap = math.cos(math.pi / sides)                # apothem for circumradius 1
+    for k in range(sides):                        # each edge's outward normal
+        a = math.pi / 2 + math.pi / sides + k * 2 * math.pi / sides
+        if ny * math.cos(a) + nz * math.sin(a) > ap + 1e-9:
+            return False
+    return True
+
+
+def sweep(mask, w, h, cross="round", flat=0.5, ridge=0.45, sides=3,
           axis_y=None) -> Volume:
     """Lathe the silhouette about its long (X) axis, but give each cross-section
     a *forged blade* shape rather than a plain disc — `cross` selects lenticular,
-    rhombic, square (bodkin) or a lens-with-midrib. `flat` is the depth/width
-    ratio (1.0 == round); `ridge` is the midrib height as a fraction of radius."""
+    rhombic, square (bodkin), lens-with-midrib, or a regular `poly`gon (faceted /
+    trilobate). `flat` is the depth/width ratio (1.0 == round); `ridge` is the
+    midrib height as a fraction of radius; `sides` is the polygon face count."""
     radii, axis_y = _radii(mask, w, h, axis_y)
     if radii is None:
         return Volume(set(), 1, 1, 1)
     maxr = max(radii)
-    maxz = max((_zhalf(cross, dy, maxr, flat, ridge)
-                for dy in range(-int(maxr), int(maxr) + 1)), default=0.0)
+    is_poly = cross == "poly"
+    maxz = maxr if is_poly else max(
+        (_zhalf(cross, dy, maxr, flat, ridge)
+         for dy in range(-int(maxr), int(maxr) + 1)), default=0.0)
     nz, zc = _odd_frame(maxz)
     yc = (h - 1) - axis_y
 
@@ -198,8 +214,16 @@ def sweep(mask, w, h, cross="round", flat=0.5, ridge=0.45,
         r = radii[x]
         if r <= 0:
             continue
-        for Y in range(max(0, int(round(yc - r))), min(h, int(round(yc + r)) + 1) + 1):
-            zh = _zhalf(cross, Y - yc, r, flat, ridge)
+        y0 = max(0, int(round(yc - r)))
+        y1 = min(h, int(round(yc + r)) + 1)
+        for Y in range(y0, y1 + 1):
+            dy = Y - yc
+            if is_poly:
+                for z in range(nz):
+                    if _poly_inside(dy / r, (z - zc) / r, sides):
+                        voxels.add((x, Y, z))
+                continue
+            zh = _zhalf(cross, dy, r, flat, ridge)
             if zh < 0:
                 continue
             for z in range(int(round(zc - zh)), int(round(zc + zh)) + 1):
@@ -309,10 +333,11 @@ def _lift_region(mask, w, h, mode, kw, axis_y=None):
         return radial(mask, w, h, blades=kw.get("blades", 3),
                       thickness=kw.get("bladethick", 0.22),
                       hub=kw.get("hub", 0.16), axis_y=axis_y)
-    if mode in _ZPROFILE_CROSS or mode == "revolve":
+    if mode in _ZPROFILE_CROSS or mode in ("revolve", "poly"):
         cross = "round" if mode == "revolve" else mode
         return sweep(mask, w, h, cross=cross, flat=kw.get("flat", 0.5),
-                     ridge=kw.get("ridge", 0.45), axis_y=axis_y)
+                     ridge=kw.get("ridge", 0.45), sides=kw.get("sides", 3),
+                     axis_y=axis_y)
     raise ValueError(f"unknown head/region mode {mode!r}")
 
 
@@ -344,8 +369,8 @@ def lift(path_or_mask, mode: str = "revolve", **kw) -> Volume:
                       head_mode=kw.get("head_mode", "blade"),
                       axis_y=kw.get("axis_y"), **{
                           k: kw[k] for k in
-                          ("thickness", "flat", "ridge", "blades", "bladethick", "hub")
-                          if k in kw})
+                          ("thickness", "flat", "ridge", "sides", "blades",
+                           "bladethick", "hub") if k in kw})
     return _lift_region(mask, w, h, mode, kw, axis_y=kw.get("axis_y"))
 
 

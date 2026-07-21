@@ -67,7 +67,7 @@ def main(argv: list[str] | None = None) -> int:
 
     p = sub.add_parser("lift", help="lift a 2D silhouette (.pxg/.png) into a 3D voxel model")
     p.add_argument("src", help="silhouette source; opaque pixels are the shape")
-    _modes = ["revolve", "blade", "hybrid", "lens", "diamond", "square", "midrib", "radial"]
+    _modes = ["revolve", "blade", "hybrid", "lens", "diamond", "square", "midrib", "poly", "radial"]
     p.add_argument("--mode", choices=_modes, default="revolve",
                    help="revolve=round lathe; blade=flat edge-tapered; forged "
                         "cross-sections lens/diamond/square/midrib; radial=N-blade "
@@ -78,6 +78,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--flat", type=float, default=0.5, help="lens/diamond/square/midrib: depth/width ratio")
     p.add_argument("--ridge", type=float, default=0.45, help="midrib: spine height (fraction of radius)")
     p.add_argument("--blades", type=int, default=3, help="radial: number of blades")
+    p.add_argument("--sides", type=int, default=3, help="poly: regular-polygon face count (3=triangle)")
     p.add_argument("--collar-end", type=int, default=14, help="hybrid: last column revolved into the round base")
     p.add_argument("--head-start", type=int, default=13, help="hybrid: first column of the head")
     p.add_argument("--color", default="8A6BB6", help="flat material hex for previews/viewer")
@@ -160,7 +161,7 @@ def main(argv: list[str] | None = None) -> int:
         name = Path(args.src).stem
         vol = lift(args.src, mode=args.mode, head_mode=args.head_mode,
                    thickness=args.thickness, flat=args.flat, ridge=args.ridge,
-                   blades=args.blades, collar_end=args.collar_end,
+                   sides=args.sides, blades=args.blades, collar_end=args.collar_end,
                    head_start=args.head_start)
         faces = exposed_faces(vol)
         col = parse_color(args.color)[:3]

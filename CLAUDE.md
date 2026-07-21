@@ -30,9 +30,10 @@ textures and picking from contact sheets.
 - Model-from-art (the inverse): `python3 -m aide lift <silhouette.pxg/.png> --html view.html`
   infers a third dimension from a flat side-view silhouette and writes a voxel
   model. Lift modes: `revolve` (round lathe), `blade` (edge-tapered flat), the
-  forged cross-sections `lens`/`diamond`/`square`/`midrib` (studied from real
-  spear/arrowhead geometry — lenticular, rhombic, bodkin, midrib-stiffened),
-  `radial` (`--blades N` broadhead, Y/+ cross-section), and `hybrid` (a round
+  forged cross-sections `lens`/`diamond`/`square`/`midrib`/`poly` (studied from
+  real spear/arrowhead geometry — lenticular, rhombic, bodkin, midrib-stiffened,
+  faceted/trilobate regular-`--sides` polygon), `radial` (`--blades N` broadhead,
+  Y/+ cross-section), and `hybrid` (a round
   turned collar welded to a `--head-mode` head, so a flat tip still fits a round
   wand core). Emits `.obj`, an iso preview PNG, and/or a self-contained rotatable
   WebGL page (mouse + touch, no external requests). Geometry only — untextured

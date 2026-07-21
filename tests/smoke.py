@@ -153,6 +153,8 @@ def main() -> None:
     assert mid.nz >= lens.nz                          # midrib spine is proud of the lens
     rad = lf.radial(bar, 8, 8, blades=3)
     assert rad.voxels and len(rad.voxels) < len(rev.voxels)   # fins, not a solid disc
+    tri = lf.sweep(bar, 8, 8, cross="poly", sides=3)          # trilobate / faceted
+    assert tri.voxels and tri.nz % 2 == 1
     # hybrid can weld any head cross-section onto the round collar
     hyd = lf.hybrid(comp, 8, 8, collar_end=3, head_start=3, head_mode="diamond", flat=0.6)
     assert _cc3d(hyd.voxels) == 1
