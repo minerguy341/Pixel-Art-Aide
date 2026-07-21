@@ -40,3 +40,20 @@ Retry of the wood-type textures, **logs + leaves only** (planks/doors/tables wer
 ## Open (for user)
 Pick a direction per subject (or ask for changes). The teal-heart end grain is shared across
 silverwood candidates; greatwood top is shared rings. Not yet placed into the mod assets tree.
+
+## r2 (make_r2.py) — more logs, cores, silverwood leaves
+Greatwood leaves DECIDED: C accent + random rotation. r2 adds:
+- **Greatwood bark**: D fibrous / E chunky / F cracked. Eyeball: E chunky is the standout
+  (deep furrows, rounded-ridge depth); D fibrous a nice organic option; F cracked reads a
+  bit brick/masonry (blocky offset plates) — polarizing.
+- **Silverwood bark**: D runed / E polished / F veined. E polished = elegant refined silver;
+  F veined = clear teal shimmer veins (most magical); D runed is busier/noisier.
+- **Greatwood cores**: 1 rings / 2 star (radial checking cracks) / 3 burl (eccentric). All read.
+- **Silverwood cores**: 1 heart (restrained) / 2 radiant (teal glow, bold) / 3 runic (star sigil).
+- **Silverwood leaves r2**: D clump (more lit/shadow depth — fixes r1's subtle clumping) /
+  E blossom (teal 2px glowing buds) / F frost (icy highlights, airier 35%). Shown fixed|random.
+
+### Accent-level flags (teal % of opaque pixels; card guidance is ≤~3% for normal materials)
+- silverwood_log_veined **7%**, silverwood_core_radiant **14%**, silverwood_leaves_blossom **7%**
+  — deliberately over the card's teal rule (magical variants). Can dial back on request.
+- Cores are end-grain (top face only), so a bolder teal there is less of a whole-block field.

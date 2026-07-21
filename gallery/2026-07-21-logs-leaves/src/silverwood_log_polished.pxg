@@ -1,0 +1,24 @@
+size: 16x16
+[palette]
+a = 9EA69C
+b = C4C9BD
+c = D9DED9
+d = E9ECE2
+e = 7FE8D8
+[grid]
+aabbccddddccbbaa
+aabbccddddccbbaa
+aabbccddddccbbaa
+aabbccddddccbbaa
+aabbbeddddccbbaa
+aabbbcddddccbbaa
+aabbbcddddccbbaa
+aabbbcddddccbbaa
+aabbccddddccbbaa
+aabbccddddccbbaa
+aabbccddddccbbaa
+aabbccddddecbbaa
+aabbccddddccbbaa
+aabbccddddccbbaa
+aabbccddddccbbaa
+aabbccddddccbbaa
