@@ -43,3 +43,9 @@ grammar) instead of vertical; tight-clean's end-joints softened so it reads smoo
 8. weathered — hairline checks along the grain (aged character)
 Eyeball leans: 1 random-width / 2 shiplap / 3 v-groove for character; 4 tight-clean for a refined
 silverwood; 7 board-and-batten for a distinct siding look.
+
+## r3 (make_planks_r3.py) — v-groove x weathered HYBRID (user pick: combine #3 + #8)
+Merges the tongue-&-groove bevel (r2 #3) with weathered hairline checks (r2 #8). Both woods.
+- A  direct merge, 4px boards (regular, clean grooved paneling + light weathering)
+- B  random-width boards 6/4/6 (natural varied widths — reads the most organic; my lean)
+- C  heavier checks + grain (most weathered/rugged)
