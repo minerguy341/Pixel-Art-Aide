@@ -17,7 +17,7 @@ import json
 
 from PIL import Image, ImageDraw
 
-from aide.lift import FACE_NORMALS, Volume, exposed_faces
+from aide.lift import FACE_NORMALS, Volume
 
 # ---- static iso preview ---------------------------------------------------
 
@@ -76,19 +76,21 @@ def render_iso(faces, color=(0x8A, 0x6B, 0xB6), scale: int = 14,
 
 # ---- interactive WebGL gallery --------------------------------------------
 
-def _model_payload(name, faces, vol: Volume, mode: str) -> dict:
-    """Compact per-model record: flat face ints + centre offset + dims."""
-    flat = []
-    for (x, y, z, d) in faces:
-        flat += [x, y, z, d]
-    xs = [x for x, _, _, _ in faces] + [x + 1 for x, _, _, _ in faces]
-    ys = [y for _, y, _, _ in faces] + [y + 1 for _, y, _, _ in faces]
-    zs = [z for _, _, z, _ in faces] + [z + 1 for _, _, z, _ in faces]
+def _model_payload(name, vol: Volume, mode: str) -> dict:
+    """Compact per-model record: flat voxel occupancy + centre + dims. The viewer
+    builds BOTH the crisp cube surface and the smooth surface-nets mesh from this
+    occupancy in-browser, so the page stays small and the smooth/faceted toggle is
+    live (no second mesh to ship)."""
+    vox = sorted(vol.voxels)
+    flat = [c for v in vox for c in v]
+    xs = [v[0] for v in vox] + [v[0] + 1 for v in vox]
+    ys = [v[1] for v in vox] + [v[1] + 1 for v in vox]
+    zs = [v[2] for v in vox] + [v[2] + 1 for v in vox]
     return {
         "name": name,
         "mode": mode,
-        "faces": flat,
-        "nfaces": len(faces),
+        "vox": flat,
+        "nvox": len(vox),
         "center": [(min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2,
                    (min(zs) + max(zs)) / 2],
         "dims": [vol.nx, vol.ny, vol.nz],
@@ -101,7 +103,7 @@ def build_payloads(models: dict[str, tuple[Volume, str]],
     `group` to tag a whole set so the viewer can render labelled chip rows."""
     out = []
     for name, (vol, mode) in models.items():
-        rec = _model_payload(name, exposed_faces(vol), vol, mode)
+        rec = _model_payload(name, vol, mode)
         if group:
             rec["group"] = group
         out.append(rec)
@@ -153,7 +155,7 @@ _TEMPLATE = r"""<style>
   <div id="stage"><canvas id="c"></canvas><div id="hint">drag to rotate</div></div>
   <div id="mats"></div>
   <div id="bar"></div>
-  <div id="tog"><label><input type="checkbox" id="spin" checked> auto-spin</label><label><input type="checkbox" id="edges"> grid faces</label></div>
+  <div id="tog"><label><input type="checkbox" id="smooth" checked> smooth</label><label><input type="checkbox" id="spin" checked> auto-spin</label><label><input type="checkbox" id="edges"> grid faces</label></div>
   <div id="meta"></div>
 </div>
 <script>
@@ -183,22 +185,77 @@ const A_p=gl.getAttribLocation(prog,'p'),A_n=gl.getAttribLocation(prog,'n');
 const U_mvp=gl.getUniformLocation(prog,'mvp'),U_nm=gl.getUniformLocation(prog,'nm'),U_col=gl.getUniformLocation(prog,'col');
 gl.enable(gl.DEPTH_TEST);
 
-function buildGeom(m,inset){
- const c=m.center,f=m.faces,pos=[],nor=[];
- for(let i=0;i<f.length;i+=4){
-  const x=f[i],y=f[i+1],z=f[i+2],d=f[i+3],nn=FN[d],C=CORN[d];
-  const ins=inset||0;
-  const v=C.map(o=>[x+o[0]-c[0], y+o[1]-c[1], z+o[2]-c[2]]);
-  // optional face inset to read individual voxel faces
-  if(ins){const cx=(v[0][0]+v[1][0]+v[2][0]+v[3][0])/4,cy=(v[0][1]+v[1][1]+v[2][1]+v[3][1])/4,cz=(v[0][2]+v[1][2]+v[2][2]+v[3][2])/4;
-   for(const q of v){q[0]+=(cx-q[0])*ins;q[1]+=(cy-q[1])*ins;q[2]+=(cz-q[2])*ins;}}
-  const tri=[0,1,2,0,2,3];
-  for(const k of tri){pos.push(v[k][0],v[k][1],v[k][2]);nor.push(nn[0],nn[1],nn[2]);}
- }
- let r2=0;for(let i=0;i<pos.length;i+=3){const d=pos[i]*pos[i]+pos[i+1]*pos[i+1]+pos[i+2]*pos[i+2];if(d>r2)r2=d;}
- return {pos:new Float32Array(pos),nor:new Float32Array(nor),count:pos.length/3,
-  radius:Math.sqrt(r2)||10};
+// reconstruct the occupancy set for a model (cached)
+function voxSet(m){
+ if(m._set)return m._set;
+ const s=new Set(),v=m.vox;
+ for(let i=0;i<v.length;i+=3)s.add(v[i]+','+v[i+1]+','+v[i+2]);
+ m._set=s;return s;
 }
+function finish(pos,nor){
+ let r2=0;for(let i=0;i<pos.length;i+=3){const d=pos[i]*pos[i]+pos[i+1]*pos[i+1]+pos[i+2]*pos[i+2];if(d>r2)r2=d;}
+ return {pos:new Float32Array(pos),nor:new Float32Array(nor),count:pos.length/3,radius:Math.sqrt(r2)||10};
+}
+// CRISP: cull faces between a filled voxel and empty space -> cube quads
+function buildCrisp(m,inset){
+ const c=m.center,S=voxSet(m),v=m.vox,pos=[],nor=[],ins=inset||0,tri=[0,1,2,0,2,3];
+ for(let i=0;i<v.length;i+=3){const x=v[i],y=v[i+1],z=v[i+2];
+  for(let d=0;d<6;d++){const nn=FN[d];
+   if(S.has((x+nn[0])+','+(y+nn[1])+','+(z+nn[2])))continue;
+   const q=CORN[d].map(o=>[x+o[0]-c[0],y+o[1]-c[1],z+o[2]-c[2]]);
+   if(ins){const cx=(q[0][0]+q[1][0]+q[2][0]+q[3][0])/4,cy=(q[0][1]+q[1][1]+q[2][1]+q[3][1])/4,cz=(q[0][2]+q[1][2]+q[2][2]+q[3][2])/4;
+    for(const p of q){p[0]+=(cx-p[0])*ins;p[1]+=(cy-p[1])*ins;p[2]+=(cz-p[2])*ins;}}
+   for(const k of tri){pos.push(q[k][0],q[k][1],q[k][2]);nor.push(nn[0],nn[1],nn[2]);}}}
+ return finish(pos,nor);
+}
+// SMOOTH: naive surface nets — one relaxed vertex per boundary cell, gradient
+// normals. Turns the voxel staircase into a smooth faceted skin.
+const SN_C=[[0,0,0],[1,0,0],[0,1,0],[1,1,0],[0,0,1],[1,0,1],[0,1,1],[1,1,1]];
+const SN_E=[[0,1],[0,2],[0,4],[1,3],[1,5],[2,3],[2,6],[4,5],[4,6],[3,7],[5,7],[6,7]];
+function buildSmooth(m,relax){
+ const c=m.center,S=voxSet(m),v=m.vox;
+ let x0=1e9,y0=1e9,z0=1e9,x1=-1e9,y1=-1e9,z1=-1e9;
+ for(let i=0;i<v.length;i+=3){x0=Math.min(x0,v[i]);x1=Math.max(x1,v[i]);
+  y0=Math.min(y0,v[i+1]);y1=Math.max(y1,v[i+1]);z0=Math.min(z0,v[i+2]);z1=Math.max(z1,v[i+2]);}
+ const H=(i,j,k)=>S.has(i+','+j+','+k)?1:0;
+ const cellV=new Map(),verts=[],norms=[];
+ for(let i=x0-1;i<=x1+1;i++)for(let j=y0-1;j<=y1+1;j++)for(let k=z0-1;k<=z1+1;k++){
+  const s=SN_C.map(o=>H(i+o[0],j+o[1],k+o[2]));const tot=s[0]+s[1]+s[2]+s[3]+s[4]+s[5]+s[6]+s[7];
+  if(tot===0||tot===8)continue;
+  let px=0,py=0,pz=0,cn=0;
+  for(const [a,b] of SN_E)if(s[a]!==s[b]){const A=SN_C[a],B=SN_C[b];
+   px+=(A[0]+B[0])/2;py+=(A[1]+B[1])/2;pz+=(A[2]+B[2])/2;cn++;}
+  cellV.set(i+','+j+','+k,verts.length);
+  verts.push([i+px/cn,j+py/cn,k+pz/cn]);
+  norms.push([-((s[1]+s[3]+s[5]+s[7])-(s[0]+s[2]+s[4]+s[6])),
+              -((s[2]+s[3]+s[6]+s[7])-(s[0]+s[1]+s[4]+s[5])),
+              -((s[4]+s[5]+s[6]+s[7])-(s[0]+s[1]+s[2]+s[3]))]);
+ }
+ const cv=(i,j,k)=>cellV.get(i+','+j+','+k),tris=[];
+ for(let i=x0-1;i<=x1+2;i++)for(let j=y0-1;j<=y1+2;j++)for(let k=z0-1;k<=z1+2;k++){
+  if(H(i,j,k)!==H(i+1,j,k)){const q=[cv(i,j-1,k-1),cv(i,j,k-1),cv(i,j,k),cv(i,j-1,k)];
+   if(q.every(x=>x!==undefined))tris.push(q[0],q[1],q[2],q[0],q[2],q[3]);}
+  if(H(i,j,k)!==H(i,j+1,k)){const q=[cv(i-1,j,k-1),cv(i,j,k-1),cv(i,j,k),cv(i-1,j,k)];
+   if(q.every(x=>x!==undefined))tris.push(q[0],q[1],q[2],q[0],q[2],q[3]);}
+  if(H(i,j,k)!==H(i,j,k+1)){const q=[cv(i-1,j-1,k),cv(i,j-1,k),cv(i,j,k),cv(i-1,j,k)];
+   if(q.every(x=>x!==undefined))tris.push(q[0],q[1],q[2],q[0],q[2],q[3]);}
+ }
+ // Laplacian relaxation
+ if(relax>0){const adj=verts.map(()=>new Set());
+  for(let t=0;t<tris.length;t+=3){const a=tris[t],b=tris[t+1],d=tris[t+2];
+   adj[a].add(b);adj[a].add(d);adj[b].add(a);adj[b].add(d);adj[d].add(a);adj[d].add(b);}
+  for(let it=0;it<relax;it++){const nv=verts.map(p=>p.slice());
+   for(let i=0;i<verts.length;i++){const nb=adj[i];if(!nb.size)continue;
+    let sx=0,sy=0,sz=0;nb.forEach(n=>{sx+=verts[n][0];sy+=verts[n][1];sz+=verts[n][2];});
+    const mn=nb.size;nv[i][0]=0.5*verts[i][0]+0.5*sx/mn;nv[i][1]=0.5*verts[i][1]+0.5*sy/mn;nv[i][2]=0.5*verts[i][2]+0.5*sz/mn;}
+   for(let i=0;i<verts.length;i++)verts[i]=nv[i];}}
+ for(const n of norms){const L=Math.hypot(n[0],n[1],n[2])||1;n[0]/=L;n[1]/=L;n[2]/=L;}
+ const pos=[],nor=[];
+ for(let t=0;t<tris.length;t++){const vi=tris[t],p=verts[vi],n=norms[vi];
+  pos.push(p[0]-c[0],p[1]-c[1],p[2]-c[2]);nor.push(n[0],n[1],n[2]);}
+ return finish(pos,nor);
+}
+function buildGeom(m,inset){return smooth?buildSmooth(m,2):buildCrisp(m,inset);}
 const posB=gl.createBuffer(),norB=gl.createBuffer();
 let geom=null,radius=10;
 function upload(g){geom=g;radius=g.radius;
@@ -212,7 +269,7 @@ function rotY(t){const c=Math.cos(t),s=Math.sin(t);return[c,0,-s,0,0,1,0,0,s,0,c
 function rotX(t){const c=Math.cos(t),s=Math.sin(t);return[1,0,0,0,0,c,s,0,0,-s,c,0,0,0,0,1];}
 function trans(x,y,z){return[1,0,0,0,0,1,0,0,0,0,1,0,x,y,z,1];}
 
-let yaw=-0.7,pitch=-0.35,dist=2.55,spin=true,inset=0;
+let yaw=-0.7,pitch=-0.35,dist=2.55,spin=true,inset=0,smooth=true;
 let curMat=MATKEYS[0],curModel=0;
 
 function draw(){
@@ -243,7 +300,7 @@ function loop(t){const dt=(t-last)/1000;last=t;if(spin)yaw+=dt*0.5;draw();reques
 
 function select(i){curModel=i;const m=MODELS[i];upload(buildGeom(m,inset));
  document.querySelectorAll('#bar .chip').forEach((c,k)=>c.setAttribute('aria-pressed',k===i));
- document.getElementById('meta').textContent=`${m.name} · ${m.mode} · ${m.nfaces} faces · ${m.dims.join('×')} voxels`;}
+ document.getElementById('meta').textContent=`${m.name} · ${m.mode} · ${m.nvox} voxels · ${smooth?'smooth':'faceted'} · ${geom.count/3|0} tris`;}
 
 // ---- UI ----
 const bar=document.getElementById('bar');
@@ -258,6 +315,8 @@ MATKEYS.forEach(k=>{const s=document.createElement('button');s.className='sw';
  s.style.background=MATS[k];s.title=k;s.setAttribute('aria-pressed',k===curMat);
  s.onclick=()=>{curMat=k;document.querySelectorAll('#mats .sw').forEach(e=>e.setAttribute('aria-pressed',e.title===k));};
  mats.appendChild(s);});
+document.getElementById('smooth').onchange=e=>{smooth=e.target.checked;
+ document.getElementById('edges').disabled=smooth;select(curModel);};
 document.getElementById('spin').onchange=e=>spin=e.target.checked;
 document.getElementById('edges').onchange=e=>{inset=e.target.checked?0.12:0;select(curModel);};
 
@@ -272,6 +331,7 @@ stage.addEventListener('touchmove',e=>{if(e.touches.length===2){e.preventDefault
 stage.addEventListener('touchend',()=>pinch=null);
 
 if(matchMedia('(prefers-reduced-motion: reduce)').matches){spin=false;document.getElementById('spin').checked=false;}
+document.getElementById('edges').disabled=smooth;
 select(0);requestAnimationFrame(loop);
 </script>
 """

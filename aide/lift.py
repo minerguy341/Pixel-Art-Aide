@@ -432,3 +432,135 @@ def to_obj(faces, name: str = "model") -> str:
     lines.extend(vlines)
     lines.extend(flines)
     return "\n".join(lines) + "\n"
+
+
+# ---------------------------------------------------------------------------
+# voxels -> smooth surface (naive surface nets)
+# ---------------------------------------------------------------------------
+
+# the 8 corners of a lattice cell and its 12 edges (corner index pairs)
+_SN_CORNERS = [(0, 0, 0), (1, 0, 0), (0, 1, 0), (1, 1, 0),
+               (0, 0, 1), (1, 0, 1), (0, 1, 1), (1, 1, 1)]
+_SN_EDGES = [(0, 1), (0, 2), (0, 4), (1, 3), (1, 5), (2, 3),
+             (2, 6), (4, 5), (4, 6), (3, 7), (5, 7), (6, 7)]
+
+
+def surface_nets(vol: Volume, relax: int = 2):
+    """Smooth the blocky voxel model into a dual surface (naive surface nets):
+    every cell straddling the solid/empty boundary contributes ONE vertex placed
+    at the centroid of its edge crossings, then a few Laplacian passes relax the
+    staircase into a smooth faceted skin. Per-vertex normals come from the
+    occupancy gradient, so shading is smooth. Returns (verts, tris, normals).
+
+    This is the "square-or-triangle portion per pixel" read of the model: flat
+    runs stay flat, and every boundary voxel is cut by the surface instead of
+    standing as a full cube."""
+    import math
+
+    S = vol.voxels
+    if not S:
+        return [], [], []
+    xs = [v[0] for v in S]
+    ys = [v[1] for v in S]
+    zs = [v[2] for v in S]
+    x0, x1 = min(xs) - 1, max(xs) + 1
+    y0, y1 = min(ys) - 1, max(ys) + 1
+    z0, z1 = min(zs) - 1, max(zs) + 1
+    has = S.__contains__
+
+    cell_vert: dict[tuple[int, int, int], int] = {}
+    verts: list[list[float]] = []
+    norms: list[list[float]] = []
+    for i in range(x0, x1 + 1):
+        for j in range(y0, y1 + 1):
+            for k in range(z0, z1 + 1):
+                s = [1 if has((i + cx, j + cy, k + cz)) else 0
+                     for cx, cy, cz in _SN_CORNERS]
+                tot = sum(s)
+                if tot == 0 or tot == 8:
+                    continue
+                px = py = pz = 0.0
+                c = 0
+                for a, b in _SN_EDGES:
+                    if s[a] != s[b]:
+                        ca, cb = _SN_CORNERS[a], _SN_CORNERS[b]
+                        px += (ca[0] + cb[0]) / 2
+                        py += (ca[1] + cb[1]) / 2
+                        pz += (ca[2] + cb[2]) / 2
+                        c += 1
+                cell_vert[(i, j, k)] = len(verts)
+                verts.append([i + px / c, j + py / c, k + pz / c])
+                nx = (s[1] + s[3] + s[5] + s[7]) - (s[0] + s[2] + s[4] + s[6])
+                ny = (s[2] + s[3] + s[6] + s[7]) - (s[0] + s[1] + s[4] + s[5])
+                nz = (s[4] + s[5] + s[6] + s[7]) - (s[0] + s[1] + s[2] + s[3])
+                norms.append([-nx, -ny, -nz])
+
+    cv = cell_vert.get
+    tris: list[int] = []
+    # one quad per lattice edge whose endpoints straddle the surface; the 4 cells
+    # sharing that edge own the 4 corners. Winding is unused (normals are shaded,
+    # backfaces aren't culled), so emit two triangles either way.
+    for i in range(x0, x1 + 2):
+        for j in range(y0, y1 + 2):
+            for k in range(z0, z1 + 2):
+                if has((i, j, k)) != has((i + 1, j, k)):
+                    q = (cv((i, j - 1, k - 1)), cv((i, j, k - 1)),
+                         cv((i, j, k)), cv((i, j - 1, k)))
+                    if None not in q:
+                        tris += [q[0], q[1], q[2], q[0], q[2], q[3]]
+                if has((i, j, k)) != has((i, j + 1, k)):
+                    q = (cv((i - 1, j, k - 1)), cv((i, j, k - 1)),
+                         cv((i, j, k)), cv((i - 1, j, k)))
+                    if None not in q:
+                        tris += [q[0], q[1], q[2], q[0], q[2], q[3]]
+                if has((i, j, k)) != has((i, j, k + 1)):
+                    q = (cv((i - 1, j - 1, k)), cv((i, j - 1, k)),
+                         cv((i, j, k)), cv((i - 1, j, k)))
+                    if None not in q:
+                        tris += [q[0], q[1], q[2], q[0], q[2], q[3]]
+
+    # Laplacian relaxation: pull each vertex toward the mean of its edge-neighbours
+    if relax > 0 and verts:
+        adj: list[set] = [set() for _ in verts]
+        for t in range(0, len(tris), 3):
+            a, b, cc = tris[t], tris[t + 1], tris[t + 2]
+            adj[a].update((b, cc)); adj[b].update((a, cc)); adj[cc].update((a, b))
+        for _ in range(relax):
+            new = [v[:] for v in verts]
+            for vi, nb in enumerate(adj):
+                if not nb:
+                    continue
+                sx = sy = sz = 0.0
+                for n in nb:
+                    sx += verts[n][0]; sy += verts[n][1]; sz += verts[n][2]
+                m = len(nb)
+                # blend halfway toward the neighbour centroid
+                new[vi][0] = 0.5 * verts[vi][0] + 0.5 * sx / m
+                new[vi][1] = 0.5 * verts[vi][1] + 0.5 * sy / m
+                new[vi][2] = 0.5 * verts[vi][2] + 0.5 * sz / m
+            verts = new
+
+    for n in norms:
+        L = math.sqrt(n[0] * n[0] + n[1] * n[1] + n[2] * n[2]) or 1.0
+        n[0] /= L; n[1] /= L; n[2] /= L
+    return verts, tris, norms
+
+
+def to_obj_mesh(verts, tris, norms=None, name: str = "model") -> str:
+    """Wavefront OBJ of a smooth triangle mesh (from `surface_nets`), centred on
+    its bbox, with vertex normals for smooth shading. Untextured."""
+    if not verts:
+        return f"# {name}: empty\n"
+    cx = (min(v[0] for v in verts) + max(v[0] for v in verts)) / 2
+    cy = (min(v[1] for v in verts) + max(v[1] for v in verts)) / 2
+    cz = (min(v[2] for v in verts) + max(v[2] for v in verts)) / 2
+    out = [f"# {name} — smoothed (surface nets) by aide.lift", f"o {name}"]
+    for v in verts:
+        out.append(f"v {v[0]-cx:.3f} {v[1]-cy:.3f} {v[2]-cz:.3f}")
+    if norms:
+        for n in norms:
+            out.append(f"vn {n[0]:.3f} {n[1]:.3f} {n[2]:.3f}")
+    for t in range(0, len(tris), 3):
+        a, b, c = tris[t] + 1, tris[t + 1] + 1, tris[t + 2] + 1
+        out.append(f"f {a}//{a} {b}//{b} {c}//{c}" if norms else f"f {a} {b} {c}")
+    return "\n".join(out) + "\n"

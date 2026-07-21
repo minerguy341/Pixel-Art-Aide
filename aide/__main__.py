@@ -83,6 +83,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--head-start", type=int, default=13, help="hybrid: first column of the head")
     p.add_argument("--color", default="8A6BB6", help="flat material hex for previews/viewer")
     p.add_argument("--obj", help="write a Wavefront .obj here")
+    p.add_argument("--smooth", action="store_true", help="OBJ: write the smooth surface-nets mesh instead of voxel cubes")
     p.add_argument("--iso", help="write a flat-shaded iso preview PNG here")
     p.add_argument("--html", help="write a self-contained rotatable WebGL viewer here")
 
@@ -155,7 +156,7 @@ def main(argv: list[str] | None = None) -> int:
 
     elif args.cmd == "lift":
         from aide.grid import parse_color
-        from aide.lift import exposed_faces, lift, to_obj
+        from aide.lift import exposed_faces, lift, surface_nets, to_obj, to_obj_mesh
         from aide.liftviewer import build_payloads, render_iso, viewer_html
 
         name = Path(args.src).stem
@@ -170,7 +171,12 @@ def main(argv: list[str] | None = None) -> int:
             args.obj = str(Path(args.src).with_suffix(".obj"))
             args.iso = str(Path(args.src).with_suffix(".iso.png"))
         if args.obj:
-            Path(args.obj).write_text(to_obj(faces, name)); made.append(args.obj)
+            if args.smooth:
+                v, t, n = surface_nets(vol)
+                Path(args.obj).write_text(to_obj_mesh(v, t, n, name))
+            else:
+                Path(args.obj).write_text(to_obj(faces, name))
+            made.append(args.obj)
         if args.iso:
             render_iso(faces, color=col).save(args.iso); made.append(args.iso)
         if args.html:

@@ -162,7 +162,13 @@ def main() -> None:
     obj = lf.to_obj(rfaces, "cyl")
     assert obj.count("\nv ") > 8 and obj.count("\nf ") == len(rfaces)
     payloads = build_payloads({"cyl": (rev, "revolve")})
-    assert payloads[0]["nfaces"] == len(rfaces)
+    assert payloads[0]["nvox"] == len(rev.voxels) and len(payloads[0]["vox"]) == 3 * len(rev.voxels)
+    # surface nets smooths the voxels into a triangle mesh (verts, tris, normals)
+    sv, st, sn = lf.surface_nets(rev, relax=1)
+    assert sv and st and len(sn) == len(sv) and len(st) % 3 == 0
+    assert all(len(v) == 3 for v in sv) and max(st) < len(sv)   # indices in range
+    import math as _m
+    assert all(abs(_m.hypot(*n) - 1.0) < 1e-6 for n in sn if any(n))  # unit normals
     html = viewer_html(payloads, {"aetherium": "#8A6BB6"})
     assert "http://" not in html and "https://" not in html and "webgl" in html.lower()
     assert render_iso(rfaces).width > 4

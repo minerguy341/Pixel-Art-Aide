@@ -35,9 +35,11 @@ textures and picking from contact sheets.
   faceted/trilobate regular-`--sides` polygon), `radial` (`--blades N` broadhead,
   Y/+ cross-section), and `hybrid` (a round
   turned collar welded to a `--head-mode` head, so a flat tip still fits a round
-  wand core). Emits `.obj`, an iso preview PNG, and/or a self-contained rotatable
-  WebGL page (mouse + touch, no external requests). Geometry only — untextured
-  (see `aide/lift.py`, `aide/liftviewer.py`).
+  wand core). Emits `.obj` (add `--smooth` for a surface-nets mesh), an iso
+  preview PNG, and/or a self-contained rotatable WebGL page (mouse + touch, no
+  external requests) that ships voxel occupancy and builds both the crisp cube
+  surface and a smooth surface-nets skin in-browser with a live smooth/faceted
+  toggle. Geometry only — untextured (see `aide/lift.py`, `aide/liftviewer.py`).
 
 ## Hard rules
 

@@ -55,6 +55,15 @@ every tip keeps a round turned collar (fits a wand core) welded to a forged head
 grouped viewer with all 17 models (the 7 caps + these 10 tips). That combined
 page is the thing to publish/share; the two per-set viewers still build too.
 
+## Smoothing
+
+The viewer ships voxel *occupancy* and builds two surfaces in-browser: the crisp
+cube shell and a **surface-nets** smooth skin (one relaxed vertex per boundary
+cell + gradient normals) — a live **smooth ⇄ faceted** toggle (`aide.surface_nets`;
+`aide lift --smooth` writes the smooth mesh as OBJ). Smoothing softens the crisp
+cross-sections, so faceted mode is there when you want the sharp diamond/poly
+edges back.
+
 ## Verified (headless)
 
 - `python3 tests/smoke.py` passes (added sweep lens/diamond/midrib + radial +
