@@ -65,6 +65,16 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--scale", type=int, default=140)
     p.add_argument("-o", "--out", required=True)
 
+    p = sub.add_parser("lift", help="lift a 2D silhouette (.pxg/.png) into a 3D voxel model")
+    p.add_argument("src", help="silhouette source; opaque pixels are the shape")
+    p.add_argument("--mode", choices=["revolve", "blade"], default="revolve",
+                   help="revolve = lathe about the long axis (round); blade = flat, edge-tapered")
+    p.add_argument("--thickness", type=int, default=6, help="blade mode: max Z thickness in voxels")
+    p.add_argument("--color", default="8A6BB6", help="flat material hex for previews/viewer")
+    p.add_argument("--obj", help="write a Wavefront .obj here")
+    p.add_argument("--iso", help="write a flat-shaded iso preview PNG here")
+    p.add_argument("--html", help="write a self-contained rotatable WebGL viewer here")
+
     p = sub.add_parser("autotex", help="generate a starter texture laid out for a model's UVs")
     p.add_argument("model", help="path to a model .json")
     p.add_argument("--base", default="8A6BB5", help="base hex for the ramp")
@@ -131,6 +141,31 @@ def main(argv: list[str] | None = None) -> int:
         right = load_texture(args.right) if args.right else side
         iso_block(top, side, right, scale=args.scale).save(args.out)
         print(args.out)
+
+    elif args.cmd == "lift":
+        from aide.grid import parse_color
+        from aide.lift import exposed_faces, lift, to_obj
+        from aide.liftviewer import build_payloads, render_iso, viewer_html
+
+        name = Path(args.src).stem
+        vol = lift(args.src, mode=args.mode, thickness=args.thickness)
+        faces = exposed_faces(vol)
+        col = parse_color(args.color)[:3]
+        made = []
+        if not (args.obj or args.iso or args.html):  # sensible default outputs
+            args.obj = str(Path(args.src).with_suffix(".obj"))
+            args.iso = str(Path(args.src).with_suffix(".iso.png"))
+        if args.obj:
+            Path(args.obj).write_text(to_obj(faces, name)); made.append(args.obj)
+        if args.iso:
+            render_iso(faces, color=col).save(args.iso); made.append(args.iso)
+        if args.html:
+            payloads = build_payloads({name: (vol, args.mode)})
+            html = viewer_html(payloads, {name: f"#{args.color.lstrip('#')}"})
+            Path(args.html).write_text(html); made.append(args.html)
+        print(f"{name}: {args.mode}, {vol.nx}x{vol.ny}x{vol.nz} voxels, {len(faces)} faces")
+        for m in made:
+            print(" ", m)
 
     elif args.cmd == "autotex":
         from aide.model import load_model

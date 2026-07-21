@@ -9,7 +9,7 @@ textures and picking from contact sheets.
 
 | Path | What it is |
 |---|---|
-| `aide/` | Toolkit: `.pxg` format, rendering, analyzers, contact sheets, style parsing, model read/render/auto-texture |
+| `aide/` | Toolkit: `.pxg` format, rendering, analyzers, contact sheets, style parsing, model read/render/auto-texture, silhouette→3D lift |
 | `styles/*.md` | Style cards — palettes in ```palette blocks + prose rules + checklist |
 | `knowledge/shading.md` | Craft reference; read before authoring |
 | `knowledge/lessons.md` | Append-only lessons log — **user-approved entries only** |
@@ -21,12 +21,19 @@ textures and picking from contact sheets.
 
 - Setup: `pip install -r requirements.txt` (just Pillow)
 - Verify toolkit: `python3 tests/smoke.py` — this is the definition of "the toolkit works"
-- CLI: `python3 -m aide {render,preview,analyze,compare,swatch,import,bleed,block,model,autotex}` (run from repo root; `--help` for flags)
+- CLI: `python3 -m aide {render,preview,analyze,compare,swatch,import,bleed,block,model,autotex,lift}` (run from repo root; `--help` for flags)
 - Model pipeline: `python3 -m aide model <model.json> -o out.png` reads any Minecraft
   model's shape and renders it (auto-textures if no `--tex/--single/--texdir`
   given); `python3 -m aide autotex <model.json> -o tex.png` writes a starter
   texture laid out for the model's UVs. Works for non-cube shapes (stairs,
   rods, multi-element items).
+- Model-from-art (the inverse): `python3 -m aide lift <silhouette.pxg/.png> --html view.html`
+  infers a third dimension from a flat side-view silhouette and writes a voxel
+  model. `--mode revolve` laths the profile about its long axis (round finials);
+  `--mode blade` keeps the outline and gives it an edge-tapered thickness (flat
+  forged shapes). Emits `.obj`, an iso preview PNG, and/or a self-contained
+  rotatable WebGL page (mouse + touch, no external requests). Geometry only —
+  untextured (see `aide/lift.py`, `aide/liftviewer.py`).
 
 ## Hard rules
 

@@ -102,6 +102,33 @@ def main() -> None:
                        "textures": {"top": "x:t", "side": "x:s", "bottom": "x:b"}})
     assert len(cbt.elements[0].faces) == 6
 
+    # lift pipeline: a 2D silhouette -> 3D voxels -> culled faces -> OBJ + viewer
+    from aide import lift as lf
+    from aide.liftviewer import build_payloads, render_iso, viewer_html
+
+    # a 5-wide bar (a filled rectangle mask): revolve -> a solid cylinder
+    bar = [[(2 <= y <= 5) for _ in range(8)] for y in range(8)]
+    rev = lf.revolve(bar, 8, 8)
+    assert rev and rev.nz >= 3, rev            # depth was inferred (>1 voxel deep)
+    rfaces = lf.exposed_faces(rev)
+    assert rfaces and all(len(f) == 4 and 0 <= f[3] < 6 for f in rfaces)
+    # every exposed face borders empty space (none between two filled voxels)
+    for x, y, z, dcode in rfaces:
+        dx, dy, dz = lf.FACE_NORMALS[dcode]
+        assert (x + dx, y + dy, z + dz) not in rev.voxels
+    # blade keeps the outline but gives it a tapered thickness
+    bld = lf.blade(bar, 8, 8, thickness=6)
+    footprint = {(x, y) for x, y, _ in bld.voxels}
+    assert bld.nz == 7 and len(footprint) == 32  # every silhouette pixel preserved
+    # OBJ has verts + quad faces; viewer HTML is self-contained (no external refs)
+    obj = lf.to_obj(rfaces, "cyl")
+    assert obj.count("\nv ") > 8 and obj.count("\nf ") == len(rfaces)
+    payloads = build_payloads({"cyl": (rev, "revolve")})
+    assert payloads[0]["nfaces"] == len(rfaces)
+    html = viewer_html(payloads, {"aetherium": "#8A6BB6"})
+    assert "http://" not in html and "https://" not in html and "webgl" in html.lower()
+    assert render_iso(rfaces).width > 4
+
     # style palette parsing
     card = "# X\n```palette wood\nshadow = 5E4530\nbase = 7A5B3C\n```\n"
     pal = styles.parse_style_palettes(card)
