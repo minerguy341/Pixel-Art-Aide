@@ -120,6 +120,29 @@ def main() -> None:
     bld = lf.blade(bar, 8, 8, thickness=6)
     footprint = {(x, y) for x, y, _ in bld.voxels}
     assert bld.nz == 7 and len(footprint) == 32  # every silhouette pixel preserved
+
+    # hybrid: a round revolved collar welded to a bladed head in one Z frame
+    comp = [[(x <= 3 and 1 <= y <= 6) or (x >= 3 and 3 <= y <= 4)
+             for x in range(8)] for y in range(8)]
+    hyb = lf.hybrid(comp, 8, 8, collar_end=3, head_start=3, thickness=4)
+    assert hyb.nz % 2 == 1                          # odd shared depth
+
+    def _cc3d(vox):
+        from collections import deque
+        seen, groups = set(), 0
+        for v in vox:
+            if v in seen:
+                continue
+            groups += 1
+            q = deque([v]); seen.add(v)
+            while q:
+                x, y, z = q.popleft()
+                for dx, dy, dz in lf.FACE_NORMALS:
+                    nv = (x + dx, y + dy, z + dz)
+                    if nv in vox and nv not in seen:
+                        seen.add(nv); q.append(nv)
+        return groups
+    assert _cc3d(hyb.voxels) == 1                    # collar + head are one solid
     # OBJ has verts + quad faces; viewer HTML is self-contained (no external refs)
     obj = lf.to_obj(rfaces, "cyl")
     assert obj.count("\nv ") > 8 and obj.count("\nf ") == len(rfaces)

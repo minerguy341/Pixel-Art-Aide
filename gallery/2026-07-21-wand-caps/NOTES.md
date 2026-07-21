@@ -15,7 +15,10 @@ decorative head), infer the missing depth and hand back a rotatable 3D model.
      collar that's on a revolve cap.
    - **blade**: keep the outline, give it a Z thickness that tapers toward the
      edges (thick spine, thin rim) via a distance transform → flat forged look.
-     Used for B / C / E / G.
+   - **hybrid**: a round revolved collar welded to a bladed head, so a flat cap
+     still gets a cylindrical base that fits a round wand core. Used for the
+     flat heads B / C / E / G; the round heads A / D / F revolve whole (their
+     collar is already a cylinder). `merge()` reconciles the two depth frames.
 3. `aide.liftviewer` — static iso PNG (headless review) + a self-contained
    WebGL page (orbit by mouse/touch, pinch/scroll zoom, material toggle,
    voxel-face view). No external requests → runs in a locked-down sandbox.
@@ -27,14 +30,19 @@ decorative head), infer the missing depth and hand back a rotatable 3D model.
 | Cap | Head | Mode | Reads as |
 |---|---|---|---|
 | A | leaf-blade spearhead | revolve | round spindle spearhead on a turned collar |
-| B | crescent | blade | flat crescent, edge-tapered horns |
-| C | trident | blade | three flat pronged tines |
+| B | crescent | hybrid | round collar + flat crescent, edge-tapered horns |
+| C | trident | hybrid | round collar + three flat pronged tines |
 | D | flame | revolve | round teardrop bulb drawn to a point |
-| E | broadhead arrow | blade | flat broadhead with swept-back barbs |
+| E | broadhead arrow | hybrid | round collar + flat broadhead with swept-back barbs |
 | F | faceted spire | revolve | thin round double-cone spindle |
-| G | fleur finial | blade | flat central leaf flanked by barbs |
+| G | fleur finial | hybrid | round collar + flat symmetric leaf flanked by barbs |
 
-Rule of thumb: **round/turned metal → revolve; flat forged blade → blade.**
+Rule of thumb: **round/turned head → revolve; flat forged head → hybrid** (so its
+base is still a round cylinder). Every cap now has a cylindrical collar.
+
+Guarantees enforced in the generator + verified per build: each cap is one
+connected piece (no floating tips — 2D and 6-connected 3D), and every silhouette
+is exactly symmetric top/bottom about the centreline.
 
 ## What was verified (headless)
 
@@ -53,9 +61,6 @@ Rule of thumb: **round/turned metal → revolve; flat forged blade → blade.**
 
 ## Known tradeoffs / next steps
 
-- One lift mode per whole silhouette, so a **blade** cap's collar is a tapered
-  bar rather than a round cylinder. A future pass could segment collar (always
-  revolve) from head (per-shape) for a turned ferrule on every cap.
 - Voxel resolution follows the silhouette (~46×24). Bump the source canvas for
   finer models; the viewer/OBJ scale fine.
 - Untextured by request. When texturing: the `.obj` UVs aren't authored yet;

@@ -43,8 +43,12 @@ def main():
     isos = []
     for pxg in sorted(SRC.glob("*.pxg")):
         name = pxg.stem
-        mode = read_mode(pxg)
-        vol = lift(pxg, mode=mode, thickness=BLADE_THICK)
+        head_mode = read_mode(pxg)
+        # round heads revolve whole; flat heads use a revolved (round) collar
+        # welded to a bladed head, so every cap has a cylindrical base.
+        lift_mode = "revolve" if head_mode == "revolve" else "hybrid"
+        vol = lift(pxg, mode=lift_mode, thickness=BLADE_THICK)
+        mode = f"{head_mode}+round-base" if lift_mode == "hybrid" else head_mode
         faces = exposed_faces(vol)
         (OUT / f"{name}.obj").write_text(to_obj(faces, name))
         iso = render_iso(faces, scale=13)

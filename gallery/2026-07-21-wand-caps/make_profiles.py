@@ -23,8 +23,8 @@ HERE = Path(__file__).resolve().parent
 
 # collar / neck geometry shared by every cap
 COLLAR_X0, COLLAR_X1 = 0, 8   # ferrule columns
-NECK_X0, NECK_X1 = 9, 12      # thin neck columns
-HEAD_X0 = 13                  # heads start here
+NECK_X0, NECK_X1 = 9, 14      # thin neck columns; overlaps the head start so
+HEAD_X0 = 13                  # every head welds to the collar (cols 13–14)
 COLLAR_HALF = 8               # ferrule half-height
 NECK_HALF = 2
 
@@ -34,13 +34,20 @@ def blank():
 
 
 def fill_col(m, x, half):
-    """Fill column x symmetric about the centreline to +/- half."""
+    """Fill column x symmetric about the centreline to +/- half. `CY` is a
+    half-integer (between two rows), so fill an equal count each side of that
+    gap — rounding each side independently would bias the column by a row."""
     if x < 0 or x >= W or half <= 0:
         return
-    lo = int(round(CY - half))
-    hi = int(round(CY + half))
-    for y in range(max(0, lo), min(H - 1, hi) + 1):
+    n = int(round(half))                    # rows on each side of the CY gap
+    for y in range(max(0, 12 - n), min(H - 1, 11 + n) + 1):
         m[y][x] = True
+
+
+def symmetrize(m):
+    """Union a grid with its vertical mirror so top and bottom halves match
+    exactly (every wand cap here is a symmetric finial)."""
+    return [[m[y][x] or m[(H - 1) - y][x] for x in range(W)] for y in range(H)]
 
 
 def add_collar_and_neck(m):
@@ -158,24 +165,28 @@ def head_trident(m):
 
 
 def head_fleur(m):
-    """G: fleur finial — a central pointed leaf flanked by two curved barbs."""
+    """G: fleur finial — a central pointed leaf flanked by two curved barbs.
+    Built as the top half only, then mirrored about the centreline so the bottom
+    half is exactly symmetric; the barbs spring from the base so nothing floats."""
     xs = list(head_span())
     x0, tip = xs[0], xs[-1]
-    # central leaf
     L = tip - x0
+    # central leaf (symmetric by construction)
     for i, x in enumerate(xs):
         t = i / L
         half = 6.0 * ((t + 0.05) ** 0.5) * (1 - t) / 0.30
         fill_col(m, x, min(6.0, half))
-    # two side barbs curving up/out from the base, like a fleur-de-lis
-    for sgn in (-1, 1):
-        for k in range(9):
-            x = x0 + 2 + k
-            rise = 3.0 + 2.4 * math.sin(min(1.0, k / 8.0) * math.pi * 0.75)
-            y = CY + sgn * (3.0 + rise * (k / 8.0) ** 0.6)
-            for yy in (int(round(y)), int(round(y)) + sgn):
-                if 0 <= yy < H:
-                    m[yy][x] = True
+    # one upper barb: an arc that springs from the base and curls up-and-out
+    steps = 14
+    for k in range(steps + 1):
+        u = k / steps
+        bx = x0 + 1 + 6.0 * math.sin(u * math.pi * 0.85)   # bow out then back
+        by = CY - (2.0 + 8.0 * u)                           # rise toward the tip
+        xi = int(round(bx))
+        for yy in (int(round(by)), int(round(by)) + 1):     # 2px thick
+            if 0 <= yy < H and 0 <= xi < W:
+                m[yy][xi] = True
+    # bottom barb is added by the global symmetrize() pass in main()
 
 
 HEADS = {
@@ -209,6 +220,7 @@ def main():
         m = blank()
         add_collar_and_neck(m)
         head_fn(m)
+        m = symmetrize(m)                     # exact top/bottom symmetry
         (HERE / "src" / f"{name}.pxg").write_text(to_pxg(m, mode))
         print(f"wrote src/{name}.pxg  ({mode})")
 

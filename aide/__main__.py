@@ -67,9 +67,12 @@ def main(argv: list[str] | None = None) -> int:
 
     p = sub.add_parser("lift", help="lift a 2D silhouette (.pxg/.png) into a 3D voxel model")
     p.add_argument("src", help="silhouette source; opaque pixels are the shape")
-    p.add_argument("--mode", choices=["revolve", "blade"], default="revolve",
-                   help="revolve = lathe about the long axis (round); blade = flat, edge-tapered")
-    p.add_argument("--thickness", type=int, default=6, help="blade mode: max Z thickness in voxels")
+    p.add_argument("--mode", choices=["revolve", "blade", "hybrid"], default="revolve",
+                   help="revolve = lathe (round); blade = flat, edge-tapered; "
+                        "hybrid = round revolved collar welded to a bladed head")
+    p.add_argument("--thickness", type=int, default=6, help="blade/hybrid: max Z thickness in voxels")
+    p.add_argument("--collar-end", type=int, default=14, help="hybrid: last column revolved into the round base")
+    p.add_argument("--head-start", type=int, default=13, help="hybrid: first column of the bladed head")
     p.add_argument("--color", default="8A6BB6", help="flat material hex for previews/viewer")
     p.add_argument("--obj", help="write a Wavefront .obj here")
     p.add_argument("--iso", help="write a flat-shaded iso preview PNG here")
@@ -148,7 +151,8 @@ def main(argv: list[str] | None = None) -> int:
         from aide.liftviewer import build_payloads, render_iso, viewer_html
 
         name = Path(args.src).stem
-        vol = lift(args.src, mode=args.mode, thickness=args.thickness)
+        vol = lift(args.src, mode=args.mode, thickness=args.thickness,
+                   collar_end=args.collar_end, head_start=args.head_start)
         faces = exposed_faces(vol)
         col = parse_color(args.color)[:3]
         made = []

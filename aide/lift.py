@@ -145,7 +145,9 @@ def revolve(mask, w, h, axis_y: float | None = None) -> Volume:
         radii.append(max(abs(y0 - axis_y), abs(y1 - axis_y)) + 0.5)
     maxr = max(radii)
     nz = int(round(maxr * 2)) + 1
-    zc = (nz - 1) / 2.0
+    if nz % 2 == 0:  # keep depth odd so the axis lands on an integer voxel centre
+        nz += 1
+    zc = (nz - 1) // 2
     yc = (h - 1) - axis_y  # centre in Y-up model space
 
     voxels: set[tuple[int, int, int]] = set()
@@ -174,7 +176,9 @@ def blade(mask, w, h, thickness: int = 6) -> Volume:
     if maxd == 0:
         return Volume(set(), w, h, 1)
     nz = thickness + 1
-    zc = (nz - 1) / 2.0
+    if nz % 2 == 0:  # odd depth -> integer centre, matches revolve for merging
+        nz += 1
+    zc = (nz - 1) // 2
     half_max = thickness / 2.0
 
     voxels: set[tuple[int, int, int]] = set()
@@ -191,6 +195,39 @@ def blade(mask, w, h, thickness: int = 6) -> Volume:
     return Volume(voxels, w, h, nz)
 
 
+def _restrict(mask, w, h, keep):
+    """Copy of a mask with only the columns for which keep(x) is true."""
+    return [[mask[y][x] and keep(x) for x in range(w)] for y in range(h)]
+
+
+def merge(a: Volume, b: Volume, w: int, h: int) -> Volume:
+    """Union two volumes into one shared depth frame, aligning their Z centres.
+    Both must have odd depth (revolve/blade guarantee it), so the shift is an
+    integer and no voxel lands off-grid."""
+    nz = max(a.nz, b.nz)
+    cf = (nz - 1) // 2
+    out: set[tuple[int, int, int]] = set()
+    for vol in (a, b):
+        shift = cf - (vol.nz - 1) // 2
+        for (x, y, z) in vol.voxels:
+            out.add((x, y, z + shift))
+    return Volume(out, w, h, nz)
+
+
+def hybrid(mask, w, h, collar_end: int = 14, head_start: int = 13,
+           thickness: int = 6, axis_y: float | None = None) -> Volume:
+    """A round, lathe-turned collar joined to a flat, forged head — the read for
+    caps whose head is a blade but whose ferrule should still be a cylinder that
+    fits a round wand core. Columns up to `collar_end` are revolved; columns from
+    `head_start` on are bladed; the two overlap in [head_start, collar_end] so
+    they always weld into one solid piece. Depths are reconciled by `merge`."""
+    collar = revolve(_restrict(mask, w, h, lambda x: x <= collar_end), w, h,
+                     axis_y=axis_y)
+    head = blade(_restrict(mask, w, h, lambda x: x >= head_start), w, h,
+                 thickness=thickness)
+    return merge(collar, head, w, h)
+
+
 def lift(path_or_mask, mode: str = "revolve", **kw) -> Volume:
     """Convenience: lift a silhouette (path/`.pxg`/PNG, or a ready mask tuple)."""
     if isinstance(path_or_mask, tuple):
@@ -201,7 +238,12 @@ def lift(path_or_mask, mode: str = "revolve", **kw) -> Volume:
         return revolve(mask, w, h, axis_y=kw.get("axis_y"))
     if mode == "blade":
         return blade(mask, w, h, thickness=kw.get("thickness", 6))
-    raise ValueError(f"unknown lift mode {mode!r} (want 'revolve' or 'blade')")
+    if mode == "hybrid":
+        return hybrid(mask, w, h, collar_end=kw.get("collar_end", 14),
+                      head_start=kw.get("head_start", 13),
+                      thickness=kw.get("thickness", 6), axis_y=kw.get("axis_y"))
+    raise ValueError(
+        f"unknown lift mode {mode!r} (want 'revolve', 'blade' or 'hybrid')")
 
 
 # ---------------------------------------------------------------------------
