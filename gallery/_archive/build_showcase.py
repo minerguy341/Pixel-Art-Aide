@@ -12,17 +12,17 @@ import importlib.util
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+HERE = Path(__file__).resolve().parent          # gallery/_archive
+ROOT = HERE.parents[1]                           # repo root
 sys.path.insert(0, str(ROOT))
 
 from aide.lift import lift
 from aide.liftviewer import build_payloads, viewer_html
 
-GAL = ROOT / "gallery"
-CAPS = GAL / "2026-07-21-wand-caps"
-TIPS = GAL / "2026-07-21-wand-tips-study"
-FANTASY = GAL / "2026-07-21-fantasy-caps"
-POMMELS = GAL / "2026-07-21-pommels"
+CAPS = HERE / "2026-07-21-wand-caps"
+TIPS = HERE / "2026-07-21-wand-tips-study"
+FANTASY = HERE / "2026-07-21-fantasy-caps"
+POMMELS = HERE / "2026-07-21-pommels"
 MATERIALS = {"aetherium": "#8A6BB6", "brass": "#C79A55", "moonstone": "#B9C4E0"}
 
 
@@ -78,7 +78,7 @@ def main():
                 + build_payloads(pommels, group="Pommels · butt-end knobs"))
     html = viewer_html(payloads, MATERIALS,
                        title="Thaumaturgy — Wand Parts (3D)")
-    out = GAL / "wand-showcase-3d.html"
+    out = HERE / "wand-showcase-3d.html"
     out.write_text(html)
     print(f"wrote {out.relative_to(ROOT)}  ({len(html)/1024:.0f} KB, {len(payloads)} models: "
           f"{len(caps)} caps + {len(tips)} tips + {len(fantasy)} fantasy + {len(pommels)} pommels)")

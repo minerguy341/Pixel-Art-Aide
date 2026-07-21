@@ -1,7 +1,5 @@
-"""Lift the fantasy caps with a fitting cross-section, and emit OBJs, iso
-previews, a contact sheet, and a rotatable WebGL gallery.
-
-Run from repo root:  python3 gallery/2026-07-21-fantasy-caps/build_fantasy.py
+"""Lift the pommels and emit OBJs, iso previews, a contact sheet, and a viewer.
+Run from repo root:  python3 gallery/2026-07-21-pommels/build_pommels.py
 """
 
 from __future__ import annotations
@@ -9,7 +7,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from PIL import Image, ImageDraw
 
@@ -18,16 +16,15 @@ from aide.liftviewer import build_payloads, render_iso, viewer_html
 
 HERE = Path(__file__).resolve().parent
 SRC, OUT, PREV = HERE / "src", HERE / "out", HERE / "previews"
-MATERIALS = {"aetherium": "#8A6BB6", "brass": "#C79A55", "moonstone": "#B9C4E0"}
+MATERIALS = {"aetherium": "#8A6BB6", "brass": "#C79A55", "iron": "#8B8D98"}
 
-# name -> (mode, label, lift kwargs)
 RECIPES = {
-    "A-orb":         ("revolve", "crystal orb",        dict()),
-    "B-crystal":     ("hybrid",  "hex crystal (poly-6)", dict(head_mode="poly", sides=6)),
-    "C-starburst":   ("hybrid",  "6-blade starburst",  dict(head_mode="radial", blades=6, bladethick=0.16)),
-    "D-moon":        ("hybrid",  "crescent moon",      dict(head_mode="blade", thickness=7)),
-    "E-gem-setting": ("revolve", "gem in a setting",   dict()),
-    "F-beaded":      ("revolve", "beaded finial",      dict()),
+    "A-wheel":         ("revolve", "wheel / disc",     dict()),
+    "B-sphere":        ("revolve", "spherical",        dict()),
+    "C-pear":          ("revolve", "pear",             dict()),
+    "D-scent-stopper": ("hybrid",  "scent-stopper (poly-6)", dict(head_mode="poly", sides=6)),
+    "E-crescent":      ("hybrid",  "crescent",         dict(head_mode="blade", thickness=7)),
+    "F-mushroom":      ("revolve", "onion / mushroom", dict()),
 }
 
 
@@ -44,8 +41,7 @@ def main():
         iso.save(PREV / f"iso-{pxg.stem}.png")
         isos.append((pxg.stem, label, iso))
         models[pxg.stem] = (vol, label)
-        print(f"{pxg.stem:14s} {label:22s} {vol.nx}x{vol.ny}x{vol.nz}  "
-              f"{len(vol.voxels)} voxels")
+        print(f"{pxg.stem:16s} {label:22s} {vol.nx}x{vol.ny}x{vol.nz}  {len(vol.voxels)} voxels")
 
     cw = max(i[2].width for i in isos) + 12
     ch = max(i[2].height for i in isos) + 34
@@ -58,9 +54,9 @@ def main():
     sheet.save(PREV / "iso-all.png")
 
     payloads = build_payloads(models)
-    (OUT / "fantasy-caps-3d.html").write_text(
-        viewer_html(payloads, MATERIALS, title="Thaumaturgy — Fantasy Caps (3D)"))
-    print(f"wrote out/fantasy-caps-3d.html ({len(payloads)} caps)")
+    (OUT / "pommels-3d.html").write_text(
+        viewer_html(payloads, MATERIALS, title="Thaumaturgy — Pommels (3D)"))
+    print(f"wrote out/pommels-3d.html ({len(payloads)} pommels)")
 
 
 if __name__ == "__main__":

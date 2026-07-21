@@ -12,7 +12,7 @@ import math
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # gallery/ for capkit
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # gallery/_archive/ for capkit
 
 from capkit import (CY, H, add_collar, blank, circle_halfs, fill_col,
                     head_span, symmetrize, to_pxg)
