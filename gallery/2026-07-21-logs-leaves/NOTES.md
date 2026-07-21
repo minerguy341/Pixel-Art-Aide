@@ -57,3 +57,16 @@ Greatwood leaves DECIDED: C accent + random rotation. r2 adds:
 - silverwood_log_veined **7%**, silverwood_core_radiant **14%**, silverwood_leaves_blossom **7%**
   — deliberately over the card's teal rule (magical variants). Can dial back on request.
 - Cores are end-grain (top face only), so a bolder teal there is less of a whole-block field.
+
+## r3 (make_r3.py) — bark + cores redone (study-driven)
+Study: study-wood-r3.md. Both leaves DECIDED (gw r1 accent+rot, sw r2 frost+rot).
+- **Edge fix**: a furrow/groove now STRADDLES the x=0/15 wrap and edge columns carry interior
+  variation → parallel logs MERGE (no framing band). Verified in the 2x3 (parallel-logs) tiles.
+- **Greatwood bark**: A furrowed / B shaggy / C aged — deep IRREGULAR wandering furrows (8-row
+  gentle wander, low mottle after a cleanup pass; the first 4-row wander read staggered/noisy).
+- **Silverwood bark**: pristine & serene, brighter/cooler ramp — A serene (smooth + soft grooves
+  + whisper teal) / B birch (horizontal lenticels, merges perfectly, no vertical bands) / C moonlit
+  (soft cylindrical sheen, ethereal). Teal a whisper only (~1-2%), per the magic-wood study.
+- **Greatwood cores**: 1 rings / 2 heart (dark heartwood→sapwood gradient) / 3 burl.
+- **Silverwood cores**: 1 heart (single teal whisper) / 2 halo (one soft teal ring) / 3 pale (no teal).
+Eyeball leans: gw bark A furrowed; sw bark A serene or B birch; cores gw 2 heart, sw 1 heart / 3 pale.
