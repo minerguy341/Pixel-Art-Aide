@@ -82,3 +82,14 @@ Approved tree-growth lessons landed in knowledge/lessons.md this session.
   variable; per the study the teal heart is CANON, offered both ways per user request.
 Eyeball leans: gw G deep-fissured; sw B woven or A silk; heart = with (canon) unless a plain
 non-magical grain is wanted.
+
+## r5 (make_r5.py) — 6 more silverwood grain candidates
+Greatwood bark DECIDED: G deep-fissured. 6 new silverwood grains, all pristine/serene, pale,
+teal-free bark, edges flow (trunks topped with canon teal-heart core to show intended look):
+- D flowing — long soft meandering flow-lines (silk); pristine. STRONG.
+- E marbled — soft wandering pale veins; elegant marble. STRONG.
+- F frosted — cool sheen + white sparkle specks (icy); on-theme for cold magic. STRONG.
+- G damask — faint woven diamond lattice; refined but reads decorative/fabric, least wood-like. POLARIZING.
+- H satin — soft vertical sheen ribbons; luminous, pristine. STRONG.
+- I ghost-ring — faint HORIZONTAL growth banding; merges perfectly but reads bamboo-ish. POLARIZING.
+Eyeball leans: D flowing / E marbled / H satin for a refined trunk; F frosted for the icy-magic angle.
