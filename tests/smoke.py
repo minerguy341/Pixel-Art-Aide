@@ -143,6 +143,19 @@ def main() -> None:
                         seen.add(nv); q.append(nv)
         return groups
     assert _cc3d(hyb.voxels) == 1                    # collar + head are one solid
+
+    # forged cross-sections (studied from real spear/arrowhead geometry)
+    lens = lf.sweep(bar, 8, 8, cross="lens", flat=0.4)
+    assert 0 < lens.nz < rev.nz                      # lenticular is thinner than round
+    dia = lf.sweep(bar, 8, 8, cross="diamond", flat=0.6)
+    assert dia.voxels and len(dia.voxels) < len(rev.voxels)
+    mid = lf.sweep(bar, 8, 8, cross="midrib", flat=0.4, ridge=0.6)
+    assert mid.nz >= lens.nz                          # midrib spine is proud of the lens
+    rad = lf.radial(bar, 8, 8, blades=3)
+    assert rad.voxels and len(rad.voxels) < len(rev.voxels)   # fins, not a solid disc
+    # hybrid can weld any head cross-section onto the round collar
+    hyd = lf.hybrid(comp, 8, 8, collar_end=3, head_start=3, head_mode="diamond", flat=0.6)
+    assert _cc3d(hyd.voxels) == 1
     # OBJ has verts + quad faces; viewer HTML is self-contained (no external refs)
     obj = lf.to_obj(rfaces, "cyl")
     assert obj.count("\nv ") > 8 and obj.count("\nf ") == len(rfaces)

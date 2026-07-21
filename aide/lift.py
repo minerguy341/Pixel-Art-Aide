@@ -124,46 +124,133 @@ def _chebyshev_distance(mask, w, h) -> list[list[int]]:
 # lift modes
 # ---------------------------------------------------------------------------
 
-def revolve(mask, w, h, axis_y: float | None = None) -> Volume:
-    """Spin the silhouette about its long (X) axis. Each column's outer radius
-    (max distance from the axis to a filled pixel) becomes a solid disc, so the
-    inferred depth equals the silhouette's local height. `axis_y` defaults to the
-    vertical centre of the whole silhouette (the shaft centreline)."""
+def _radii(mask, w, h, axis_y=None):
+    """Per-column outer radius (axis→outer-edge distance) and the axis row.
+    This is the lathe profile every axial-sweep mode shares."""
     cols = _columns(mask, w, h)
     filled_ys = [y for y in range(h) for x in range(w) if mask[y][x]]
     if not filled_ys:
-        return Volume(set(), 1, 1, 1)
+        return None, None
     if axis_y is None:
         axis_y = (min(filled_ys) + max(filled_ys)) / 2.0
-
     radii = []
     for span in cols:
         if span is None:
             radii.append(0.0)
-            continue
-        y0, y1 = span
-        radii.append(max(abs(y0 - axis_y), abs(y1 - axis_y)) + 0.5)
-    maxr = max(radii)
-    nz = int(round(maxr * 2)) + 1
-    if nz % 2 == 0:  # keep depth odd so the axis lands on an integer voxel centre
+        else:
+            y0, y1 = span
+            radii.append(max(abs(y0 - axis_y), abs(y1 - axis_y)) + 0.5)
+    return radii, axis_y
+
+
+def _odd_frame(maxz):
+    """Depth + integer centre for a half-extent, kept odd so centres align."""
+    nz = int(round(maxz * 2)) + 1
+    if nz % 2 == 0:
         nz += 1
-    zc = (nz - 1) // 2
-    yc = (h - 1) - axis_y  # centre in Y-up model space
+    return nz, (nz - 1) // 2
+
+
+# A cross-section is the shape of the tip in the Y–Z plane at an axial station
+# of radius r. `_ZHALF[name](dy, r, k)` gives the Z half-thickness at vertical
+# offset dy (|dy|<=r), where k bundles the tuning knobs. Real blades are never
+# round: lenticular tapers to sharp edges, diamond adds four flat facets, square
+# is a bodkin punch, midrib raises a stiffening spine down the centre.
+def _zhalf(name, dy, r, flat, ridge):
+    if r <= 0 or abs(dy) > r:
+        return -1.0
+    import math
+    if name == "round":
+        return math.sqrt(max(0.0, r * r - dy * dy))
+    if name == "lens":
+        return flat * math.sqrt(max(0.0, r * r - dy * dy))
+    if name == "diamond":
+        return flat * (r - abs(dy))
+    if name == "square":
+        return flat * r
+    if name == "midrib":                      # lens blade + raised central spine
+        lens = flat * math.sqrt(max(0.0, r * r - dy * dy))
+        spine = ridge * r * max(0.0, 1.0 - abs(dy) / (0.30 * r))
+        return lens + spine
+    raise ValueError(f"unknown cross-section {name!r}")
+
+
+_ZPROFILE_CROSS = ("round", "lens", "diamond", "square", "midrib")
+
+
+def sweep(mask, w, h, cross="round", flat=0.5, ridge=0.45,
+          axis_y=None) -> Volume:
+    """Lathe the silhouette about its long (X) axis, but give each cross-section
+    a *forged blade* shape rather than a plain disc — `cross` selects lenticular,
+    rhombic, square (bodkin) or a lens-with-midrib. `flat` is the depth/width
+    ratio (1.0 == round); `ridge` is the midrib height as a fraction of radius."""
+    radii, axis_y = _radii(mask, w, h, axis_y)
+    if radii is None:
+        return Volume(set(), 1, 1, 1)
+    maxr = max(radii)
+    maxz = max((_zhalf(cross, dy, maxr, flat, ridge)
+                for dy in range(-int(maxr), int(maxr) + 1)), default=0.0)
+    nz, zc = _odd_frame(maxz)
+    yc = (h - 1) - axis_y
 
     voxels: set[tuple[int, int, int]] = set()
     for x in range(w):
         r = radii[x]
         if r <= 0:
             continue
-        r2 = r * r
-        lo = int(round(yc - r))
-        hi = int(round(yc + r))
-        for Y in range(max(0, lo), min(h, hi + 1) + 1):
-            dyc = Y - yc
+        for Y in range(max(0, int(round(yc - r))), min(h, int(round(yc + r)) + 1) + 1):
+            zh = _zhalf(cross, Y - yc, r, flat, ridge)
+            if zh < 0:
+                continue
+            for z in range(int(round(zc - zh)), int(round(zc + zh)) + 1):
+                voxels.add((x, Y, z))
+    return Volume(voxels, w, h, nz)
+
+
+def revolve(mask, w, h, axis_y: float | None = None) -> Volume:
+    """Spin the silhouette about its long axis into a solid of revolution (round
+    cross-section). Depth equals local height. This is `sweep(cross='round')`."""
+    return sweep(mask, w, h, cross="round", flat=1.0, axis_y=axis_y)
+
+
+def radial(mask, w, h, blades=3, thickness=0.22, hub=0.16,
+           axis_y=None) -> Volume:
+    """The broadhead read: N thin blades radiating from the axis at 360/N°, so
+    the cross-section is a Y (3) or + (4) rather than a solid. The silhouette
+    gives each blade's reach; `thickness`/`hub` are fractions of the max radius.
+    One blade points up so the side view still matches the drawn profile."""
+    import math
+    radii, axis_y = _radii(mask, w, h, axis_y)
+    if radii is None:
+        return Volume(set(), 1, 1, 1)
+    maxr = max(radii)
+    nz, zc = _odd_frame(maxr)
+    yc = (h - 1) - axis_y
+    angs = [math.pi / 2 + k * 2 * math.pi / blades for k in range(blades)]
+    thalf = thickness * maxr
+    hubr = hub * maxr
+
+    voxels: set[tuple[int, int, int]] = set()
+    for x in range(w):
+        r = radii[x]
+        if r <= 0:
+            continue
+        for Y in range(max(0, int(round(yc - r))), min(h, int(round(yc + r)) + 1) + 1):
+            dy = Y - yc
             for z in range(nz):
-                dzc = z - zc
-                if dyc * dyc + dzc * dzc <= r2:
+                dz = z - zc
+                rho = math.hypot(dy, dz)
+                if rho > r:
+                    continue
+                if rho <= hubr:
                     voxels.add((x, Y, z))
+                    continue
+                for a in angs:
+                    along = dy * math.cos(a) + dz * math.sin(a)
+                    perp = abs(-dy * math.sin(a) + dz * math.cos(a))
+                    if along >= 0 and perp <= thalf:
+                        voxels.add((x, Y, z))
+                        break
     return Volume(voxels, w, h, nz)
 
 
@@ -214,36 +301,52 @@ def merge(a: Volume, b: Volume, w: int, h: int) -> Volume:
     return Volume(out, w, h, nz)
 
 
+def _lift_region(mask, w, h, mode, kw, axis_y=None):
+    """Lift one masked region in a single mode (no collar welding)."""
+    if mode == "blade":
+        return blade(mask, w, h, thickness=kw.get("thickness", 6))
+    if mode == "radial":
+        return radial(mask, w, h, blades=kw.get("blades", 3),
+                      thickness=kw.get("bladethick", 0.22),
+                      hub=kw.get("hub", 0.16), axis_y=axis_y)
+    if mode in _ZPROFILE_CROSS or mode == "revolve":
+        cross = "round" if mode == "revolve" else mode
+        return sweep(mask, w, h, cross=cross, flat=kw.get("flat", 0.5),
+                     ridge=kw.get("ridge", 0.45), axis_y=axis_y)
+    raise ValueError(f"unknown head/region mode {mode!r}")
+
+
 def hybrid(mask, w, h, collar_end: int = 14, head_start: int = 13,
-           thickness: int = 6, axis_y: float | None = None) -> Volume:
-    """A round, lathe-turned collar joined to a flat, forged head — the read for
-    caps whose head is a blade but whose ferrule should still be a cylinder that
-    fits a round wand core. Columns up to `collar_end` are revolved; columns from
-    `head_start` on are bladed; the two overlap in [head_start, collar_end] so
-    they always weld into one solid piece. Depths are reconciled by `merge`."""
+           head_mode: str = "blade", axis_y: float | None = None, **kw) -> Volume:
+    """A round, lathe-turned collar welded to a shaped head — every cap keeps a
+    cylindrical ferrule that fits a round wand core, while its head takes whatever
+    forged cross-section suits it (blade, lens/midrib spearhead, diamond or square
+    point, or a radial broadhead). Columns up to `collar_end` are revolved; from
+    `head_start` on use `head_mode`; the overlap welds them into one solid piece."""
     collar = revolve(_restrict(mask, w, h, lambda x: x <= collar_end), w, h,
                      axis_y=axis_y)
-    head = blade(_restrict(mask, w, h, lambda x: x >= head_start), w, h,
-                 thickness=thickness)
+    head = _lift_region(_restrict(mask, w, h, lambda x: x >= head_start), w, h,
+                        head_mode, kw, axis_y=axis_y)
     return merge(collar, head, w, h)
 
 
 def lift(path_or_mask, mode: str = "revolve", **kw) -> Volume:
-    """Convenience: lift a silhouette (path/`.pxg`/PNG, or a ready mask tuple)."""
+    """Lift a silhouette (path/`.pxg`/PNG, or a ready mask tuple). `mode` is
+    'revolve', 'blade', a cross-section ('lens'/'diamond'/'square'/'midrib'),
+    'radial' (N-blade broadhead), or 'hybrid' (round collar + a `head_mode`)."""
     if isinstance(path_or_mask, tuple):
         mask, w, h = path_or_mask
     else:
         mask, w, h = load_mask(path_or_mask)
-    if mode == "revolve":
-        return revolve(mask, w, h, axis_y=kw.get("axis_y"))
-    if mode == "blade":
-        return blade(mask, w, h, thickness=kw.get("thickness", 6))
     if mode == "hybrid":
         return hybrid(mask, w, h, collar_end=kw.get("collar_end", 14),
                       head_start=kw.get("head_start", 13),
-                      thickness=kw.get("thickness", 6), axis_y=kw.get("axis_y"))
-    raise ValueError(
-        f"unknown lift mode {mode!r} (want 'revolve', 'blade' or 'hybrid')")
+                      head_mode=kw.get("head_mode", "blade"),
+                      axis_y=kw.get("axis_y"), **{
+                          k: kw[k] for k in
+                          ("thickness", "flat", "ridge", "blades", "bladethick", "hub")
+                          if k in kw})
+    return _lift_region(mask, w, h, mode, kw, axis_y=kw.get("axis_y"))
 
 
 # ---------------------------------------------------------------------------
