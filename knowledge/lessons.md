@@ -882,3 +882,46 @@ first flat-square attempt read as "just a colored square, not a fancy cloth."
   materials (greatwood/brass/parchment/cloth); reserve saturated arcane hues (teal, purple)
   for small accents and emissive cues — glyph lights, charge glints — never the whole panel.
   A magic mod doesn't get one house UI color; each station wears its own material.
+
+---
+
+# Tree growth & form study — 2026-07-21 (5-cycle study, user-approved)
+
+Full findings: `gallery/2026-07-21-tree-growth-study/findings.html` (+ `cycle1-5.md`). Real-world
+botany + Minecraft mods; study-only, no third-party pixels. Lessons tie a tree's GROWTH to its SHAPE
+— for authoring tree textures AND informing the mod's tree models/worldgen.
+
+## 2026-07-21 — spacing shows in girth & crown, not height
+- Rule: to depict "grew crowded" vs "grew alone," vary TRUNK THICKNESS + CROWN WIDTH + how low the
+  branches start — NOT overall height (height is spacing-insensitive; girth/crown are spacing-driven).
+  Open-grown = short bole, thick tapering trunk, low wide crown; forest = tall, slender, self-pruned
+  bare lower bole, small high crown.
+
+## 2026-07-21 — a thick trunk demands a root flare
+- Rule: big-girth trees get a visible root flare/buttress (root radius ≈ 38× trunk radius; root spread
+  ≈ 2-4× the crown, extending past the dripline). A fat trunk drawn with no flare reads wrong.
+
+## 2026-07-21 — crown silhouette & root type are chosen by climate
+- Rule: pick the crown outline from the climate — conical (snow/low-sun, packs close) · rounded
+  (temperate, open) · flat umbrella (arid, spaced wide) · columnar-with-high-crown (rainforest). Root
+  TYPE is a biome tell: buttress · stilt/prop · deep taproot · shallow-wide. Leave gaps between
+  neighbouring crowns (crown shyness) — a forest canopy is not one solid slab.
+
+## 2026-07-21 — leaf type ↔ crown shape ↔ climate are one decision
+- Rule: broadleaf → round spreading crown; needle/scale → conical. Deciduous needs a believable BRANCH
+  frame (it shows bare half the year); evergreen can be a filled cone. Don't mix them (a broadleaf on
+  a conical frame, or needles on a round spreading crown, reads wrong).
+
+## 2026-07-21 — voxel tree proportion & frame-first
+- Rule: a big blocky tree ≈ 0.6 trunk : 0.4 canopy (golden ratio), canopy OFFSET off-centre, branches
+  at varied heights/sizes. Build the WOOD FRAME first (trunk + asymmetric branches), then hang leaves
+  (~30-40% holes) ON the branch tips — never a solid crown on a bare pole. Uneven/asymmetric/offset at
+  every level is what separates "grown" from "stamped".
+
+## 2026-07-21 — magic lives in the core, over a believable form
+- Rule: a magic tree carries its power in the HEARTWOOD/core (silverwood grows a pure aura node in its
+  heart — canon) and exaggerates ONE axis (colour / glow / pale) over an otherwise believable growth
+  form. Trunk cross-section is a species signature (silverwood 3×3-plus tapering, greatwood 2×2). A
+  rare magic tree can be an ecological anchor that seeds its own spaced grove.
+  → For T.N.A.: silverwood's luminous teal HEART end-grain is canon; greatwood = warm 2×2 mammoth
+  old-growth (common, grows anywhere); silverwood = cool, pale, node-hearted, rare grove-seeder.
