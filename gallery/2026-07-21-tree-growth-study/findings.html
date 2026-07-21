@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tree growth & form — study findings</title>
+<style>
+  :root{
+    --bg:#f4f1ea; --panel:#fffdf8; --ink:#241c14; --soft:#6a5c48; --line:#e0d8c8;
+    --gw:#4f3b25; --gwlt:#665038; --sw:#8a94a0; --swlt:#c4c9bd; --teal:#1a9c8a; --accent:#8a6a2e;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#181510; --panel:#221d16; --ink:#ece3d3; --soft:#a89a80;
+      --line:#352c20; --gw:#a07b4d; --gwlt:#c8a978; --sw:#aeb6bd; --swlt:#889186; --teal:#5fe0cc; --accent:#d6ad5c; }
+  }
+  :root[data-theme="dark"]{ --bg:#181510; --panel:#221d16; --ink:#ece3d3; --soft:#a89a80; --line:#352c20; --gw:#a07b4d; --gwlt:#c8a978; --sw:#aeb6bd; --swlt:#889186; --teal:#5fe0cc; --accent:#d6ad5c; }
+  :root[data-theme="light"]{ --bg:#f4f1ea; --panel:#fffdf8; --ink:#241c14; --soft:#6a5c48; --line:#e0d8c8; --gw:#4f3b25; --gwlt:#665038; --sw:#8a94a0; --swlt:#c4c9bd; --teal:#1a9c8a; --accent:#8a6a2e; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 20px 80px;}
+  header{border-bottom:3px solid var(--gw);padding-bottom:18px;margin-bottom:8px;}
+  h1{font-size:2rem;margin:0 0 6px;letter-spacing:-.01em;}
+  .sub{color:var(--soft);font-size:1.02rem;margin:0;}
+  .meta{color:var(--soft);font-size:.82rem;margin-top:10px;}
+  h2{font-size:1.28rem;margin:38px 0 12px;padding-top:8px;border-top:1px solid var(--line);}
+  h3{font-size:1.02rem;margin:20px 0 6px;}
+  p{margin:.5em 0;} ul{margin:.4em 0 .8em;padding-left:1.2em;} li{margin:.28em 0;}
+  .lead{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);
+    border-radius:10px;padding:16px 18px;margin:18px 0;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:14px 0;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;}
+  .card h3{margin-top:0;display:flex;align-items:baseline;gap:8px;}
+  .n{font-size:.72rem;font-weight:700;color:#fff;background:var(--gw);border-radius:20px;
+    padding:2px 9px;letter-spacing:.03em;}
+  .card.c2 .n{background:#4a6b58}.card.c3 .n{background:#6a5c8a}.card.c4 .n{background:#8a5a2e}.card.c5 .n{background:#2e6a8a}
+  .tag{color:var(--soft);font-size:.82rem;font-weight:400;}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92rem;
+    display:block;overflow-x:auto;white-space:nowrap;}
+  @media(min-width:760px){table{display:table;white-space:normal;}}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top;}
+  th{background:var(--panel);font-weight:700;}
+  .gw{color:var(--gw);font-weight:700}.sw{color:var(--sw);font-weight:700}.teal{color:var(--teal);font-weight:700}
+  .q{font-weight:700;color:var(--accent);}
+  .spec th:first-child{white-space:nowrap;}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:.9em;}
+  .src{font-size:.84rem;color:var(--soft);}
+  .src a{color:var(--teal);}
+  footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);color:var(--soft);font-size:.84rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Tree growth &amp; form — how a tree's life writes its shape</h1>
+  <p class="sub">A 5-cycle study tying tree <em>growth behaviour</em> to <em>shape</em>: how canopy,
+  branches, trunk width and roots co-vary, and whether trees stand crowded or spaced.</p>
+  <p class="meta">Pixel-Art-Aide studio · 2026-07-21 · real-world botany + Minecraft mods · study only (no assets reused)</p>
+</header>
+
+<div class="lead">
+  <p style="margin-top:0"><span class="q">The core answer.</span> A tree's parts are one linked
+  <strong>allometric system</strong>, and <strong>spacing is the master dial</strong>. Height barely
+  changes with crowding — but <strong>crown width, trunk girth, branch height and root flare</strong>
+  all track how much space and light a tree had. So the single most reliable way to say "this tree grew
+  <em>crowded</em>" vs "grew <em>alone</em>" is to change crown width + trunk thickness + how low the
+  branches start — <em>not</em> the height.</p>
+</div>
+
+<h2>The correlations, at a glance</h2>
+<table>
+  <tr><th>If the tree grew…</th><th>Trunk</th><th>Branches</th><th>Canopy</th><th>Roots</th><th>Spacing</th></tr>
+  <tr><td><strong>Crowded</strong> (forest, light-limited)</td><td>slender, straight</td>
+    <td>self-pruned; bare lower bole</td><td>small, high up, narrow</td><td>modest</td><td>packed close</td></tr>
+  <tr><td><strong>Open / solitary</strong></td><td>thick, tapering</td>
+    <td>low, spreading, all down the trunk</td><td>broad, low, wide</td><td>wide flare/buttress</td><td>spaced apart</td></tr>
+  <tr><td><strong>Arid</strong> (water-limited)</td><td>stout</td><td>umbrella, high</td>
+    <td>flat-topped, wide</td><td>deep taproot</td><td>far apart (water)</td></tr>
+  <tr><td><strong>Cold / snowy</strong></td><td>central leader</td><td>short, downswept</td>
+    <td>conical (sheds snow)</td><td>shallow-wide</td><td>close-packed</td></tr>
+</table>
+<p style="color:var(--soft);font-size:.9rem">Rules of thumb from the literature: canopy width scales
+~linearly with height; root spread ≈ 2–4× crown diameter (extending past the dripline); root radius :
+trunk diameter ≈ 38:1; a big blocky tree sits at ~<strong>0.6 trunk : 0.4 canopy</strong> (golden ratio).</p>
+
+<h2>The five study cycles</h2>
+<div class="grid">
+  <div class="card c1">
+    <h3><span class="n">01</span> Temperate allometry <span class="tag">real</span></h3>
+    <ul>
+      <li>Trunk Ø, height, crown radius scale as one system; canopy width ∝ height.</li>
+      <li><strong>Height is spacing-insensitive; crown width &amp; girth are spacing-sensitive.</strong></li>
+      <li>Open-grown = short bole, wide low crown, thick tapering trunk; forest = tall, self-pruned, slender.</li>
+      <li>Roots ≈ 2–4× crown, mostly beyond the dripline; fat trunk ⇒ wide root flare.</li>
+    </ul>
+  </div>
+  <div class="card c2">
+    <h3><span class="n">02</span> Ecologies &amp; roots <span class="tag">real</span></h3>
+    <ul>
+      <li>Crown <strong>silhouette encodes climate</strong>: conical (snow) · round (temperate) · flat umbrella (arid) · columnar (rainforest).</li>
+      <li>Apical dominance = the excurrent (conical) vs decurrent (spreading) switch.</li>
+      <li>Root <strong>type</strong> is a biome tell: buttress · stilt/prop · taproot · shallow-wide.</li>
+      <li><strong>Crown shyness</strong> — neighbours leave gaps; a canopy isn't one slab.</li>
+    </ul>
+  </div>
+  <div class="card c3">
+    <h3><span class="n">03</span> Mod worldgen <span class="tag">Dynamic Trees · TFC</span></h3>
+    <ul>
+      <li>Dynamic Trees literally grows forest trees <strong>taller &amp; skinnier</strong>, open ones short &amp; wide.</li>
+      <li>Mature size is <strong>climate-driven</strong> (temperature + rainfall), not a constant.</li>
+      <li>Trunk thickness is the "big tree" lever; vanilla uses 1×1 vs 2×2.</li>
+      <li>Forests are uneven-aged — occasional old-growth giants, density is a worldgen knob.</li>
+    </ul>
+  </div>
+  <div class="card c4">
+    <h3><span class="n">04</span> Magic mod trees <span class="tag">Thaumcraft · Botania · Ars</span></h3>
+    <ul>
+      <li><strong>Silverwood grows a pure aura node in its heartwood</strong> — the core holds the power.</li>
+      <li>Trunk cross-section is a signature: silverwood 3×3-plus, greatwood 2×2.</li>
+      <li>Magic = an accent layer (colour/glow/pale) over believable growth form.</li>
+      <li>A rare magic tree can be an <strong>ecological anchor</strong> that seeds its own grove.</li>
+    </ul>
+  </div>
+  <div class="card c5">
+    <h3><span class="n">05</span> Seasonal form + voxel build <span class="tag">real + craft</span></h3>
+    <ul>
+      <li>Leaf type ↔ crown shape ↔ climate are <strong>one decision</strong> (broadleaf→round, needle→cone).</li>
+      <li>Deciduous needs a real branch frame (bare in winter); evergreen hides its interior.</li>
+      <li>Blocky big tree ≈ <strong>0.6 trunk : 0.4 canopy</strong>, canopy offset off-centre.</li>
+      <li><strong>Frame first, leaves on branches</strong> — never a solid crown on a bare pole.</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Ten portable lessons</h2>
+<ul>
+  <li><strong>Spacing shows in girth &amp; crown, not height</strong> — vary trunk thickness + crown width + branch height to say crowded vs alone.</li>
+  <li><strong>A thick trunk demands a root flare</strong> (root radius ≈ 38× trunk radius; spread 2–4× the crown).</li>
+  <li><strong>Bare lower bole = grew in shade;</strong> branches all the way down = grew open.</li>
+  <li><strong>Crown silhouette is chosen by climate</strong> — cone / round / umbrella / column.</li>
+  <li><strong>Root type is a biome tell</strong> — buttress, stilt, taproot, or shallow-wide.</li>
+  <li><strong>Leave gaps between neighbouring crowns</strong> (crown shyness); a forest isn't a solid canopy.</li>
+  <li><strong>Scale a tree's size to climate</strong> (warm+wet big, cold+dry stunted); ship 2–3 age stages.</li>
+  <li><strong>Magic lives in the core</strong> — a luminous heartwood/node, plus one exaggerated axis (colour/glow), over real form.</li>
+  <li><strong>Proportion ~0.6 trunk : 0.4 canopy</strong>, offset the crown, vary branch heights &amp; sizes.</li>
+  <li><strong>Frame then foliage</strong> — trunk + asymmetric branches, then leaves (~30–40% holes) hung on the branch tips.</li>
+</ul>
+
+<h2>Applied — the greatwood / silverwood spec</h2>
+<table class="spec">
+  <tr><th>Axis</th><th class="gw">Greatwood — warm common giant</th><th class="sw">Silverwood — cool rare special</th></tr>
+  <tr><td>Trunk footprint</td><td><strong>2×2</strong>, straight, mammoth</td><td><strong>3×3 plus</strong> tapering to 1 (TC canon)</td></tr>
+  <tr><td>Proportion</td><td>tall old-growth, ~0.6 trunk : 0.4 canopy</td><td>tall, slender taper</td></tr>
+  <tr><td>Canopy</td><td>broad, radiating branches + thick leaf clusters</td><td>pale, airy, <span class="teal">sparkling blue/teal</span></td></tr>
+  <tr><td>Core / heartwood</td><td>warm heartwood→sapwood rings</td><td><span class="teal">holds a node — luminous teal heart</span> (canon)</td></tr>
+  <tr><td>Roots</td><td>visible flare/buttress (thick trunk ⇒ wide roots)</td><td>subtler, pristine</td></tr>
+  <tr><td>Leaves</td><td>deep forest green, ~32% holes + accent fleck</td><td>icy/frost, teal shimmer, ~30% holes</td></tr>
+  <tr><td>Spacing / worldgen</td><td>common (~4%/chunk), old-growth giants among smaller trees</td><td><strong>rare, spaced grove-seeder</strong> (makes its own biome)</td></tr>
+</table>
+<p style="color:var(--soft);font-size:.9rem">The study confirms our existing texture directions are on-lore:
+the silverwood <em>core</em> candidates (teal heart / halo) are <strong>canon</strong> — the tree grows a node in
+its heartwood — and the frost/teal-shimmer <em>leaf</em> matches its "sparkling blue leaves." Greatwood's
+2×2 mammoth old-growth form is the warm-giant half of the pair.</p>
+
+<h2>Sources</h2>
+<p class="src">Real-world: Nature <em>Scientific Data</em> (UK woodland allometry); ScienceDirect (crown size &amp;
+growing space; "Beyond the cones"); ISA Arboriculture (root spread from trunk Ø); Britannica (buttress root);
+Smithsonian Ocean (mangroves); Vermont State Parks (why conifers are conical); Price Right Trees
+(deciduous vs evergreen). &nbsp;Mods &amp; voxel: Dynamic Trees (CurseForge/Modrinth); TerraFirmaCraft
+worldgen docs; Thaumcraft 4 Wiki (Greatwood, Silverwood); FTB Wiki (Livingwood/Dreamwood); Ars Nouveau
+(Archwood); Minecraft big-oak growth algorithm (golden-ratio height attenuation); Bedrock
+<code>tree_feature</code> reference. Full per-cycle URLs in <code>cycle1–5.md</code>.</p>
+
+<footer>
+  Compiled from 5 study cycles (<code>cycle1.md</code>–<code>cycle5.md</code>) ·
+  <code>gallery/2026-07-21-tree-growth-study/</code> · study-only, no third-party pixels reused.
+</footer>
+</div>
+</body>
+</html>
