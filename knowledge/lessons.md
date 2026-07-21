@@ -832,3 +832,37 @@ These back the `minecraft-crafting-station` skill in the thaumaturgy-the-new-age
   + search), essentia (fill columns + tier-trim). Teach by addition — keep everything the player
   already knows in its vanilla position; spend the novelty budget only on the arcane layer.
 - Source: Thaumcraft 4/6 Arcane Workbench (augment) vs Ars/Botania/Astral/Blood (justified custom).
+
+---
+
+# Worktable-cloth lessons — 2026-07-21 (GUI cloth runner, applied)
+
+Approved by the user. From authoring the Arcane Worktable's red/gold velvet runner
+(`gallery/2026-07-21-worktable-cloth/`, source-of-record `src/make_cloth.py`) after the
+first flat-square attempt read as "just a colored square, not a fancy cloth."
+
+## 2026-07-21 — "fancy cloth" reads from edge treatment + drape, not a filled rectangle
+- Context: worktable GUI runner; a flat red fill with a plain gold border read as a UI
+  panel, not a textile. User: "the cloth looks too much like just a square."
+- Observation: what sells "cloth" is what happens at and beyond the EDGE — a gold
+  embroidered border inset from the rim (not flush), small tassels poking *past* the
+  corners to break the hard rectangle silhouette, plus interior fold-crease columns and a
+  sparse diagonal sheen so the body isn't one flat value. A perfectly rectangular, evenly-
+  filled sprite always reads as a card/panel no matter how ornate the border.
+- Rule: to make a small GUI textile read as cloth and not a panel, (1) break the rectangular
+  silhouette — let tassels/fringe/frayed corners poke past the edge; (2) inset the ornamental
+  border a pixel or two from the rim rather than running it flush; (3) carry 2-3 interior
+  fold/drape value bands + a sparse sheen so the body has soft variation. Edge + drape do the
+  work; a richer flat fill does not.
+
+## 2026-07-21 — size a behind-grid mat to hug the slots, and let the slots go translucent
+- Context: the runner sat behind the 3×3 crafting grid; early versions overhung the grid and
+  read as a separate backdrop rather than a mat under the work area.
+- Observation: fitting the cloth to ~4px margin around the 54px 3×3 block (→ 62×62) made it
+  read as the work surface itself; and rendering the grid's nine slots TRANSLUCENT (a dim
+  0x30 fill + inset shadow/highlight bevel from the vanilla slot cell) let the cloth show
+  through the slots instead of nine opaque cells punched out of it — the mat then reads as
+  one continuous piece the items sit on.
+- Rule: a decorative mat behind a slot cluster should hug the cluster (small even margin), and
+  the slots over it should be drawn translucent (dim fill + bevel) so the mat shows through —
+  opaque vanilla slot cells over a mat read as holes cut in it, not items resting on it.
