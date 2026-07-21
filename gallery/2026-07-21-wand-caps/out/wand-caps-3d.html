@@ -21,6 +21,9 @@
   .sw{width:26px;height:26px;border-radius:50%;border:2px solid var(--edge);cursor:pointer}
   .sw[aria-pressed=true]{border-color:var(--ink);box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
   #meta{text-align:center;font-size:11px;color:var(--muted);padding:2px 0 10px}
+  #smoothctl{display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 0 2px}
+  #smoothctl input[type=range]{width:210px;accent-color:var(--accent);cursor:pointer}
+  #smoothlabels{display:flex;justify-content:space-between;width:222px;font-size:10px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted)}
   #tog{display:flex;gap:14px;justify-content:center;font-size:12px;color:var(--muted);padding-bottom:6px}
   #tog label{cursor:pointer}
 </style>
@@ -29,7 +32,11 @@
   <div id="stage"><canvas id="c"></canvas><div id="hint">drag to rotate</div></div>
   <div id="mats"></div>
   <div id="bar"></div>
-  <div id="tog"><label><input type="checkbox" id="smooth" checked> smooth</label><label><input type="checkbox" id="spin" checked> auto-spin</label><label><input type="checkbox" id="edges"> grid faces</label></div>
+  <div id="smoothctl">
+    <input type="range" id="smooth" min="0" max="2" step="1" value="2" aria-label="smoothing">
+    <div id="smoothlabels"><span>faceted</span><span>mid</span><span>smooth</span></div>
+  </div>
+  <div id="tog"><label><input type="checkbox" id="spin" checked> auto-spin</label><label><input type="checkbox" id="edges"> grid faces</label></div>
   <div id="meta"></div>
 </div>
 <script>
@@ -129,7 +136,8 @@ function buildSmooth(m,relax){
   pos.push(p[0]-c[0],p[1]-c[1],p[2]-c[2]);nor.push(n[0],n[1],n[2]);}
  return finish(pos,nor);
 }
-function buildGeom(m,inset){return smooth?buildSmooth(m,2):buildCrisp(m,inset);}
+// smoothLevel: 0 faceted cubes · 1 mid (raw surface nets) · 2 smooth (relaxed)
+function buildGeom(m,inset){return smoothLevel===0?buildCrisp(m,inset):buildSmooth(m,smoothLevel===1?0:3);}
 const posB=gl.createBuffer(),norB=gl.createBuffer();
 let geom=null,radius=10;
 function upload(g){geom=g;radius=g.radius;
@@ -143,8 +151,9 @@ function rotY(t){const c=Math.cos(t),s=Math.sin(t);return[c,0,-s,0,0,1,0,0,s,0,c
 function rotX(t){const c=Math.cos(t),s=Math.sin(t);return[1,0,0,0,0,c,s,0,0,-s,c,0,0,0,0,1];}
 function trans(x,y,z){return[1,0,0,0,0,1,0,0,0,0,1,0,x,y,z,1];}
 
-let yaw=-0.7,pitch=-0.35,dist=2.55,spin=true,inset=0,smooth=true;
+let yaw=-0.7,pitch=-0.35,dist=2.55,spin=true,inset=0,smoothLevel=2;
 let curMat=MATKEYS[0],curModel=0;
+const LEVELS=['faceted','mid','smooth'];
 
 function draw(){
  const dpr=Math.min(devicePixelRatio||1,2);
@@ -174,7 +183,7 @@ function loop(t){const dt=(t-last)/1000;last=t;if(spin)yaw+=dt*0.5;draw();reques
 
 function select(i){curModel=i;const m=MODELS[i];upload(buildGeom(m,inset));
  document.querySelectorAll('#bar .chip').forEach((c,k)=>c.setAttribute('aria-pressed',k===i));
- document.getElementById('meta').textContent=`${m.name} · ${m.mode} · ${m.nvox} voxels · ${smooth?'smooth':'faceted'} · ${geom.count/3|0} tris`;}
+ document.getElementById('meta').textContent=`${m.name} · ${m.mode} · ${m.nvox} voxels · ${LEVELS[smoothLevel]} · ${geom.count/3|0} tris`;}
 
 // ---- UI ----
 const bar=document.getElementById('bar');
@@ -189,8 +198,8 @@ MATKEYS.forEach(k=>{const s=document.createElement('button');s.className='sw';
  s.style.background=MATS[k];s.title=k;s.setAttribute('aria-pressed',k===curMat);
  s.onclick=()=>{curMat=k;document.querySelectorAll('#mats .sw').forEach(e=>e.setAttribute('aria-pressed',e.title===k));};
  mats.appendChild(s);});
-document.getElementById('smooth').onchange=e=>{smooth=e.target.checked;
- document.getElementById('edges').disabled=smooth;select(curModel);};
+document.getElementById('smooth').oninput=e=>{smoothLevel=+e.target.value;
+ document.getElementById('edges').disabled=smoothLevel>0;select(curModel);};
 document.getElementById('spin').onchange=e=>spin=e.target.checked;
 document.getElementById('edges').onchange=e=>{inset=e.target.checked?0.12:0;select(curModel);};
 
@@ -205,6 +214,6 @@ stage.addEventListener('touchmove',e=>{if(e.touches.length===2){e.preventDefault
 stage.addEventListener('touchend',()=>pinch=null);
 
 if(matchMedia('(prefers-reduced-motion: reduce)').matches){spin=false;document.getElementById('spin').checked=false;}
-document.getElementById('edges').disabled=smooth;
+document.getElementById('edges').disabled=smoothLevel>0;
 select(0);requestAnimationFrame(loop);
 </script>

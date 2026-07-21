@@ -21,7 +21,9 @@ from aide.liftviewer import build_payloads, viewer_html
 GAL = ROOT / "gallery"
 CAPS = GAL / "2026-07-21-wand-caps"
 TIPS = GAL / "2026-07-21-wand-tips-study"
-MATERIALS = {"aetherium": "#8A6BB6", "brass": "#C79A55"}
+FANTASY = GAL / "2026-07-21-fantasy-caps"
+POMMELS = GAL / "2026-07-21-pommels"
+MATERIALS = {"aetherium": "#8A6BB6", "brass": "#C79A55", "moonstone": "#B9C4E0"}
 
 
 def _import(path: Path):
@@ -55,17 +57,31 @@ def build_tips() -> dict:
     return out
 
 
+def _build_from(dirn: Path, script: str) -> dict:
+    """Generic: lift a set from its build script's RECIPES = {name: (mode, label, kw)}."""
+    recipes = _import(dirn / script).RECIPES
+    out = {}
+    for pxg in sorted((dirn / "src").glob("*.pxg")):
+        mode, label, kw = recipes[pxg.stem]
+        out[pxg.stem] = (lift(pxg, mode=mode, **kw), label)
+    return out
+
+
 def main():
-    caps, tips = build_caps(), build_tips()
+    caps = build_caps()
+    tips = build_tips()
+    fantasy = _build_from(FANTASY, "build_fantasy.py")
+    pommels = _build_from(POMMELS, "build_pommels.py")
     payloads = (build_payloads(caps, group="Caps · lifted from the art")
-                + build_payloads(tips, group="Forged tips · cross-section study"))
+                + build_payloads(tips, group="Forged tips · cross-section study")
+                + build_payloads(fantasy, group="Fantasy caps · orbs, crystals, moons")
+                + build_payloads(pommels, group="Pommels · butt-end knobs"))
     html = viewer_html(payloads, MATERIALS,
-                       title="Thaumaturgy — Wand Caps & Tips (3D)")
+                       title="Thaumaturgy — Wand Parts (3D)")
     out = GAL / "wand-showcase-3d.html"
     out.write_text(html)
-    print(f"wrote {out.relative_to(ROOT)}  "
-          f"({len(html)/1024:.0f} KB, {len(payloads)} models: "
-          f"{len(caps)} caps + {len(tips)} tips)")
+    print(f"wrote {out.relative_to(ROOT)}  ({len(html)/1024:.0f} KB, {len(payloads)} models: "
+          f"{len(caps)} caps + {len(tips)} tips + {len(fantasy)} fantasy + {len(pommels)} pommels)")
 
 
 if __name__ == "__main__":
