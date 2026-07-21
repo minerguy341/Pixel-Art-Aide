@@ -21,10 +21,11 @@ R_SH, R_BASE, R_MID, R_SHEEN = hx(0x5A1420), hx(0x8E2233), hx(0xA6394A), hx(0xC2
 G_D, G_B, G_H = hx(0x7A5A22), hx(0xC9A24A), hx(0xF2D98A)
 
 def cloth():
-    W, H = 70, 76
-    im = Image.new("RGBA", (W, H), T)
+    # Fitted velvet mat that hugs the 54px 3x3 grid (62x62 = ~4px margin all round). A gold
+    # embroidered border + small corner tassels keep it "fancy" without an oversized overhang.
+    S = 62
+    im = Image.new("RGBA", (S, S), T)
     px = im.load()
-    top, bot = 8, H - 8
 
     def vel(x, y):
         v = R_BASE
@@ -36,42 +37,30 @@ def cloth():
             v = R_SHEEN                    # sparse velvet sheen
         return v
 
-    for y in range(top, bot):
-        for x in range(2, W - 2):
+    for y in range(S):
+        for x in range(S):
             px[x, y] = vel(x, y)
 
-    # gold embroidered border (inset 4), with highlight studs
-    x0, y0, x1, y1 = 4, top + 1, W - 5, bot - 2
+    # gold embroidered border: a 2px band inset 2px from the edge, with highlight studs
+    x0, y0, x1, y1 = 2, 2, S - 3, S - 3
     for x in range(x0, x1 + 1):
         px[x, y0] = px[x, y1] = G_B
-        px[x, y0 - 1] = px[x, y1 + 1] = G_D
+        px[x, y0 + 1] = px[x, y1 - 1] = G_D
     for y in range(y0, y1 + 1):
         px[x0, y] = px[x1, y] = G_B
-        px[x0 - 1, y] = px[x1 + 1, y] = G_D
-    for x in range(x0 + 2, x1 - 1, 6):
+        px[x0 + 1, y] = px[x1 - 1, y] = G_D
+    for x in range(x0 + 3, x1 - 2, 6):
         px[x, y0] = px[x, y1] = G_H
-    for y in range(y0 + 2, y1 - 1, 6):
+    for y in range(y0 + 3, y1 - 2, 6):
         px[x0, y] = px[x1, y] = G_H
 
-    # tassels hanging off the top and bottom edges
-    def fringe(row, d):
-        for x in range(3, W - 3, 2):
-            ln = 3 + ((x // 2) % 3)
-            for k in range(ln):
-                yy = row + d * k
-                if 0 <= yy < H:
-                    px[x, yy] = G_H if k == ln - 1 else G_B
-    fringe(top - 1, -1)
-    fringe(bot, +1)
-
-    # corner tassels
-    for cx in (3, W - 4):
-        for cy, d in ((top, -1), (bot - 1, +1)):
-            px[cx, cy] = G_H
-            for k in range(1, 5):
-                yy = cy + d * k
-                if 0 <= yy < H:
-                    px[cx, yy] = G_H if k == 4 else G_B
+    # small corner tassels poking out each corner
+    for cx, cy, dx, dy in [(0, 0, -1, -1), (S - 1, 0, 1, -1), (0, S - 1, -1, 1), (S - 1, S - 1, 1, 1)]:
+        px[cx, cy] = G_H
+        for k in range(1, 3):
+            xx, yy = cx + dx * k, cy + dy * k
+            if 0 <= xx < S and 0 <= yy < S:
+                px[xx, yy] = G_B
 
     im.save(OUT / "worktable_cloth.png")
     return im
@@ -109,4 +98,4 @@ def block_top():
 if __name__ == "__main__":
     cloth()
     block_top()
-    print("wrote worktable_cloth.png (70x76) + arcane_worktable_top.png (16x16) to", OUT)
+    print("wrote worktable_cloth.png (62x62) + arcane_worktable_top.png (16x16) to", OUT)
