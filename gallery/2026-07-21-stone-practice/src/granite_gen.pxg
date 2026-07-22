@@ -1,24 +1,25 @@
 size: 16x16
 [palette]
-a = B4ADA6
-b = C6A79A
-c = 9A9A93
-d = 3A3532
-e = DCD8D0
+a = BEB0A2
+b = CCC0B4
+c = C4B8AC
+d = 8A7F73
+e = AE9E90
+f = A89484
 [grid]
-aaaaaaaabbaccdaa
-aaaaaaaaebcdcdaa
-aaaaaaaaaaaadbaa
-acaaeaaaaabbcbea
-acabbeaaadeabcae
-ccaaecaaddaebcaa
-aaaacaaeaaaabbaa
-aaaacbaaeeaaabea
-aaaacabbaabbaaaa
-aaaababbacbbaaaa
-aaaabbaaccadaaaa
-aaaaeebbcaddaaaa
-bbbaeeaaacdabbaa
-aaaaeeeeaeaaccaa
-aaaaeeeeeaaaacda
-caaaedeeeaaaadda
+aaaababbccbabdaa
+aabbaabbecadbdaa
+eebabbbbaaaedfee
+eeaacbbbaaaaefee
+aaeebcaaadeafaac
+aaebcabaddeefbaa
+aaaabaaaaaaaffaa
+aaaabfbbaaaabfaa
+aaeebaffeaffaaee
+aeeacaffeeffaeea
+aaaaccabbaadeaaa
+eaaacccabaddeeaa
+fffaccaaabdaeaaa
+eaaaccccaaaaaabb
+aeaacccccaaaeeda
+baaacdcccaaaadda

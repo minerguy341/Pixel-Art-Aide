@@ -1,24 +1,24 @@
 size: 16x16
 [palette]
-a = 46505A
-b = 58636F
-c = 363E48
-d = 76828E
-e = 303842
+a = 474C52
+b = 3A3E44
+c = 565C63
+d = 626870
+e = 323840
 [grid]
-abaaacaaaabaaaca
-aaaaaaaaacaaaaaa
-aaadabbabaacbbaa
-aaaaaaaaacaaaaaa
+aaaaabaaaacaaabb
+aaabaaaaabcaaaaa
+aaadaccacaabaaaa
+aaaaaaaaabbaaaaa
 aaaaaaaaaaaaaaaa
-aeeaeaeeeaeeacec
-acaaaaaaaacaaaaa
-ccbaaaaaaaaaaaaa
+aeeaeaeeeaeeabeb
+abaaaaaaaabaaaaa
+bbcaaaaaaabaaaaa
 aaaaaaaaaaaaaaaa
-baaaaadaaaaaaaca
-abcaaaccaaaaacaa
-eeecaeceeebaaaea
-acacbaaaaaabcdaa
-aadabaaabaaaaaaa
-aaaaaaabccabaaaa
-caaaaaaaacaaaaaa
+caaaaadaaaaaaaba
+acbaaabbaaaaabaa
+eeebaebeeeaabaea
+abbbcaaaabaabdaa
+aabacaaaaaaaaaaa
+aaaaaaaabbaaaaaa
+baaaaaaaabaaaaaa
