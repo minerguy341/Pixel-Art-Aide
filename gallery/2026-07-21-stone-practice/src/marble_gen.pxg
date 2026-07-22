@@ -3,12 +3,12 @@ size: 16x16
 a = F5F3EF
 b = D4D2C9
 c = E8E6E0
-d = FCFBF8
-e = CAC8BF
-f = E0DED5
-g = E4E2DA
-h = E8E6DE
-i = E9E7DF
+d = CAC8BF
+e = E0DED5
+f = E4E2DA
+g = E8E6DE
+h = E9E7DF
+i = FCFBF8
 j = E5E3DB
 k = CDCBC1
 l = CECCC3
@@ -34,19 +34,19 @@ E = DFDDD4
 F = C6C4BB
 G = D9D7CE
 [grid]
-aaaabaaaaaabaaaa
-caadeddaaaaaadaa
-accafgaaahaaaaaa
-daaaaadaiiaacdaa
-baadjiacidaaaaab
-klmaiiaihaaaaaaa
-macaaaicaaaaaaaa
-iaaaanoijpqagras
-aacadataiuvaawxa
-aadacddaaybicahz
-aaidaaaaaaaaaadA
-baahaaadajBdadab
-aaaCaaaaaaiaaaaa
-aaaDiEaccasaddaa
-aaacFaaacaaiadaa
-daaabaaaaaabGaaa
+aaaabaaaaacbccaa
+aaaadaaaaaacccca
+aaacefaaagacacca
+acacaaaahhaiaaci
+bccajhaahiiiiaab
+klmchhchgaiiaaai
+macaachccaaaaaii
+haaacnohjpqafras
+aiiicctchuvaawxi
+iiacacaaaybhaagz
+iihaaaaaaaaaaaaA
+biagaaaaajBaaaib
+aaaCaaaaaihaiaaa
+aaaDhEaaiasiiiia
+aaaaFaaaaaahiiaa
+aaaabaaaaiibGiai

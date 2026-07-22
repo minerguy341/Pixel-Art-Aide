@@ -36,20 +36,34 @@ def lerp(c1, c2, t):
 
 
 # ---------------------------------------------------------------- structure primitives (value-driven)
+def _cluster_val(x, y, seed, cell):
+    """Value noise sampled on a coarse `cell`-px grid with jittered cell edges, so light/dark
+    patches read as deliberate irregular potato-shape BLOBS (vanilla) rather than per-pixel TV
+    static (the noise anti-pattern in shading.md). cell 2-3 ≈ vanilla stone blotch size."""
+    jx = x + int(round((h2(x, y, seed + 13) - 0.5) * (cell - 0.5)))   # nudge edges off the grid
+    jy = y + int(round((h2(x, y, seed + 14) - 0.5) * (cell - 0.5)))
+    return h2(jx // cell, jy // cell, seed)
+
+
 def fill_base(px, spec):
     ramp = [hexc(c) for c in spec["ramp"]]
     struct = spec.get("structure", "speckle")
     seed = spec.get("seed", 1)
     lo = spec.get("busy_lo", 0.14)
     hi = spec.get("busy_hi", 0.12)
+    cell = spec.get("cluster", 0)                                       # 0 = legacy per-pixel noise
     for y in range(N):
         for x in range(N):
             if struct == "flat":
                 g = 0.5
             elif struct == "foliation":
-                g = 0.6 * h2(x // 2, y, seed) + 0.4 * h2(x, y, seed + 1)   # horizontally-biased grain
-            else:                                                          # speckle
-                g = h2(x, y, seed)
+                # horizontally-biased grain; cluster along the grain (wide cells, 1px tall)
+                g = (0.6 * _cluster_val(x, y, seed, cell) + 0.4 * h2(x, y, seed + 1)
+                     if cell else 0.6 * h2(x // 2, y, seed) + 0.4 * h2(x, y, seed + 1))
+            elif cell:
+                g = _cluster_val(x, y, seed, cell)                     # clustered blobs
+            else:
+                g = h2(x, y, seed)                                     # legacy per-pixel speckle
             px[x, y] = ramp[0] if g < lo else (ramp[2] if g > 1 - hi else ramp[1])
 
 

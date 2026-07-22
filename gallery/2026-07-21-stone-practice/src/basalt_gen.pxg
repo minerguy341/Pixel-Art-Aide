@@ -1,24 +1,24 @@
 size: 16x16
 [palette]
-a = 2F3A32
-b = 3A463C
+a = 3A463C
+b = 2F3A32
 c = 26302A
 d = 171D18
 e = 202821
 [grid]
-aaaaabacacaacaab
-bbaababbacaaacaa
-aaaaaabbababccac
-aaabdeaaaaaacaaa
-acaaaaaaaacaaaac
-aacacaaaaaaabaab
-caaaaabaaaadacaa
-baaaaacaaaaaabaa
-aabaaaaaaabacaaa
-aadaabaaaaaacabc
-aaaaaabaabbaaaaa
-aaccaabdaaaaabaa
-abaaaaaacaaaaaaa
-aaacacabaaabadaa
-baaabaaaaaaaaaaa
-acaaabaaacbabaac
+abbbbcbbbbababbc
+bbbbbbbbbbbbbbaa
+abbabbbbbbbbbbba
+caaadeabbbbbabab
+aaaaabbbbbbabaab
+babaaaabbbbbaabb
+abaaababbbbdabbb
+bbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbcbb
+bbdbbbbbbbabbcbb
+bbbbbbbbaaaaccbb
+bbbbbbbdbaabcccc
+bbbcccbbbbabbbbb
+bbcccccbbbbbbdbb
+bbccccbbbbbbbbbb
+bbbcbbcccbbbcbbb
