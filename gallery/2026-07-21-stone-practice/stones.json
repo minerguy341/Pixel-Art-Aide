@@ -48,9 +48,9 @@
     ]
   },
   "sandstone": {
-    "desc": "muted ochre tan grains + faint bedding (vanilla-tuned, desaturated)",
-    "ramp": ["BEAE82", "CDBE96", "D8CBAA"],
+    "desc": "greyed ochre tan grains + faint bedding (vanilla-tuned, low chroma)",
+    "ramp": ["B4AC90", "C2BAA0", "CEC6AC"],
     "structure": "speckle", "busy_lo": 0.16, "busy_hi": 0.14, "seed": 121, "orient": "hflip", "cluster": 2,
-    "bedding": {"rows": [3, 8, 13], "color": "BCAA80", "density": 0.5}
+    "bedding": {"rows": [3, 8, 13], "color": "B0A888", "density": 0.5}
   }
 }
