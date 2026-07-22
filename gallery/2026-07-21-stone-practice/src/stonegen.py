@@ -121,10 +121,17 @@ def apply_anchor_veins(px, spec):
         dx, dy = bx - ax, by - ay
         length = math.hypot(dx, dy) or 1.0
         pxu, pyu = -dy / length, dx / length            # perpendicular unit
-        steps = int(max(abs(dx), abs(dy)) * 2) + 1
+        # per-vein curve: sum of sin harmonics (all zero at f=0,1 → endpoints stay pinned), random
+        # amplitudes+signs per vein so no two veins share a shape and none read as a straight line.
+        c1 = 0.7 + 0.6 * h2(pi, 1, seed)
+        c2 = 1.4 * (h2(pi, 2, seed) - 0.5)
+        c3 = 0.9 * (h2(pi, 3, seed) - 0.5)
+        steps = (int(length) + 1) * 3
         for t in range(steps + 1):
             f = t / steps
-            wob = amp * math.sin(f * math.pi) * (0.6 + 0.8 * h2(pi, t, seed))  # 0 at both ends
+            sh = c1 * math.sin(f * math.pi) + c2 * math.sin(2 * f * math.pi) + c3 * math.sin(3 * f * math.pi)
+            jit = 0.4 * (h2(pi, t, seed + 9) - 0.5) * math.sin(f * math.pi)   # pixel wiggle, 0 at ends
+            wob = amp * (sh + jit)
             xi = int(round(ax + dx * f + pxu * wob)) % N
             yi = int(round(ay + dy * f + pyu * wob)) % N
             if 0 < f < 1 and h2(xi, yi, seed + 3) > dot:

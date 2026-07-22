@@ -66,3 +66,11 @@ Each vein pixel is now a continuous lerp(soft, core, d) where d = hash**dark_bia
 per pixel (mostly faint, few dark), instead of a few fixed tones. Kills the uniform-marker read; the
 vein fades in and out along its length like real marble. Value-driven: soft/core = light/dark ends,
 dark_bias (>1 keeps it mostly light), dot = gaps. Crossings pinned to the mid tone so rotation aligns.
+
+## r7 — curvy veins, less grid
+Two fixes for the straight-line/grid look: (1) each vein now curves via a per-vein sum of sin
+harmonics (c1·sin πf + c2·sin 2πf + c3·sin 3πf, random amplitudes/signs, all zero at f=0,1 so
+endpoints stay pinned) + a small per-pixel jitter — no two veins share a shape, none read straight;
+(2) pairs rerouted as a PINWHEEL (each edge → the next edge CW: T0→R1, R0→B1, B0→L1, L0→T1) instead
+of the symmetric cross, so the tile no longer stamps a regular X. amp bumped 2.3→2.8 for more bend.
+Rotation still aligns (crossings unchanged at 4/11). All value-driven.

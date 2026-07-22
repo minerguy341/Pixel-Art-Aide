@@ -7,47 +7,49 @@ d = ECEAE3
 e = 99978D
 f = B4B2A8
 g = C0BEB4
-h = B6B4AA
-i = BFBDB3
-j = CDCBC1
-k = 9E9C92
-l = CAC8BE
-m = CBC9BF
-n = BDBBB1
-o = CCCAC0
+h = CAC8BE
+i = CBC9BF
+j = BDBBB1
+k = CDCBC1
+l = CCCAC0
+m = 9C9A90
+n = 9E9C92
+o = C1BFB5
 p = C8C6BC
 q = C7C5BB
-r = 929086
+r = C9C7BD
 s = AFADA3
-t = BCBAB0
-u = 949288
-v = A3A197
-w = C5C3B9
-x = BEBCB2
-y = A2A096
-z = C4C2B8
-A = A19F95
-B = ABA99F
-C = 9B998F
-D = B9B7AD
-E = C3C1B7
-F = 96948A
-G = AAA89E
-H = B3B1A7
+t = BEBCB2
+u = B3B1A7
+v = C5C3B9
+w = BCBAB0
+x = B7B5AB
+y = 949288
+z = A3A197
+A = 929086
+B = B0AEA4
+C = A19F95
+D = 8F8D83
+E = A4A298
+F = B9B7AD
+G = A5A399
+H = 9B998F
+I = 959389
+J = 96948A
 [grid]
 aaaabaaaaaabaaaa
 caadeddaaaaaadaa
-accafgaahiaaaaaa
-daaaajdklmaacdaa
-baadnjacodaaaaab
-akaapaalqaaaaaia
-aacaaaacaaaaarca
-aaaaaasjaacatfac
-aacadauaavraaaaa
-aadakddaaaaccaaa
-aaadowxaaaaaaada
-bamcyzAdBiCdjsab
-aaaaaaaacacaaaaa
-aaadjDaclEaaddaa
-aaacFaaacaGaadaa
-daaabaaaaaabHaaa
+accafgaaacaaaaaa
+daaaaadahiaacdaa
+baadjkacldaaaaab
+mnoapkahqaaaaaaa
+gacaaalcaaaaaaaa
+raaaabsktuvawfax
+aacadayakzAaaBCa
+aadacddaaDElcacF
+aapdaaaaaaaaaadG
+baacaaadatHdadab
+aaaDaaaaaaraaaaa
+aaaIkFaccaxaddaa
+aaacJaaacaakadaa
+daaabaaaaaabuaaa

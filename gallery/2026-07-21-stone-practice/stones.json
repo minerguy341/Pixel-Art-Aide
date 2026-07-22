@@ -6,8 +6,8 @@
     "anchor_veins": {
       "crossings": [4, 11],
       "soft": "CECCC2", "core": "8E8C82",
-      "amp": 2.3, "dot": 0.62, "dark_bias": 1.9,
-      "pairs": [["T0", "B1"], ["T1", "B0"], ["L0", "R1"], ["L1", "R0"]]
+      "amp": 2.8, "dot": 0.62, "dark_bias": 1.9,
+      "pairs": [["T0", "R1"], ["R0", "B1"], ["B0", "L1"], ["L0", "T1"]]
     }
   },
   "slate": {
