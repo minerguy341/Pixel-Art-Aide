@@ -1100,3 +1100,13 @@ structured features"]; 5 is a studio-workflow note.
   material: isotropic → D4; horizontal-layered keep-vertical → h-flip only; layered with no up/down
   bias → axis-preserving {identity, h-flip, v-flip, 180} (never the 90 turns). [folded into shading.md]
   (stonegen: per-stone `orient` = d4|rot4|axis|hflip; shale/sandstone=hflip, slate=axis, marble=d4.)
+
+## 2026-07-22 — procedural bases must CLUSTER, not speckle (the noise anti-pattern)
+- Rule: a per-pixel `h2(x,y)` fill reads as TV static — the "computer-generated" look vanilla avoids
+  (and our own shading.md already warns against). Sample base variation on a coarse 2-3px cell grid
+  with jittered edges so value patches form deliberate potato-shape blobs, matching how vanilla stone
+  is hand-placed. Applies to mineral/fleck scatter too (grains, not sparkle), not just the base fill.
+  Keep it data-driven (a `cluster`/`mineral_cluster` value) so cell size tunes per rock. Aggressively
+  comparing our stones to vanilla surfaced this as the single biggest style gap.
+  (stonegen: `_cluster_val(x,y,seed,cell)`; cluster 3=marble/basalt, 2=slate/shale/sandstone,
+  mineral_cluster 2=granite.)
