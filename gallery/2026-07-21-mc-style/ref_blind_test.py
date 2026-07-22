@@ -27,9 +27,10 @@ N, SCALE = 16, 5
 def load(name):
     return Image.open(REF / f"{name}.png").convert("RGBA")
 
-# vanilla wall: mostly stone, sprinkled with diorite/andesite/granite/dirt/gravel + a couple ores
-palette = (["stone"] * 10 + ["diorite", "andesite", "granite", "dirt", "gravel",
-                              "coal_ore", "iron_ore"])
+# vanilla wall: mostly stone, sprinkled with the full stone family so every candidate has a fair
+# same-family comparator (incl. warm sandstone/granite and pale calcite, not just grey stone).
+palette = (["stone"] * 9 + ["diorite", "andesite", "granite", "dirt", "gravel",
+                            "coal_ore", "iron_ore", "sandstone", "calcite", "tuff"])
 vt = {n: load(n) for n in set(palette)}
 cols, rows = 9, 5
 rng = random.Random(7)

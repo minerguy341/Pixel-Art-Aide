@@ -1,10 +1,10 @@
 size: 16x16
 [palette]
-a = 474C52
-b = 3A3E44
-c = 565C63
-d = 626870
-e = 323840
+a = 4E4C4A
+b = 403E3D
+c = 5E5B58
+d = 646260
+e = 353330
 [grid]
 aaaaabaaaacaaabb
 aaabaaaaabcaaaaa

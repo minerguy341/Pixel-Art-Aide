@@ -1,9 +1,9 @@
 size: 16x16
 [palette]
-a = CEC6AC
-b = B4AC90
-c = C2BAA0
-d = B0A888
+a = D8C9A2
+b = BBA97E
+c = CDBB92
+d = B9A778
 [grid]
 abbbbbccbbcaccaa
 cccbbbbcbbccccca
