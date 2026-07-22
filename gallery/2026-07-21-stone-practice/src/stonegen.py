@@ -69,10 +69,11 @@ def fill_base(px, spec):
 
 def apply_minerals(px, spec):
     seed = spec.get("seed", 1)
+    cell = spec.get("mineral_cluster", spec.get("cluster", 0))   # cluster grains, not per-pixel static
     minerals = [(hexc(m["color"]), m["p"]) for m in spec.get("minerals", [])]
     for y in range(N):
         for x in range(N):
-            g = h2(x, y, seed + 5)
+            g = _cluster_val(x, y, seed + 5, cell) if cell else h2(x, y, seed + 5)
             acc = 0.0
             for color, p in minerals:
                 acc += p

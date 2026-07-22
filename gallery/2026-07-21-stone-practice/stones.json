@@ -30,7 +30,7 @@
   "granite": {
     "desc": "felsic salt-and-pepper (feldspar/quartz/mica)",
     "ramp": ["B4ADA6", "B4ADA6", "DCD8D0"],
-    "structure": "speckle", "busy_lo": 0.0, "busy_hi": 0.07, "seed": 101,
+    "structure": "speckle", "busy_lo": 0.0, "busy_hi": 0.07, "seed": 101, "mineral_cluster": 2,
     "minerals": [
       {"color": "3A3532", "p": 0.10}, {"color": "C6A79A", "p": 0.14},
       {"color": "DCD8D0", "p": 0.07}, {"color": "9A9A93", "p": 0.09}
