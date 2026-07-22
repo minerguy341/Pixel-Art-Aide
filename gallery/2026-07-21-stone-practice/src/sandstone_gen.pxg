@@ -1,23 +1,23 @@
 size: 16x16
 [palette]
-a = D8C9A2
+a = CDBB92
 b = BBA97E
-c = CDBB92
-d = B9A778
+c = B29B70
+d = D8C9A2
 [grid]
-abbbbbccbbcaccaa
-cccbbbbcbbccccca
-ccbcccccccccccac
-cddddddcddaddddc
-bcbcccccaaaabbcc
-bcccccccaaabbbcc
-ccbbccbbcaccaaaa
-ccbbcabcccccaaaa
-ddbddaccddccdddb
-ccbbaaaccccccccc
-ccbbccacbbcccccc
-cccbcbaabbcccccc
-cacbbcbbccccaaac
-dacddddccdcccacc
-ccccbbbbbbccaccc
-cccbbcbcbbcccccc
+aaaabbaabbaaaaaa
+aaaabbbabbaaaaaa
+aaaaaaaaaaaaaaaa
+accccccccccccccc
+babaaaaaddddaaaa
+baaaaaaadddaaaaa
+aabbaaaaadaaddaa
+aabbadaaaaaaddaa
+ccbccdccccacccca
+aabbdddaaaaaaaaa
+aabbaadabbaaaaaa
+aaababddbbaaaaaa
+aaabbabbaaaaddda
+cacccccaaccccccc
+aaaabbbbbbaadaaa
+aaabbababbaaaaaa

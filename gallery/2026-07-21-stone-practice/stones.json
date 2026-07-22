@@ -1,12 +1,12 @@
 {
   "marble": {
-    "desc": "pale calcite + rotation-safe veins (crossings at 4/11 on every edge)",
-    "ramp": ["E8E6E0", "F5F3EF", "FCFBF8"],
+    "desc": "pale calcite, capped highlights (no pure white) + visible grey veins",
+    "ramp": ["D8D6CE", "E4E2DC", "ECEAE4"],
     "structure": "speckle", "busy_lo": 0.10, "busy_hi": 0.10, "seed": 41, "orient": "d4", "cluster": 3,
     "anchor_veins": {
       "crossings": [4, 11],
-      "soft": "EAE8E0", "core": "BEBCB2",
-      "amp": 2.8, "dot": 0.62, "dark_bias": 3.1,
+      "soft": "DEDCD4", "core": "B0AEA4",
+      "amp": 2.8, "dot": 0.74, "dark_bias": 2.4,
       "pairs": [["T0", "R1"], ["R0", "B1"], ["B0", "L1"], ["L0", "T1"]]
     }
   },
@@ -21,36 +21,31 @@
     "cleavage": {"rows": [5, 11], "color": "353330", "density": 0.4}
   },
   "shale": {
-    "desc": "soft dark mudstone, thin broken laminae",
-    "ramp": ["322F31", "3E3B3D", "4A474A"],
-    "structure": "speckle", "busy_lo": 0.16, "busy_hi": 0.14, "seed": 91, "orient": "hflip", "cluster": 2,
-    "laminae": {"rows": [2, 7, 12], "color": "2A272A", "density": 0.62, "wavy": true}
+    "desc": "warm dark mudstone, fine tight laminae (distinct from slate)",
+    "ramp": ["302B28", "3C3733", "48423E"],
+    "structure": "speckle", "busy_lo": 0.16, "busy_hi": 0.12, "seed": 91, "orient": "hflip", "cluster": 2,
+    "laminae": {"rows": [2, 5, 8, 11, 14], "color": "282320", "density": 0.5, "wavy": true}
   },
   "granite": {
-    "desc": "felsic dusty pink-tan, low-contrast clustered grains (vanilla-tuned)",
-    "ramp": ["AE9E90", "BEB0A2", "CCC0B4"],
-    "structure": "speckle", "busy_lo": 0.26, "busy_hi": 0.20, "seed": 101,
+    "desc": "warm pink-orange granite matching vanilla, coarse quartz/mineral speckle",
+    "ramp": ["9E7259", "B08369", "C6A184"],
+    "structure": "speckle", "busy_lo": 0.24, "busy_hi": 0.22, "seed": 101,
     "cluster": 2, "mineral_cluster": 2,
     "minerals": [
-      {"color": "8A7F73", "p": 0.11}, {"color": "A89484", "p": 0.10},
-      {"color": "C4B8AC", "p": 0.07}
+      {"color": "5A4438", "p": 0.10}, {"color": "C89886", "p": 0.10},
+      {"color": "D8CFC4", "p": 0.09}
     ]
   },
   "basalt": {
-    "desc": "dark neutral-grey basalt, clustered vesicle pits (vanilla-tuned, green removed)",
-    "ramp": ["2B2C2E", "36383B", "45474B"],
-    "structure": "speckle", "busy_lo": 0.30, "busy_hi": 0.20, "seed": 111, "cluster": 3,
-    "pits": [
-      {"x": 4, "y": 3, "color": "1C1D1F"}, {"x": 5, "y": 3, "color": "1C1D1F"}, {"x": 4, "y": 4, "color": "232426"},
-      {"x": 11, "y": 6, "color": "1C1D1F"}, {"x": 12, "y": 6, "color": "232426"},
-      {"x": 7, "y": 11, "color": "1C1D1F"}, {"x": 7, "y": 12, "color": "232426"},
-      {"x": 13, "y": 12, "color": "1C1D1F"}, {"x": 2, "y": 9, "color": "1C1D1F"}, {"x": 3, "y": 9, "color": "232426"}
-    ]
+    "desc": "medium-dark grey basalt, vertical column striations + faint purple undertone",
+    "ramp": ["343339", "45444B", "585661"],
+    "structure": "speckle", "busy_lo": 0.30, "busy_hi": 0.24, "seed": 111, "cluster": 2, "orient": "hflip",
+    "columns": {"cols": [2, 5, 8, 11, 14], "color": "2A2A30", "density": 0.5, "wavy": true}
   },
   "sandstone": {
-    "desc": "warm tan grains + faint bedding (vanilla-tuned, warm not olive)",
+    "desc": "warm tan grains + strong horizontal bedding like vanilla sandstone",
     "ramp": ["BBA97E", "CDBB92", "D8C9A2"],
-    "structure": "speckle", "busy_lo": 0.16, "busy_hi": 0.14, "seed": 121, "orient": "hflip", "cluster": 2,
-    "bedding": {"rows": [3, 8, 13], "color": "B9A778", "density": 0.5}
+    "structure": "speckle", "busy_lo": 0.12, "busy_hi": 0.09, "seed": 121, "orient": "hflip", "cluster": 2,
+    "bedding": {"rows": [3, 8, 13], "color": "B29B70", "density": 0.82}
   }
 }

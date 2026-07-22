@@ -98,6 +98,23 @@ def apply_bands(px, spec, key):
                 px[x, yy] = color
 
 
+def apply_columns(px, spec):
+    """Vertical striations (mirror of apply_bands) — basalt's columnar-jointing signature. Draws
+    darker vertical streaks at the given x positions; keep the texture directional (orient hflip)."""
+    c = spec.get("columns")
+    if not c:
+        return
+    color = hexc(c["color"])
+    dens = c.get("density", 0.6)
+    wavy = c.get("wavy", False)
+    seed = spec.get("seed", 1)
+    for lx in c["cols"]:
+        for y in range(N):
+            xx = (lx + (1 if (wavy and h2(y // 3, lx, seed + 17) < 0.3) else 0)) % N
+            if h2(lx, y, seed + 18) < dens:
+                px[xx, y] = color
+
+
 def apply_veins(px, spec):
     for i, v in enumerate(spec.get("veins", [])):
         color, core = hexc(v["color"]), hexc(v["core"])
@@ -183,6 +200,7 @@ def render(spec):
     fill_base(px, spec)
     apply_bands(px, spec, "laminae")
     apply_bands(px, spec, "bedding")
+    apply_columns(px, spec)
     apply_minerals(px, spec)
     apply_veins(px, spec)
     apply_anchor_veins(px, spec)

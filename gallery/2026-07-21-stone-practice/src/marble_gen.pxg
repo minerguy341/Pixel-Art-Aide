@@ -1,52 +1,58 @@
 size: 16x16
 [palette]
-a = F5F3EF
-b = D4D2C9
-c = E8E6E0
-d = CAC8BF
-e = E0DED5
-f = E4E2DA
-g = E8E6DE
-h = E9E7DF
-i = FCFBF8
-j = E5E3DB
-k = CDCBC1
-l = CECCC3
-m = E6E4DC
-n = DCDAD1
-o = DCDAD2
-p = DFDDD5
-q = E7E5DD
-r = DBD9D0
-s = E2E0D7
-t = C5C3B9
-u = D3D1C7
-v = C3C1B7
-w = DDDBD2
-x = D1CFC6
-y = C0BEB4
-z = E3E1D8
-A = D5D3CA
-B = CCCAC0
-C = BFBDB3
-D = C6C4BA
-E = DFDDD4
-F = C6C4BB
-G = D9D7CE
+a = E4E2DC
+b = C7C5BC
+c = D8D6CE
+d = BAB8AE
+e = CFCDC5
+f = D6D4CC
+g = DBD9D1
+h = B2B0A6
+i = DCDAD2
+j = DDDBD3
+k = ECEAE4
+l = D5D3CB
+m = BCBAB1
+n = BEBCB2
+o = D7D5CD
+p = CBC9C0
+q = CFCDC4
+r = D9D7CF
+s = D4D2CA
+t = CCCAC2
+u = D1CFC7
+v = B6B4AA
+w = C2C0B6
+x = B4B2A8
+y = C8C6BD
+z = CCCAC1
+A = C0BEB5
+B = B1AFA5
+C = C3C1B8
+D = DAD8D0
+E = D2D0C8
+F = DCDAD1
+G = D3D1C9
+H = C4C2B9
+I = D6D4CB
+J = BCBAB0
+K = B6B4AB
+L = D0CEC6
+M = B7B5AB
 [grid]
 aaaabaaaaacbccaa
 aaaadaaaaaacccca
-aaacefaaagacacca
-acacaaaahhaiaaci
-bccajhaahiiiiaab
-klmchhchgaiiaaai
-macaachccaaaaaii
-haaacnohjpqafras
-aiiicctchuvaawxi
-iiacacaaaybhaagz
-iihaaaaaaaaaaaaA
-biagaaaaajBaaaib
-aaaCaaaaaihaiaaa
-aaaDhEaaiasiiiia
-aaaaFaaaaaahiiaa
-aaaabaaaaiibGiai
+aaacefaaaghcacca
+acacaaaaijakaack
+bccaljaajkkkkaab
+mnocgjcigakkaaak
+oacaacjccaaaaakk
+iaaacppjfqrastau
+akkkccvcjwxyazAk
+kkacacaaaBCjaaDE
+kkFGaaaaagaaaaaH
+bkaDaaaaaIJaaakb
+aaaBaaaaakiakaaa
+aaaKjLaakaukkkka
+aaaaMaaaaaajkkaa
+aaaabaaaakkbpkak
