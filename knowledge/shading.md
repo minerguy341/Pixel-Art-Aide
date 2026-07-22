@@ -257,6 +257,17 @@ rotation-safe marble:
   **Minecraft blockstates rotate only (x/y 90°), never mirror** — real in-game
   flipping needs pre-flipped model/texture variants (extra assets) or a mod
   (Fusion/CTM). Rotation-only is the vanilla-safe subset.
+- **Match the orientation-variety op to the texture's DIRECTIONALITY.** Full
+  rotation/flip only suits **isotropic** textures (marble veins, granite speckle —
+  no correct "up"). A **directional / layered** texture (horizontal laminae or
+  bedding, wood grain, foliation) has a right axis: **never 90°-rotate it** (that
+  tilts the layers), and usually **don't vertical-flip** it either if it has a
+  top/bottom feel — use **horizontal mirror only** to add variety while keeping the
+  vertical look. Canonical case: **a wall of shale** — laminae must stay
+  horizontal, so mirror left-right only. Choose per material: isotropic → D4;
+  horizontal-layered with a keep-vertical look → h-flip only; layered with no
+  up/down bias → the axis-preserving subgroup {identity, h-flip, v-flip, 180°}
+  (never the 90° turns).
 
 ## Size-specific notes
 

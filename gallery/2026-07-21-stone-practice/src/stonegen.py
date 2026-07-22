@@ -200,6 +200,16 @@ from PIL import Image, ImageDraw  # noqa: E402
 # full dihedral group D4: 4 rotations + 4 flips (all preserve a symmetric crossing set)
 _ROT = [None, Image.ROTATE_90, Image.ROTATE_180, Image.ROTATE_270]
 _D4 = _ROT + [Image.FLIP_LEFT_RIGHT, Image.FLIP_TOP_BOTTOM, Image.TRANSPOSE, Image.TRANSVERSE]
+_AXIS = [None, Image.FLIP_LEFT_RIGHT, Image.FLIP_TOP_BOTTOM, Image.ROTATE_180]  # keep axes, no 90 turn
+_HFLIP = [None, Image.FLIP_LEFT_RIGHT]                                          # keep the vertical look
+
+# orientation-variety op sets by texture directionality (see shading.md)
+ORIENT = {
+    "d4": [("random rotation (4-way)", _ROT), ("rotation + flip (8-way)", _D4)],
+    "rot4": [("random rotation (4-way)", _ROT)],
+    "axis": [("h/v flip + 180 (keeps both axes)", _AXIS)],
+    "hflip": [("horizontal flip only (keeps vertical look)", _HFLIP)],
+}
 
 
 def rot_wall(tex, ops, side=5, scale=4):
@@ -215,18 +225,16 @@ def rot_wall(tex, ops, side=5, scale=4):
     return canvas.resize((canvas.width * scale, canvas.height * scale), Image.NEAREST)
 
 
-def rotwall_sheet(name, tex):
-    cols = [
-        (rot_wall(tex, [None]), "fixed"),
-        (rot_wall(tex, _ROT), "random rotation (4-way)"),
-        (rot_wall(tex, _D4), "rotation + flip (8-way)"),
-    ]
+def rotwall_sheet(name, tex, orient="d4"):
+    cols = [(rot_wall(tex, [None]), "fixed")]
+    for label, ops in ORIENT.get(orient, ORIENT["d4"]):
+        cols.append((rot_wall(tex, ops), label))
     imgs = [MS.lbl(im, lab) for im, lab in cols]
     gap, pad = 22, 16
     w = sum(i.width for i in imgs) + gap * (len(imgs) - 1) + 2 * pad
     ht = max(i.height for i in imgs) + 2 * pad + 24
     canvas = Image.new("RGBA", (w, ht), MS.BG)
-    ImageDraw.Draw(canvas).text((pad, 8), f"{name} — orientation variety (crossings aligned, veins connect)", fill=MS.INK)
+    ImageDraw.Draw(canvas).text((pad, 8), f"{name} — orientation variety (op matched to directionality)", fill=MS.INK)
     x = pad
     for im in imgs:
         canvas.alpha_composite(im, (x, 30))
@@ -251,7 +259,8 @@ def main():
         set_path(specs, path.strip(), raw.strip())
 
     if args.rotwall:
-        rotwall_sheet(args.rotwall, render(specs[args.rotwall]))
+        sp = specs[args.rotwall]
+        rotwall_sheet(args.rotwall, render(sp), sp.get("orient", "d4"))
 
     names = [n.strip() for n in args.only.split(",") if n.strip()] or list(specs)
     rows = []

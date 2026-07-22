@@ -2,7 +2,7 @@
   "marble": {
     "desc": "pale calcite + rotation-safe veins (crossings at 4/11 on every edge)",
     "ramp": ["E8E6E0", "F5F3EF", "FCFBF8"],
-    "structure": "speckle", "busy_lo": 0.10, "busy_hi": 0.10, "seed": 41,
+    "structure": "speckle", "busy_lo": 0.10, "busy_hi": 0.10, "seed": 41, "orient": "d4",
     "anchor_veins": {
       "crossings": [4, 11],
       "soft": "EAE8E0", "core": "BEBCB2",
@@ -13,7 +13,7 @@
   "slate": {
     "desc": "cool blue-grey foliation + mica flecks",
     "ramp": ["363E48", "46505A", "58636F"],
-    "structure": "foliation", "busy_lo": 0.20, "busy_hi": 0.18, "seed": 61,
+    "structure": "foliation", "busy_lo": 0.20, "busy_hi": 0.18, "seed": 61, "orient": "axis",
     "flecks": [
       {"x": 3, "y": 2, "color": "76828E"}, {"x": 11, "y": 5, "color": "76828E"},
       {"x": 6, "y": 9, "color": "76828E"}, {"x": 13, "y": 12, "color": "76828E"},
@@ -24,7 +24,7 @@
   "shale": {
     "desc": "soft dark mudstone, thin broken laminae",
     "ramp": ["322F31", "3E3B3D", "4A474A"],
-    "structure": "speckle", "busy_lo": 0.16, "busy_hi": 0.14, "seed": 91,
+    "structure": "speckle", "busy_lo": 0.16, "busy_hi": 0.14, "seed": 91, "orient": "hflip",
     "laminae": {"rows": [2, 7, 12], "color": "2A272A", "density": 0.62, "wavy": true}
   },
   "granite": {
@@ -55,7 +55,7 @@
   "sandstone": {
     "desc": "warm tan grains + faint bedding",
     "ramp": ["C8AE76", "D8C088", "E6D29C"],
-    "structure": "speckle", "busy_lo": 0.16, "busy_hi": 0.14, "seed": 121,
+    "structure": "speckle", "busy_lo": 0.16, "busy_hi": 0.14, "seed": 121, "orient": "hflip",
     "bedding": {"rows": [3, 8, 13], "color": "C2A76C", "density": 0.5}
   }
 }

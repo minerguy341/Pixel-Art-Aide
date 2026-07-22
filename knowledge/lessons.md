@@ -1090,3 +1090,13 @@ structured features"]; 5 is a studio-workflow note.
   tunables into a spec file (JSON) and keep the engine fixed; support CLI `--set path=value`
   overrides — "tweak values, not code." The marble went through ~8 rounds (curves, dotting, darkness,
   whiteness) without ever editing the engine.
+
+## 2026-07-21 — match the orientation-variety op to the texture's directionality
+- Rule: full rotation/flip only suits ISOTROPIC textures (marble veins, granite speckle). A
+  DIRECTIONAL / layered texture (horizontal laminae/bedding, wood grain, foliation) has a correct
+  axis — NEVER 90-degree-rotate it (tilts the layers), and usually don't vertical-flip it if it has a
+  top/bottom feel; use HORIZONTAL MIRROR ONLY to add variety while keeping the vertical look.
+  Canonical case: a wall of shale — laminae must stay horizontal, so mirror left-right only. Pick per
+  material: isotropic → D4; horizontal-layered keep-vertical → h-flip only; layered with no up/down
+  bias → axis-preserving {identity, h-flip, v-flip, 180} (never the 90 turns). [folded into shading.md]
+  (stonegen: per-stone `orient` = d4|rot4|axis|hflip; shale/sandstone=hflip, slate=axis, marble=d4.)
