@@ -1,24 +1,53 @@
 size: 16x16
 [palette]
 a = DCDAD1
-b = B2B0A6
+b = AEACA2
 c = C6C4BA
 d = ECEAE3
-e = 9A988E
+e = 99978D
+f = B4B2A8
+g = C0BEB4
+h = B6B4AA
+i = BFBDB3
+j = CDCBC1
+k = 9E9C92
+l = CAC8BE
+m = CBC9BF
+n = BDBBB1
+o = CCCAC0
+p = C8C6BC
+q = C7C5BB
+r = 929086
+s = AFADA3
+t = BCBAB0
+u = 949288
+v = A3A197
+w = C5C3B9
+x = BEBCB2
+y = A2A096
+z = C4C2B8
+A = A19F95
+B = ABA99F
+C = 9B998F
+D = B9B7AD
+E = C3C1B7
+F = 96948A
+G = AAA89E
+H = B3B1A7
 [grid]
 aaaabaaaaaabaaaa
-caadcddaaaaaadaa
-accaccaaccaaaaaa
-daaaaedcbcaacdaa
-baadccacedaaaaab
-acaabaabcaaaaaca
-aacaaaacaaaaacca
-aaaaaaccaacaccac
-aacadacaaccaaaaa
-aadacddaaaaccaaa
-aaadbbcaaaaaaada
-babbcccdcccdecab
-aaaaaaaabacaaaaa
-aaadecacbbaaddaa
-aaaccaaacacaadaa
-daaabaaaaaabcaaa
+caadeddaaaaaadaa
+accafgaahiaaaaaa
+daaaajdklmaacdaa
+baadnjacodaaaaab
+akaapaalqaaaaaia
+aacaaaacaaaaarca
+aaaaaasjaacatfac
+aacadauaavraaaaa
+aadakddaaaaccaaa
+aaadowxaaaaaaada
+bamcyzAdBiCdjsab
+aaaaaaaacacaaaaa
+aaadjDaclEaaddaa
+aaacFaaacaGaadaa
+daaabaaaaaabHaaa

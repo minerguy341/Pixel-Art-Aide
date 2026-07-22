@@ -30,6 +30,11 @@ def hexc(s):
     return (int(s[0:2], 16), int(s[2:4], 16), int(s[4:6], 16), 255)
 
 
+def lerp(c1, c2, t):
+    return (int(c1[0] + (c2[0] - c1[0]) * t), int(c1[1] + (c2[1] - c1[1]) * t),
+            int(c1[2] + (c2[2] - c1[2]) * t), 255)
+
+
 # ---------------------------------------------------------------- structure primitives (value-driven)
 def fill_base(px, spec):
     ramp = [hexc(c) for c in spec["ramp"]]
@@ -104,10 +109,11 @@ def apply_anchor_veins(px, spec):
     if not av:
         return
     crossings = av["crossings"]
-    color, core = hexc(av["color"]), hexc(av["core"])
-    soft = hexc(av.get("soft", av["color"]))            # light blend tone (close to base)
+    core = hexc(av["core"])                             # darkest end of the vein
+    soft = hexc(av.get("soft", av.get("color", av["core"])))  # lightest end (close to base)
     amp = av.get("amp", 2.0)
     dot = av.get("dot", 1.0)                            # fraction of interior steps drawn (rest = gaps)
+    bias = av.get("dark_bias", 1.7)                     # >1 keeps most pixels light, few dark
     seed = spec.get("seed", 1) + 30
     for pi, (a, b) in enumerate(av["pairs"]):
         ax, ay = _anchor(a, crossings)
@@ -123,14 +129,15 @@ def apply_anchor_veins(px, spec):
             yi = int(round(ay + dy * f + pyu * wob)) % N
             if 0 < f < 1 and h2(xi, yi, seed + 3) > dot:
                 continue                                # dotted gap — let the stone show through
-            r = h2(xi, yi, seed + 4)                    # mostly soft blend, sparse darker accents
-            px[xi, yi] = core if r < 0.14 else (color if r < 0.42 else soft)
+            d = h2(xi, yi, seed + 4) ** bias            # RANDOM darkness per pixel (no uniform stroke)
+            px[xi, yi] = lerp(soft, core, d)
             if 0 < f < 1 and h2(xi, yi, seed + 1) < 0.18:
-                px[(xi + 1) % N, yi] = soft             # occasional soft 2px feather
-    for a, b in av["pairs"]:                             # pin exact edge crossings (mid tone, connects softly)
+                d2 = (h2(xi, yi, seed + 5) ** bias) * 0.5
+                px[(xi + 1) % N, yi] = lerp(soft, core, d2)  # lighter feather
+    for a, b in av["pairs"]:                             # pin edge crossings (mid tone → reads as a link)
         for nm in (a, b):
             cx, cy = _anchor(nm, crossings)
-            px[cx, cy] = color
+            px[cx, cy] = lerp(soft, core, 0.5)
 
 
 def apply_points(px, spec, key):

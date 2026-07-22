@@ -60,3 +60,9 @@ are gaps). Marble veins are now mostly a light blend tone close to the base, wit
 accents, broken into dots (dot=0.6) so they read as subtle veining that melts into the stone rather
 than a drawn line. Crossings still pinned (mid tone) so rotation alignment holds — dotted veins still
 connect at seams. All value-driven in stones.json (soft/color/core/dot).
+
+## r6 — random per-pixel vein darkness
+Each vein pixel is now a continuous lerp(soft, core, d) where d = hash**dark_bias — random darkness
+per pixel (mostly faint, few dark), instead of a few fixed tones. Kills the uniform-marker read; the
+vein fades in and out along its length like real marble. Value-driven: soft/core = light/dark ends,
+dark_bias (>1 keeps it mostly light), dot = gaps. Crossings pinned to the mid tone so rotation aligns.
