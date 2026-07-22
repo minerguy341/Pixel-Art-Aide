@@ -28,28 +28,24 @@
     "laminae": {"rows": [2, 7, 12], "color": "2A272A", "density": 0.62, "wavy": true}
   },
   "granite": {
-    "desc": "felsic salt-and-pepper (feldspar/quartz/mica)",
-    "ramp": ["B4ADA6", "B4ADA6", "DCD8D0"],
-    "structure": "speckle", "busy_lo": 0.0, "busy_hi": 0.07, "seed": 101, "mineral_cluster": 2,
+    "desc": "felsic salt-and-pepper, muted terracotta feldspar (vanilla-tuned)",
+    "ramp": ["A89A8E", "BCAEA2", "CEC2B6"],
+    "structure": "speckle", "busy_lo": 0.26, "busy_hi": 0.22, "seed": 101,
+    "cluster": 2, "mineral_cluster": 2,
     "minerals": [
-      {"color": "3A3532", "p": 0.10}, {"color": "C6A79A", "p": 0.14},
-      {"color": "DCD8D0", "p": 0.07}, {"color": "9A9A93", "p": 0.09}
-    ],
-    "flecks": [
-      {"x": 3, "y": 4, "color": "C6A79A"}, {"x": 4, "y": 4, "color": "C6A79A"},
-      {"x": 10, "y": 3, "color": "C6A79A"}, {"x": 11, "y": 3, "color": "C6A79A"},
-      {"x": 6, "y": 11, "color": "C6A79A"}, {"x": 7, "y": 11, "color": "C6A79A"},
-      {"x": 12, "y": 12, "color": "C6A79A"}, {"x": 13, "y": 12, "color": "C6A79A"}
+      {"color": "5A4E45", "p": 0.10}, {"color": "AE8974", "p": 0.13},
+      {"color": "D8CCC0", "p": 0.08}, {"color": "968A80", "p": 0.07}
     ]
   },
   "basalt": {
-    "desc": "mafic dark, near-flat, vesicle pits",
-    "ramp": ["26302A", "2F3A32", "3A463C"],
-    "structure": "speckle", "busy_lo": 0.14, "busy_hi": 0.08, "seed": 111, "cluster": 3,
+    "desc": "dark neutral-grey basalt, clustered vesicle pits (vanilla-tuned, green removed)",
+    "ramp": ["2B2C2E", "36383B", "45474B"],
+    "structure": "speckle", "busy_lo": 0.30, "busy_hi": 0.20, "seed": 111, "cluster": 3,
     "pits": [
-      {"x": 4, "y": 3, "color": "171D18"}, {"x": 5, "y": 3, "color": "202821"},
-      {"x": 11, "y": 6, "color": "171D18"}, {"x": 7, "y": 11, "color": "171D18"},
-      {"x": 13, "y": 13, "color": "171D18"}, {"x": 2, "y": 9, "color": "171D18"}
+      {"x": 4, "y": 3, "color": "1C1D1F"}, {"x": 5, "y": 3, "color": "1C1D1F"}, {"x": 4, "y": 4, "color": "232426"},
+      {"x": 11, "y": 6, "color": "1C1D1F"}, {"x": 12, "y": 6, "color": "232426"},
+      {"x": 7, "y": 11, "color": "1C1D1F"}, {"x": 7, "y": 12, "color": "232426"},
+      {"x": 13, "y": 12, "color": "1C1D1F"}, {"x": 2, "y": 9, "color": "1C1D1F"}, {"x": 3, "y": 9, "color": "232426"}
     ]
   },
   "sandstone": {
