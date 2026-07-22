@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minerals, stone & crystals — study findings</title>
+<style>
+  :root{ --bg:#eef0f2; --panel:#fbfcfd; --ink:#1c2226; --soft:#5a6570; --line:#d7dde3;
+    --stone:#5a6570; --gem:#1a9c8a; --ore:#a8722e; --accent:#3a6ea5; --teal:#0f9c8a; }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#14171a; --panel:#1d2226; --ink:#e6ebf0; --soft:#9aa6b2; --line:#2c343b;
+      --stone:#9aa6b2; --gem:#5fe0cc; --ore:#d6a35c; --accent:#7fb0e0; --teal:#5fe0cc; } }
+  :root[data-theme="dark"]{ --bg:#14171a; --panel:#1d2226; --ink:#e6ebf0; --soft:#9aa6b2; --line:#2c343b;
+    --stone:#9aa6b2; --gem:#5fe0cc; --ore:#d6a35c; --accent:#7fb0e0; --teal:#5fe0cc; }
+  :root[data-theme="light"]{ --bg:#eef0f2; --panel:#fbfcfd; --ink:#1c2226; --soft:#5a6570; --line:#d7dde3;
+    --stone:#5a6570; --gem:#1a9c8a; --ore:#a8722e; --accent:#3a6ea5; --teal:#0f9c8a; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px;}
+  header{border-bottom:3px solid var(--accent);padding-bottom:16px;margin-bottom:6px;}
+  h1{font-size:2rem;margin:0 0 6px;letter-spacing:-.01em;}
+  .sub{color:var(--soft);margin:0;}
+  .meta{color:var(--soft);font-size:.82rem;margin-top:10px;}
+  h2{font-size:1.28rem;margin:36px 0 12px;padding-top:8px;border-top:1px solid var(--line);}
+  h3{font-size:1.02rem;margin:0 0 6px;}
+  p{margin:.5em 0;} ul{margin:.4em 0 .8em;padding-left:1.15em;} li{margin:.28em 0;}
+  .lead{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);
+    border-radius:10px;padding:16px 18px;margin:18px 0;}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92rem;display:block;overflow-x:auto;}
+  @media(min-width:760px){table{display:table;}}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top;}
+  th{background:var(--panel);font-weight:700;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:14px 0;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;}
+  .card h3{display:flex;align-items:baseline;gap:8px;}
+  .n{font-size:.72rem;font-weight:700;color:#fff;border-radius:20px;padding:2px 9px;background:var(--stone);}
+  .card.gem .n{background:var(--gem)}.card.geo .n{background:var(--accent)}.card.ore .n{background:var(--ore)}.card.arc .n{background:var(--teal)}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:.9em;}
+  .src{font-size:.84rem;color:var(--soft);} .src a{color:var(--teal);}
+  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:var(--soft);font-size:.84rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Minerals, stone &amp; crystals — how geology writes a texture</h1>
+  <p class="sub">Five study sessions (stone/rock, crystal properties, gem colour, geography, ores)
+  compiled into one craft reference: real geology → pixel levers, for T.N.A.'s Arcane Stone and crystals.</p>
+  <p class="meta">Pixel-Art-Aide studio · 2026-07-21 · real geology + Minecraft/mod idioms · study only, no pixels reused</p>
+</header>
+
+<div class="lead">
+  <p style="margin-top:0"><strong>The one idea.</strong> Geologists classify every rock by exactly two
+  things — <strong>texture (grain)</strong> and <strong>composition (chemistry)</strong> — and those map
+  straight onto a pixel artist's two dials: <strong>arrangement/busyness</strong> and <strong>palette</strong>.
+  Add a third axis, <strong>structure</strong> (how it formed), and you can derive a believable stone,
+  crystal, or ore from first principles instead of guessing.</p>
+</div>
+
+<h2>The master translation — geology → pixel lever</h2>
+<table>
+  <tr><th>Geology property</th><th>Driven by</th><th>Pixel lever</th></tr>
+  <tr><td>Grain / crystal size (coarseness)</td><td>cooling / formation speed</td><td><strong>cluster size</strong> — coarse = 2–4 px distinct clusters; fine = near-flat + 1 px speckle</td></tr>
+  <tr><td>Base colour</td><td>chemistry — silica vs Fe/Mg</td><td><strong>base value + hue</strong> — felsic pale/cool · mafic dark · iron warm red-brown</td></tr>
+  <tr><td>Structure / arrangement</td><td>formation process</td><td>speckle (plutonic) · flat (volcanic) · horizontal bands (sedimentary) · wavy foliation (gneiss) · wandering veins (marble)</td></tr>
+  <tr><td>Edge sharpness</td><td>hardness (Mohs, bonds)</td><td>hard = sharp angular facets/clusters; soft = rounded/eroded</td></tr>
+  <tr><td>Gem hue</td><td>trace chromophore (Cr, Fe, Ti…)</td><td>near-colourless base + ONE saturated tint; same element, different host → different hue</td></tr>
+  <tr><td>Sparkle / brilliance</td><td>faceting + light return</td><td>a MIX of bright + dark "extinction" facets, not a uniform tint</td></tr>
+  <tr><td>Transparency</td><td>diaphaneity + clarity</td><td>the alpha budget — clear faceted gem vs opaque ore vs cloudy raw crystal</td></tr>
+  <tr><td>Ore occurrence</td><td>deposit type</td><td>vein (band across host) · disseminated (scattered specks) · massive (one pocket), on a copy of the host rock + pale gangue halo</td></tr>
+</table>
+
+<h2>The five sessions</h2>
+<div class="grid">
+  <div class="card"><h3><span class="n">S</span> Stone &amp; rock</h3><ul>
+    <li>Rock = texture + composition; those are our two dials.</li>
+    <li>Grain→cluster size; felsic pale / mafic dark / iron warm; structure = speckle/bands/veins.</li>
+    <li>Vanilla's stone family = one speckle grammar recoloured by value+hue.</li>
+    <li>Thaumcraft Arcane Stone = a <em>dressed, quarried-by-wizards</em> stone (bricks/stairs/slabs).</li>
+  </ul></div>
+  <div class="card gem"><h3><span class="n">1</span> Crystal properties</h3><ul>
+    <li><strong>Habit</strong> sets silhouette: prismatic shard · tabular plate · botryoidal lobes · drusy crust · radiating geode.</li>
+    <li>Cleavage = flat straight facet edges; conchoidal fracture (quartz/obsidian) = curved chips.</li>
+    <li>Luster sets the highlight (metallic / vitreous / adamantine / dull).</li>
+    <li>Diaphaneity = the alpha budget.</li>
+  </ul></div>
+  <div class="card gem"><h3><span class="n">2</span> Gem colour &amp; optics</h3><ul>
+    <li>Hue = a trace <strong>chromophore</strong> on a colourless base; hue is a free design choice.</li>
+    <li>Idiochromatic (colour throughout) vs allochromatic (tinted clear body).</li>
+    <li>Brilliance = a bright/dark facet MIX; at 16 px prefer few large "step-cut" facets + 1–2 sparkle points.</li>
+    <li>Clarity separates polished gem from raw crystal.</li>
+  </ul></div>
+  <div class="card geo"><h3><span class="n">3</span> Geography &amp; landforms</h3><ul>
+    <li>Layered rock reads as horizontal <strong>bands</strong> (tilt/cross-bed for drama).</li>
+    <li>Differential weathering: hard rock → cliffs/hoodoos + sharp texture; soft → slopes + rounded.</li>
+    <li>Cave speleothems are their own family (anthodite = the radiating habit).</li>
+    <li>Geode = dark host rind + inward radiating crystal points; deposits grow in concentric rings.</li>
+  </ul></div>
+  <div class="card ore"><h3><span class="n">4</span> Ores &amp; veins</h3><ul>
+    <li>Ore = mineral clusters ON a copy of the host rock (the accent, not the block).</li>
+    <li>Hosting = the arrangement: vein / disseminated / massive.</li>
+    <li>Ore colour codes the mineral; a pale quartz <strong>gangue halo</strong> sells "natural deposit".</li>
+    <li>Contrast + sharp edges = ore readability; subtle glow for magic ores only.</li>
+  </ul></div>
+</div>
+
+<h2>Applied — Arcane Stone &amp; arcane crystals (T.N.A.)</h2>
+<div class="grid">
+  <div class="card arc"><h3><span class="n">▪</span> Arcane Stone</h3><ul>
+    <li>A <strong>refined dressed ashlar</strong> — cool blue-grey, mid value (~40–60%), low busyness, fine speckle.</li>
+    <li>Family on one locked palette: raw → bricks (tidy mortar) → chiseled/runed → pillar; variation structural.</li>
+    <li>Faint engraved <strong>runes</strong> on the runed variant only; teal <code>#7FE8D8</code> reserved for that emissive accent.</li>
+    <li>Base can lean subtle <em>foliation/vein</em> (quarried-by-wizards) or fine even speckle — try both.</li>
+  </ul></div>
+  <div class="card arc"><h3><span class="n">◆</span> Arcane / vis crystal</h3><ul>
+    <li><strong>Geode pocket</strong> or <strong>anthodite cluster</strong>: dark host rind + inward radiating teal facets.</li>
+    <li>Teal is the chromophore colour-code; a bright/dark facet mix gives the sparkle.</li>
+    <li>"Magic glow" = the real <strong>UV-fluorescent calcite</strong> hook; keep the emissive sparse.</li>
+    <li>Aura-crystal growth reads as concentric deposited banding (rings), like agate / tree end-grain.</li>
+  </ul></div>
+</div>
+
+<h2>Sources</h2>
+<p class="src">Geology: MEKA rock types; Britannica felsic/mafic; Utah Geological Survey; OpenGeology (mineralogy,
+weathering); Wikipedia (gneiss, banded iron, cross-bedding, gangue, massive sulfides); Geosciences LibreTexts;
+USGS Bryce Canyon; National Speleological Society; Encyclopedia.com speleothems. Gems: Gem Ritual (chromophores);
+Rock &amp; Gem; Lotus Gemology (brilliance/windows/extinction); Shelby Gem Factory (faceting). Mod/game: Minecraft
+Wiki (List of block textures, Tutorial:Pixel art); Thaumcraft 4 &amp; FTB wikis (Arcane Stone). Full per-session
+URLs in <code>findings.md</code> + <code>cycle1–4.md</code>.</p>
+
+<footer>Compiled from 5 study sessions (<code>findings.md</code>, <code>cycle1–4.md</code>) ·
+<code>gallery/2026-07-21-stone-study/</code> · study-only, no third-party pixels.</footer>
+</div>
+</body>
+</html>
