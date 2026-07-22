@@ -74,3 +74,11 @@ endpoints stay pinned) + a small per-pixel jitter — no two veins share a shape
 (2) pairs rerouted as a PINWHEEL (each edge → the next edge CW: T0→R1, R0→B1, B0→L1, L0→T1) instead
 of the symmetric cross, so the tile no longer stamps a regular X. amp bumped 2.3→2.8 for more bend.
 Rotation still aligns (crossings unchanged at 4/11). All value-driven.
+
+## r8 — add random flipping (8-way / D4)
+rot_wall now shows fixed | 4-way rotation | 8-way rotation+flip (full dihedral D4: +FLIP_LEFT_RIGHT,
+FLIP_TOP_BOTTOM, TRANSPOSE, TRANSVERSE). Safe because the crossing set {4,11} is flip-symmetric
+(4<->11), so mirrored tiles still align → veins connect. 8-way reads most varied.
+CAVEAT: vanilla Minecraft blockstates do ONLY 90-degree rotation (x/y), NOT mirroring — so real
+in-game flipping needs pre-flipped model/texture variants (extra assets) or a mod (CTM/Fusion).
+The flip variety here is a studio/preview capability; rotation-only is the vanilla-safe subset.

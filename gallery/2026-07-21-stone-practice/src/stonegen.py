@@ -197,32 +197,40 @@ def set_path(specs, path, raw):
 
 
 from PIL import Image, ImageDraw  # noqa: E402
-_ROTS = [None, Image.ROTATE_90, Image.ROTATE_180, Image.ROTATE_270]
+# full dihedral group D4: 4 rotations + 4 flips (all preserve a symmetric crossing set)
+_ROT = [None, Image.ROTATE_90, Image.ROTATE_180, Image.ROTATE_270]
+_D4 = _ROT + [Image.FLIP_LEFT_RIGHT, Image.FLIP_TOP_BOTTOM, Image.TRANSPOSE, Image.TRANSVERSE]
 
 
-def rot_wall(tex, randomize, side=5, scale=4):
+def rot_wall(tex, ops, side=5, scale=4):
     canvas = Image.new("RGBA", (N * side, N * side), MS.T)
     for by in range(side):
         for bx in range(side):
             t = tex
-            if randomize:
-                r = int(h2(bx, by, 777) * 4) % 4       # deterministic per-cell rotation
-                if r:
-                    t = tex.transpose(_ROTS[r])
+            if len(ops) > 1:
+                op = ops[int(h2(bx, by, 777) * len(ops)) % len(ops)]  # deterministic per-cell
+                if op is not None:
+                    t = tex.transpose(op)
             canvas.alpha_composite(t, (bx * N, by * N))
     return canvas.resize((canvas.width * scale, canvas.height * scale), Image.NEAREST)
 
 
 def rotwall_sheet(name, tex):
-    fixed = MS.lbl(rot_wall(tex, False), "fixed")
-    rand = MS.lbl(rot_wall(tex, True), "random-rotated (veins still connect)")
-    gap, pad = 24, 16
-    w = fixed.width + rand.width + gap + 2 * pad
-    ht = max(fixed.height, rand.height) + 2 * pad + 24
+    cols = [
+        (rot_wall(tex, [None]), "fixed"),
+        (rot_wall(tex, _ROT), "random rotation (4-way)"),
+        (rot_wall(tex, _D4), "rotation + flip (8-way)"),
+    ]
+    imgs = [MS.lbl(im, lab) for im, lab in cols]
+    gap, pad = 22, 16
+    w = sum(i.width for i in imgs) + gap * (len(imgs) - 1) + 2 * pad
+    ht = max(i.height for i in imgs) + 2 * pad + 24
     canvas = Image.new("RGBA", (w, ht), MS.BG)
-    ImageDraw.Draw(canvas).text((pad, 8), f"{name} — random rotation (edge crossings aligned)", fill=MS.INK)
-    canvas.alpha_composite(fixed, (pad, 30))
-    canvas.alpha_composite(rand, (pad + fixed.width + gap, 30))
+    ImageDraw.Draw(canvas).text((pad, 8), f"{name} — orientation variety (crossings aligned, veins connect)", fill=MS.INK)
+    x = pad
+    for im in imgs:
+        canvas.alpha_composite(im, (x, 30))
+        x += im.width + gap
     out = MS.PREV / f"sheet-{name}-rot.png"
     canvas.save(out)
     print("wrote", out.name)
