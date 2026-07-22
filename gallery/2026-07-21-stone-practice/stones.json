@@ -1,11 +1,11 @@
 {
   "marble": {
     "desc": "pale calcite + rotation-safe veins (crossings at 4/11 on every edge)",
-    "ramp": ["D4D2CA", "E6E4DC", "F4F2EC"],
+    "ramp": ["E8E6E0", "F5F3EF", "FCFBF8"],
     "structure": "speckle", "busy_lo": 0.10, "busy_hi": 0.10, "seed": 41,
     "anchor_veins": {
       "crossings": [4, 11],
-      "soft": "D8D6CC", "core": "A09E94",
+      "soft": "EAE8E0", "core": "BEBCB2",
       "amp": 2.8, "dot": 0.62, "dark_bias": 3.1,
       "pairs": [["T0", "R1"], ["R0", "B1"], ["B0", "L1"], ["L0", "T1"]]
     }
