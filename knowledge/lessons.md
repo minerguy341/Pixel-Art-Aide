@@ -1051,3 +1051,42 @@ plus a STRUCTURE axis (how it formed). Many entries extend the stone/crystal/ore
 - Rule: Minecraft's polished variants (andesite/diorite/granite/blackstone/deepslate) are stylised as
   smooth + even-toned + geometric (sometimes lighter), because the engine has no real specular. Match that
   convention (even tone + geometric + optional subtle sheen) unless deliberately going for a glossy "gallery" look.
+
+---
+
+# Rotation-safe structured textures — 2026-07-21 (marble exercise, user-approved)
+
+From the rotation-safe marble practice (`gallery/2026-07-21-stone-practice/`, data-driven
+`stonegen.py` + `stones.json`). 1-4 are craft rules [folded into shading.md → "Random-rotatable
+structured features"]; 5 is a studio-workflow note.
+
+## 2026-07-21 — random-rotatable features need symmetric edge crossings
+- Rule: for a structured feature (vein/crack/line) to connect under random 4-way rotation, pin its
+  edge crossings to a symmetric set (positions a,b with a+b=N-1, e.g. {4,11} on 16px) IDENTICAL on
+  all four edges — rotation permutes edges but preserves the set, so features line up across seams.
+  The interior varies freely (that's the rotation variety); plain noise doesn't need this, only
+  structured features do. [folded into shading.md]
+
+## 2026-07-21 — anchor-and-wander with endpoint-zero curves
+- Rule: route a feature between two fixed edge anchors and curve the interior with a sum of sin(kπf)
+  terms (k=1,2,3, random amplitude/sign per feature) — each is 0 at f=0/1 so endpoints stay pinned
+  exactly while the path curves. A single arc reads straight/gridded; multiple harmonics + a PINWHEEL
+  routing (edge→next edge, not a symmetric cross) kill the grid look. [folded into shading.md]
+
+## 2026-07-21 — random per-pixel darkness beats fixed tones (no marker-stroke)
+- Rule: colour each line/vein pixel by lerp(light, dark, hash^bias) — continuous random darkness
+  biased toward light — plus dotting (drop a fraction of pixels). A uniform tone or a few discrete
+  tiers reads as a drawn marker stroke; per-pixel random darkness reads as organic veining.
+  [folded into shading.md]
+
+## 2026-07-21 — flips need palindromic edges and aren't vanilla-safe
+- Rule: adding mirror orientations (full 8-way dihedral) needs the crossing set to be palindromic
+  (symmetric under reversal), which a+b=N-1 already is. But Minecraft blockstates rotate only
+  (x/y 90°), NEVER mirror — real in-game flipping needs pre-flipped model/texture variants (extra
+  assets) or a mod (Fusion/CTM). Rotation-only is the vanilla-safe subset. [folded into shading.md]
+
+## 2026-07-21 — data-driven generator: values in JSON, fixed engine, --set overrides (workflow)
+- Rule: when a generator will be iterated on repeatedly (many small look tweaks), externalise the
+  tunables into a spec file (JSON) and keep the engine fixed; support CLI `--set path=value`
+  overrides — "tweak values, not code." The marble went through ~8 rounds (curves, dotting, darkness,
+  whiteness) without ever editing the engine.

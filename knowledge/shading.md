@@ -226,6 +226,38 @@ of a hero texture — cohesion first, novelty second.
   2–3 subtle variants (different crack/grain, one a touch darker) so
   placement variety breaks the repeat. Separate step from the 3x3 check.
 
+## Random-rotatable structured features (rotation/flip variety)
+
+Random 4-way rotation is a cheap way to break the repeat (blockstate variant
+list; see the leaves lesson) — but a *structured* feature (veins, cracks, lines)
+will break or float at the seams unless it's built for it. Rules learned on the
+rotation-safe marble:
+
+- **Pin edge crossings to a symmetric set.** For a line/vein to connect under
+  rotation, its edge crossings must sit at positions `a, b` with `a+b = N-1`
+  (e.g. `{4,11}` on a 16px tile) and be **identical on all four edges**.
+  Rotation permutes the edges but preserves that set, so features line up across
+  every seam. The **interior can vary freely** — that's where the rotation
+  *variety* comes from. Plain noise doesn't need this (it's orientation-agnostic);
+  only structured features do.
+- **Anchor-and-wander with endpoint-zero curves.** Route a feature between two
+  fixed edge anchors and curve the interior with a sum of `sin(kπf)` terms
+  (k=1,2,3; random amplitude/sign per feature) — each is 0 at f=0 and f=1, so the
+  endpoints stay pinned *exactly* while the path curves. A single arc still reads
+  straight/gridded; **multiple harmonics + a pinwheel routing** (edge→next edge,
+  not a symmetric cross) kill the grid look.
+- **Random per-pixel darkness, not fixed tones.** Colour each feature pixel by
+  `lerp(light, dark, hash^bias)` (continuous random darkness, biased toward light)
+  plus dotting (drop a fraction of pixels). A uniform tone or a few discrete tiers
+  reads as a drawn **marker stroke**; per-pixel random darkness reads as organic
+  mineral veining.
+- **Flips need palindromic edges — and aren't vanilla-safe.** Adding mirror
+  orientations (the full 8-way dihedral set) needs the crossing set to be
+  **palindromic** (symmetric under reversal), which `a+b=N-1` already is. But
+  **Minecraft blockstates rotate only (x/y 90°), never mirror** — real in-game
+  flipping needs pre-flipped model/texture variants (extra assets) or a mod
+  (Fusion/CTM). Rotation-only is the vanilla-safe subset.
+
 ## Size-specific notes
 
 - **16x16**: every pixel is a decision; author the whole grid by hand in .pxg.
