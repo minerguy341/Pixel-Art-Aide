@@ -26,3 +26,14 @@ The geology lessons transfer cleanly: marble's wandering-vein technique → glow
 strongest "magic-infused stone." B is the ore/geode read. C needs a better glyph. All tile (seam ratios
 ~0.4-1.0). Teal on A/B is above the card's ≤3% (deliberate for a charged/vis-rich block).
 Not placed in the mod — practice only.
+
+## r2 (make_stones_r2.py) — regular stones only (no magic)
+Refined shale (thin BROKEN laminae — fixed the brick rhythm), kept marble/slate, added granite/
+basalt/sandstone to span the rock classes:
+- marble (metamorphic vein) / slate (metamorphic foliation) — kept, both strong.
+- shale (sedimentary laminae) — REFINED, now reads as soft layered mudstone not brick.
+- granite (igneous plutonic salt-and-pepper, S4 multi-mineral) — STANDOUT, textbook granite.
+- basalt (igneous volcanic, dark near-flat + vesicles) — reads dark volcanic (faint green-grey).
+- sandstone (sedimentary, warm tan grains + faint bedding) — clean.
+All tile cleanly; each rock class shows its structure axis (speckle/bands/veins/foliation/flat).
+Practice only, none placed in the mod.

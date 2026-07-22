@@ -1,0 +1,26 @@
+size: 16x16
+[palette]
+a = DCDAD1
+b = 8C8A80
+c = 9A988E
+d = B6B4AA
+e = C6C4BA
+f = ECEAE3
+g = A8A69C
+[grid]
+aaaabaaaaaacdaaa
+eaafaffbaaacdfaa
+aeeaafaabgacaaaa
+faaaaafaacdaefaa
+aaaffaacdgaaaaae
+aaaaacdbgaaaaaaa
+aaecdaaebgaaaaaa
+aaacaaaaabgaaaae
+aaecdaaaaefabaaa
+aafceffaaaaeeaab
+bgacaaaaaaaaaafa
+acdaaaafaaefafaa
+dgaaaaaaaaeaaaac
+gaaffaaeeaaafcab
+bgaeaaaaeaacafaa
+fbaaaaaaaaacaaaa
