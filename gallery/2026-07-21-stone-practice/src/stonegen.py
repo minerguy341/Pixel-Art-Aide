@@ -1,0 +1,167 @@
+#!/usr/bin/env python3
+"""Data-driven stone generator. All tunable values live in `stones.json`; this file is the fixed
+engine. Tweak stones by editing the JSON, or override any value on the CLI without touching code:
+
+  python3 stonegen.py                       # render every stone in stones.json
+  python3 stonegen.py --only marble,granite # subset
+  python3 stonegen.py --set shale.laminae.density=0.4 --set marble.seed=7
+  python3 stonegen.py --specs other.json    # a different spec file
+
+Spec schema (per stone): ramp=[shadow,base,highlight] hex; structure=speckle|foliation|flat;
+busy_lo/busy_hi (speckle/foliation thresholds); optional minerals[], veins[], laminae/bedding
+(rows,color,density,wavy), flecks[]/pits[] (x,y,color), cleavage (rows,color,density), desc.
+"""
+import argparse
+import json
+import math
+import sys
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+SESS = HERE.parent
+sys.path.insert(0, str(SESS.parent.parent))
+import make_stones as MS  # noqa: E402  (reuse blank/h2/row/sheet/tile3/render helpers)
+
+N, h2, blank = MS.N, MS.h2, MS.blank
+
+
+def hexc(s):
+    s = str(s).lstrip("#")
+    return (int(s[0:2], 16), int(s[2:4], 16), int(s[4:6], 16), 255)
+
+
+# ---------------------------------------------------------------- structure primitives (value-driven)
+def fill_base(px, spec):
+    ramp = [hexc(c) for c in spec["ramp"]]
+    struct = spec.get("structure", "speckle")
+    seed = spec.get("seed", 1)
+    lo = spec.get("busy_lo", 0.14)
+    hi = spec.get("busy_hi", 0.12)
+    for y in range(N):
+        for x in range(N):
+            if struct == "flat":
+                g = 0.5
+            elif struct == "foliation":
+                g = 0.6 * h2(x // 2, y, seed) + 0.4 * h2(x, y, seed + 1)   # horizontally-biased grain
+            else:                                                          # speckle
+                g = h2(x, y, seed)
+            px[x, y] = ramp[0] if g < lo else (ramp[2] if g > 1 - hi else ramp[1])
+
+
+def apply_minerals(px, spec):
+    seed = spec.get("seed", 1)
+    minerals = [(hexc(m["color"]), m["p"]) for m in spec.get("minerals", [])]
+    for y in range(N):
+        for x in range(N):
+            g = h2(x, y, seed + 5)
+            acc = 0.0
+            for color, p in minerals:
+                acc += p
+                if g < acc:
+                    px[x, y] = color
+                    break
+
+
+def apply_bands(px, spec, key):
+    b = spec.get(key)
+    if not b:
+        return
+    color = hexc(b["color"])
+    dens = b.get("density", 0.6)
+    wavy = b.get("wavy", False)
+    seed = spec.get("seed", 1)
+    for ly in b["rows"]:
+        for x in range(N):
+            yy = (ly + (1 if (wavy and h2(x // 3, ly, seed + 7) < 0.3) else 0)) % N
+            if h2(x, ly, seed + 8) < dens:
+                px[x, yy] = color
+
+
+def apply_veins(px, spec):
+    for i, v in enumerate(spec.get("veins", [])):
+        color, core = hexc(v["color"]), hexc(v["core"])
+        bx, amp, slp = v["base_x"], v.get("amp", 2.2), v.get("slope", 1)
+        sd = spec.get("seed", 1) + 20 + i
+        for y in range(N):
+            cx = int(round(bx + slp * y + amp * math.sin(y / 8 * 2 * math.pi))) % N
+            px[cx, y] = core
+            if h2(cx, y, sd) < 0.5:
+                px[(cx + 1) % N, y] = color
+
+
+def apply_points(px, spec, key):
+    for p in spec.get(key, []):
+        px[p["x"] % N, p["y"] % N] = hexc(p["color"])
+
+
+def apply_cleavage(px, spec):
+    cl = spec.get("cleavage")
+    if not cl:
+        return
+    for y in cl["rows"]:
+        for x in range(N):
+            if h2(x, y, spec.get("seed", 1) + 9) < cl.get("density", 0.4):
+                px[x, y] = hexc(cl["color"])
+
+
+def render(spec):
+    im, px = blank()
+    fill_base(px, spec)
+    apply_bands(px, spec, "laminae")
+    apply_bands(px, spec, "bedding")
+    apply_minerals(px, spec)
+    apply_veins(px, spec)
+    apply_points(px, spec, "flecks")
+    apply_points(px, spec, "pits")
+    apply_cleavage(px, spec)
+    return im
+
+
+# ---------------------------------------------------------------- CLI value overrides
+def set_path(specs, path, raw):
+    keys = path.split(".")
+    d = specs
+    for k in keys[:-1]:
+        d = d[int(k)] if isinstance(d, list) else d[k]
+    try:
+        val = int(raw)
+    except ValueError:
+        try:
+            val = float(raw)
+        except ValueError:
+            val = raw
+    last = keys[-1]
+    if isinstance(d, list):
+        d[int(last)] = val
+    else:
+        d[last] = val
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--specs", default=str(SESS / "stones.json"))
+    ap.add_argument("--only", default="")
+    ap.add_argument("--set", dest="sets", action="append", default=[])
+    ap.add_argument("--suffix", default="_gen")
+    args = ap.parse_args()
+
+    specs = json.load(open(args.specs))
+    for s in args.sets:
+        path, _, raw = s.partition("=")
+        set_path(specs, path.strip(), raw.strip())
+
+    names = [n.strip() for n in args.only.split(",") if n.strip()] or list(specs)
+    rows = []
+    for name in names:
+        spec = specs[name]
+        img = render(spec)
+        (MS.SRC / f"{name}{args.suffix}.pxg").write_text(MS.G.to_text(MS.G.from_image(img)))
+        MS.G.save_texture(img, MS.OUT / f"{name}{args.suffix}.png")
+        rows.append(MS.row(img, f"{name} - {spec.get('desc', '')}"))
+    MS.sheet("STONES (data-driven from stones.json — tweak values, not code)",
+             rows, MS.PREV / "sheet-stones-gen.png")
+    print("rendered:", ", ".join(names))
+
+
+if __name__ == "__main__":
+    main()

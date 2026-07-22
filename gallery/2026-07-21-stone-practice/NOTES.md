@@ -37,3 +37,10 @@ basalt/sandstone to span the rock classes:
 - sandstone (sedimentary, warm tan grains + faint bedding) — clean.
 All tile cleanly; each rock class shows its structure axis (speckle/bands/veins/foliation/flat).
 Practice only, none placed in the mod.
+
+## r3 (stonegen.py + stones.json) — data-driven engine
+Refactored: the generator is now a FIXED engine (stonegen.py) driven entirely by values in
+stones.json. Tweak stones by editing the JSON, or override any value on the CLI without touching
+code, e.g. `--set shale.laminae.density=0.4 --set marble.seed=7`. Structure primitives are
+value-parameterised (speckle/foliation/flat + minerals/veins/laminae/bedding/flecks/pits/cleavage).
+Reproduces all six stones from r2. Verified: `--set granite.minerals.1.p=0.30` changes the output.
