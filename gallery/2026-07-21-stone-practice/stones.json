@@ -27,13 +27,13 @@
     "laminae": {"rows": [2, 7, 12], "color": "2A272A", "density": 0.62, "wavy": true}
   },
   "granite": {
-    "desc": "felsic dusty pink-tan, tight hue band + clustered grains (vanilla-tuned)",
+    "desc": "felsic dusty pink-tan, low-contrast clustered grains (vanilla-tuned)",
     "ramp": ["AE9E90", "BEB0A2", "CCC0B4"],
     "structure": "speckle", "busy_lo": 0.26, "busy_hi": 0.20, "seed": 101,
-    "cluster": 2, "mineral_cluster": 3,
+    "cluster": 2, "mineral_cluster": 2,
     "minerals": [
-      {"color": "6A5D52", "p": 0.09}, {"color": "A89482", "p": 0.12},
-      {"color": "C6BAAE", "p": 0.07}
+      {"color": "8A7F73", "p": 0.11}, {"color": "A89484", "p": 0.10},
+      {"color": "C4B8AC", "p": 0.07}
     ]
   },
   "basalt": {
