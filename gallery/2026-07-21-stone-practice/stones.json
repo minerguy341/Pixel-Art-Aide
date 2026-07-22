@@ -11,15 +11,14 @@
     }
   },
   "slate": {
-    "desc": "cool blue-grey foliation + mica flecks",
-    "ramp": ["363E48", "46505A", "58636F"],
-    "structure": "foliation", "busy_lo": 0.20, "busy_hi": 0.18, "seed": 61, "orient": "axis", "cluster": 2,
+    "desc": "near-neutral dark grey foliation, tight value band (vanilla-tuned)",
+    "ramp": ["3A3E44", "474C52", "565C63"],
+    "structure": "foliation", "busy_lo": 0.20, "busy_hi": 0.12, "seed": 61, "orient": "axis", "cluster": 2,
     "flecks": [
-      {"x": 3, "y": 2, "color": "76828E"}, {"x": 11, "y": 5, "color": "76828E"},
-      {"x": 6, "y": 9, "color": "76828E"}, {"x": 13, "y": 12, "color": "76828E"},
-      {"x": 2, "y": 13, "color": "76828E"}
+      {"x": 3, "y": 2, "color": "626870"}, {"x": 6, "y": 9, "color": "626870"},
+      {"x": 13, "y": 12, "color": "626870"}
     ],
-    "cleavage": {"rows": [5, 11], "color": "303842", "density": 0.4}
+    "cleavage": {"rows": [5, 11], "color": "323840", "density": 0.4}
   },
   "shale": {
     "desc": "soft dark mudstone, thin broken laminae",

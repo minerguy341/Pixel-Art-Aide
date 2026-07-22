@@ -57,8 +57,9 @@ def fill_base(px, spec):
             if struct == "flat":
                 g = 0.5
             elif struct == "foliation":
-                # horizontally-biased grain; cluster along the grain (wide cells, 1px tall)
-                g = (0.6 * _cluster_val(x, y, seed, cell) + 0.4 * h2(x, y, seed + 1)
+                # horizontally-biased grain; cluster along the grain (wide cells, 1px tall).
+                # keep the per-pixel term small so the grain clusters instead of reading as static.
+                g = (0.75 * _cluster_val(x, y, seed, cell) + 0.25 * h2(x, y, seed + 1)
                      if cell else 0.6 * h2(x // 2, y, seed) + 0.4 * h2(x, y, seed + 1))
             elif cell:
                 g = _cluster_val(x, y, seed, cell)                     # clustered blobs
