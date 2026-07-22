@@ -5,7 +5,8 @@
     "structure": "speckle", "busy_lo": 0.10, "busy_hi": 0.10, "seed": 41,
     "anchor_veins": {
       "crossings": [4, 11],
-      "color": "A8A69C", "core": "8C8A80", "amp": 2.3,
+      "soft": "C6C4BA", "color": "B2B0A6", "core": "9A988E",
+      "amp": 2.3, "dot": 0.6,
       "pairs": [["T0", "B1"], ["T1", "B0"], ["L0", "R1"], ["L1", "R0"]]
     }
   },

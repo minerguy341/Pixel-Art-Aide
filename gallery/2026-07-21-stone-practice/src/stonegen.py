@@ -105,7 +105,9 @@ def apply_anchor_veins(px, spec):
         return
     crossings = av["crossings"]
     color, core = hexc(av["color"]), hexc(av["core"])
+    soft = hexc(av.get("soft", av["color"]))            # light blend tone (close to base)
     amp = av.get("amp", 2.0)
+    dot = av.get("dot", 1.0)                            # fraction of interior steps drawn (rest = gaps)
     seed = spec.get("seed", 1) + 30
     for pi, (a, b) in enumerate(av["pairs"]):
         ax, ay = _anchor(a, crossings)
@@ -119,13 +121,16 @@ def apply_anchor_veins(px, spec):
             wob = amp * math.sin(f * math.pi) * (0.6 + 0.8 * h2(pi, t, seed))  # 0 at both ends
             xi = int(round(ax + dx * f + pxu * wob)) % N
             yi = int(round(ay + dy * f + pyu * wob)) % N
-            px[xi, yi] = core
-            if 0 < f < 1 and h2(xi, yi, seed + 1) < 0.5:
-                px[(xi + 1) % N, yi] = color
-    for a, b in av["pairs"]:                             # pin exact edge crossings
+            if 0 < f < 1 and h2(xi, yi, seed + 3) > dot:
+                continue                                # dotted gap — let the stone show through
+            r = h2(xi, yi, seed + 4)                    # mostly soft blend, sparse darker accents
+            px[xi, yi] = core if r < 0.14 else (color if r < 0.42 else soft)
+            if 0 < f < 1 and h2(xi, yi, seed + 1) < 0.18:
+                px[(xi + 1) % N, yi] = soft             # occasional soft 2px feather
+    for a, b in av["pairs"]:                             # pin exact edge crossings (mid tone, connects softly)
         for nm in (a, b):
             cx, cy = _anchor(nm, crossings)
-            px[cx, cy] = core
+            px[cx, cy] = color
 
 
 def apply_points(px, spec, key):

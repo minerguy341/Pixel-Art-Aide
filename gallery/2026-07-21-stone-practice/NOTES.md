@@ -53,3 +53,10 @@ crossings stay exact) → real placement variety under random rotation, veins ne
 Verified with `--rotwall marble` (fixed vs random-rotated 5x5 wall). Base is low-contrast noise, which
 is rotation-agnostic; only the structured veins needed the crossing alignment. All still value-driven
 (crossings/pairs/amp in stones.json); `--rotwall NAME` emits the proof wall for any stone.
+
+## r5 — softer, dotted marble veins
+anchor_veins now supports `soft` (light blend tone) + `dot` (fraction of interior steps drawn; rest
+are gaps). Marble veins are now mostly a light blend tone close to the base, with sparse darker
+accents, broken into dots (dot=0.6) so they read as subtle veining that melts into the stone rather
+than a drawn line. Crossings still pinned (mid tone) so rotation alignment holds — dotted veins still
+connect at seams. All value-driven in stones.json (soft/color/core/dot).
