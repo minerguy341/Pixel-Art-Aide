@@ -89,6 +89,45 @@ def apply_veins(px, spec):
                 px[(cx + 1) % N, y] = color
 
 
+def _anchor(name, crossings):
+    """'T0' -> top edge at crossings[0], etc. Crossings must be a symmetric set (a+b=N-1) and are
+    identical on all four edges, so 90-degree rotations map edge-crossings onto edge-crossings."""
+    edge, idx = name[0], int(name[1])
+    c = crossings[idx]
+    return {"T": (c, 0), "B": (c, N - 1), "L": (0, c), "R": (N - 1, c)}[edge]
+
+
+def apply_anchor_veins(px, spec):
+    """Veins routed between edge anchors, wandering in the interior but pinned to the SAME crossing
+    positions on every edge — so the lines line up across seams under any 90-degree rotation."""
+    av = spec.get("anchor_veins")
+    if not av:
+        return
+    crossings = av["crossings"]
+    color, core = hexc(av["color"]), hexc(av["core"])
+    amp = av.get("amp", 2.0)
+    seed = spec.get("seed", 1) + 30
+    for pi, (a, b) in enumerate(av["pairs"]):
+        ax, ay = _anchor(a, crossings)
+        bx, by = _anchor(b, crossings)
+        dx, dy = bx - ax, by - ay
+        length = math.hypot(dx, dy) or 1.0
+        pxu, pyu = -dy / length, dx / length            # perpendicular unit
+        steps = int(max(abs(dx), abs(dy)) * 2) + 1
+        for t in range(steps + 1):
+            f = t / steps
+            wob = amp * math.sin(f * math.pi) * (0.6 + 0.8 * h2(pi, t, seed))  # 0 at both ends
+            xi = int(round(ax + dx * f + pxu * wob)) % N
+            yi = int(round(ay + dy * f + pyu * wob)) % N
+            px[xi, yi] = core
+            if 0 < f < 1 and h2(xi, yi, seed + 1) < 0.5:
+                px[(xi + 1) % N, yi] = color
+    for a, b in av["pairs"]:                             # pin exact edge crossings
+        for nm in (a, b):
+            cx, cy = _anchor(nm, crossings)
+            px[cx, cy] = core
+
+
 def apply_points(px, spec, key):
     for p in spec.get(key, []):
         px[p["x"] % N, p["y"] % N] = hexc(p["color"])
@@ -111,6 +150,7 @@ def render(spec):
     apply_bands(px, spec, "bedding")
     apply_minerals(px, spec)
     apply_veins(px, spec)
+    apply_anchor_veins(px, spec)
     apply_points(px, spec, "flecks")
     apply_points(px, spec, "pits")
     apply_cleavage(px, spec)
@@ -137,18 +177,54 @@ def set_path(specs, path, raw):
         d[last] = val
 
 
+from PIL import Image, ImageDraw  # noqa: E402
+_ROTS = [None, Image.ROTATE_90, Image.ROTATE_180, Image.ROTATE_270]
+
+
+def rot_wall(tex, randomize, side=5, scale=4):
+    canvas = Image.new("RGBA", (N * side, N * side), MS.T)
+    for by in range(side):
+        for bx in range(side):
+            t = tex
+            if randomize:
+                r = int(h2(bx, by, 777) * 4) % 4       # deterministic per-cell rotation
+                if r:
+                    t = tex.transpose(_ROTS[r])
+            canvas.alpha_composite(t, (bx * N, by * N))
+    return canvas.resize((canvas.width * scale, canvas.height * scale), Image.NEAREST)
+
+
+def rotwall_sheet(name, tex):
+    fixed = MS.lbl(rot_wall(tex, False), "fixed")
+    rand = MS.lbl(rot_wall(tex, True), "random-rotated (veins still connect)")
+    gap, pad = 24, 16
+    w = fixed.width + rand.width + gap + 2 * pad
+    ht = max(fixed.height, rand.height) + 2 * pad + 24
+    canvas = Image.new("RGBA", (w, ht), MS.BG)
+    ImageDraw.Draw(canvas).text((pad, 8), f"{name} — random rotation (edge crossings aligned)", fill=MS.INK)
+    canvas.alpha_composite(fixed, (pad, 30))
+    canvas.alpha_composite(rand, (pad + fixed.width + gap, 30))
+    out = MS.PREV / f"sheet-{name}-rot.png"
+    canvas.save(out)
+    print("wrote", out.name)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--specs", default=str(SESS / "stones.json"))
     ap.add_argument("--only", default="")
     ap.add_argument("--set", dest="sets", action="append", default=[])
     ap.add_argument("--suffix", default="_gen")
+    ap.add_argument("--rotwall", default="", help="also emit a fixed-vs-random-rotated wall for this stone")
     args = ap.parse_args()
 
     specs = json.load(open(args.specs))
     for s in args.sets:
         path, _, raw = s.partition("=")
         set_path(specs, path.strip(), raw.strip())
+
+    if args.rotwall:
+        rotwall_sheet(args.rotwall, render(specs[args.rotwall]))
 
     names = [n.strip() for n in args.only.split(",") if n.strip()] or list(specs)
     rows = []

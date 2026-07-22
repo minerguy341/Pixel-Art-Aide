@@ -44,3 +44,12 @@ stones.json. Tweak stones by editing the JSON, or override any value on the CLI 
 code, e.g. `--set shale.laminae.density=0.4 --set marble.seed=7`. Structure primitives are
 value-parameterised (speckle/foliation/flat + minerals/veins/laminae/bedding/flecks/pits/cleavage).
 Reproduces all six stones from r2. Verified: `--set granite.minerals.1.p=0.30` changes the output.
+
+## r4 — rotation-safe marble veins (data-driven)
+Added `anchor_veins` to the engine: veins routed between EDGE ANCHORS whose crossing positions are a
+symmetric set ({4,11}, a+b=15) IDENTICAL on all four edges, so 90-degree rotations map edge-crossings
+onto edge-crossings and the lines line up across seams. Interior wanders (sin*hash, 0 at endpoints so
+crossings stay exact) → real placement variety under random rotation, veins never float at an edge.
+Verified with `--rotwall marble` (fixed vs random-rotated 5x5 wall). Base is low-contrast noise, which
+is rotation-agnostic; only the structured veins needed the crossing alignment. All still value-driven
+(crossings/pairs/amp in stones.json); `--rotwall NAME` emits the proof wall for any stone.

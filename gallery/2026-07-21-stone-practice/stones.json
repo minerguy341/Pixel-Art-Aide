@@ -1,12 +1,13 @@
 {
   "marble": {
-    "desc": "pale calcite + wandering grey veins",
+    "desc": "pale calcite + rotation-safe veins (crossings at 4/11 on every edge)",
     "ramp": ["C6C4BA", "DCDAD1", "ECEAE3"],
     "structure": "speckle", "busy_lo": 0.10, "busy_hi": 0.10, "seed": 41,
-    "veins": [
-      {"color": "A8A69C", "core": "8C8A80", "base_x": 4, "amp": 2.4, "slope": 1},
-      {"color": "B6B4AA", "core": "9A988E", "base_x": 11, "amp": 1.6, "slope": -1}
-    ]
+    "anchor_veins": {
+      "crossings": [4, 11],
+      "color": "A8A69C", "core": "8C8A80", "amp": 2.3,
+      "pairs": [["T0", "B1"], ["T1", "B0"], ["L0", "R1"], ["L1", "R0"]]
+    }
   },
   "slate": {
     "desc": "cool blue-grey foliation + mica flecks",
