@@ -925,3 +925,129 @@ botany + Minecraft mods; study-only, no third-party pixels. Lessons tie a tree's
   rare magic tree can be an ecological anchor that seeds its own spaced grove.
   → For T.N.A.: silverwood's luminous teal HEART end-grain is canon; greatwood = warm 2×2 mammoth
   old-growth (common, grows anywhere); silverwood = cool, pale, node-hearted, rare grove-seeder.
+
+---
+
+# Minerals, stone & crystals study — 2026-07-21 (5 sessions + cut/polish, user-approved)
+
+Full findings: `gallery/2026-07-21-stone-study/` (`findings.md`, `cycle1-4.md`, `quick-cut-polish.md`,
+`findings-minerals.html`). Real geology + Minecraft/mod idioms; study-only. Core idea: geology
+classifies rock by GRAIN + CHEMISTRY, which map onto our two dials (arrangement/busyness + palette),
+plus a STRUCTURE axis (how it formed). Many entries extend the stone/crystal/ore shorthands in shading.md.
+
+## 2026-07-21 — grain size ↔ cluster size ↔ formation speed (S1)
+- Rule: coarse crystalline rock (granite/gabbro/gneiss — slow/deep) = larger DISTINCT 2-4px mineral
+  clusters; fine rock (basalt / fine sediment) = near-flat base + fine 1px speckle. Set cluster size from grain.
+
+## 2026-07-21 — rock colour is chemistry (S2)
+- Rule: felsic (>65% silica: quartz/feldspar) = pale/cool; mafic (Fe/Mg) = dark; iron-oxide = warm
+  red-brown. Pick base value + hue from composition.
+
+## 2026-07-21 — stone structure is a separate axis from palette (S3)
+- Rule: arrangement encodes formation — speckle (plutonic igneous) · near-flat (volcanic) · horizontal
+  bands (sedimentary) · wavy foliation (gneiss) · wandering veins (marble). Choose it independent of colour.
+
+## 2026-07-21 — multi-mineral speckle is the sanctioned exception to "no lone specks" (S4)
+- Rule: granite-style scattered 1px specks read as crystals ONLY when they are several DISTINCT mineral
+  colours (quartz/feldspar/mica); single-hue scattered specks still read as dirt/noise.
+
+## 2026-07-21 — dressed/magical stone reads refined, not natural (S5)
+- Rule: crafted/arcane stone = smooth cool ashlar + tidy mortar + subtle engraved runes (quarried-by-
+  wizards), NOT rough/mossy; reserve the emissive teal accent for the runed variant only.
+
+## 2026-07-21 — crystal HABIT sets the sprite silhouette (C1)
+- Rule: pick a crystal's shape from its habit — prismatic (elongated shard) · tabular (flat plate) ·
+  botryoidal (rounded grape lobes) · drusy (fine sparkle crust) · radiating/geode (starburst points), not a generic lump.
+
+## 2026-07-21 — cleavage vs fracture sets facet-edge geometry (C2)
+- Rule: cleavage minerals get flat straight parallel facet edges (clean angular); conchoidal-fracture ones
+  (quartz/obsidian/glass) get curved, shell-like chipped edges.
+
+## 2026-07-21 — luster sets the highlight treatment (C3)
+- Rule: metallic → one bright specular cluster; vitreous/glassy → crisp highlight + partial transparency;
+  adamantine → brilliant multi-point sparkle; dull/earthy → matte no specular; pearly/silky → soft low sheen.
+
+## 2026-07-21 — hardness ↔ edge sharpness (C4)
+- Rule: hard minerals keep sharp angular facets/clusters; soft ones round/erode.
+
+## 2026-07-21 — diaphaneity = the alpha budget (C5)
+- Rule: transparent gem = large facets, binary-alpha edges, see-through core; translucent stone dims
+  behind; opaque ore = solid.
+
+## 2026-07-21 — gem hue is a trace tint on a colourless base (G1)
+- Rule: author most gems as a near-white/clear base + ONE saturated hue; the same chromophore gives
+  different hues in different hosts, so hue is a free design choice (ideal for aspect colour-coding).
+
+## 2026-07-21 — idiochromatic vs allochromatic (G2)
+- Rule: idiochromatic (malachite/turquoise/peridot) = saturated colour through the whole body;
+  allochromatic (ruby/emerald/amethyst) = a colourless body tinted. Decide whether colour fills the gem or veils a clear core.
+
+## 2026-07-21 — brilliance = a bright/dark facet MIX (G3)
+- Rule: a gem reads faceted with a few near-white "light-return" facets + at least one dark "extinction"
+  facet for contrast; a uniform tint reads as flat glass, not a gem.
+
+## 2026-07-21 — cut = facet count; at 16px prefer step-cut (G4)
+- Rule: brilliant = many small facets (busy all-direction sparkle); step = few large flat facets (calm,
+  shows colour). At 16px use the step-cut read (few large facets) + 1-2 specular sparkle points; many tiny facets read as noise.
+
+## 2026-07-21 — clarity separates polished gem from raw crystal (G5)
+- Rule: clean cut gem = crisp facet edges + strong bright return; raw/included crystal = softer edges,
+  scattered internal specks, weaker highlights.
+
+## 2026-07-21 — layered rock reads as horizontal bands (L1)
+- Rule: sedimentary/foliated rock = horizontal bands of alternating value/hue; tilt or cross-bed for
+  drama. Expose banding on cliff/strata blocks.
+
+## 2026-07-21 — differential weathering couples hardness to texture AND worldgen (L2)
+- Rule: resistant rock = sharp blocky texture + cliffs/spires/hoodoos; soft rock = rounded texture +
+  slopes. Hardness drives both the edges and the placement.
+
+## 2026-07-21 — cave formations are their own material family (L3)
+- Rule: build cave decor from the speleothem vocabulary — stalactite/stalagmite taper, flowstone smooth
+  banded sheet, soda-straw tube, anthodite (radiating crystal habit), drapery curtain; warm tan/orange/brown,
+  optional faint glow (UV fluorescence = a magic-glow hook). A geode = dark host rind + inward radiating bright crystal points.
+
+## 2026-07-21 — deposits grow in concentric rings (L4)
+- Rule: a cut geode/flowstone/agate cross-section shows concentric rings around a centre (same grammar as
+  tree end-grain); use rings for any deposited/precipitated cross-section.
+
+## 2026-07-21 — ore = mineral clusters on a copy of the host rock (O1)
+- Rule: the host stone is most of the block; paste 2-4 CLUSTERED mineral shapes onto it, each faceted
+  (highlight top-left + shadow bottom-right), high contrast, sharp edges.
+
+## 2026-07-21 — ore hosting style is the arrangement axis (O2)
+- Rule: vein (a diagonal/branching band cutting across, with a gangue halo) · disseminated (fine specks
+  scattered through) · massive (one big clustered pocket). Pick from the deposit type; a vein reads richer than scattered blobs.
+
+## 2026-07-21 — ore colour codes the mineral (O3)
+- Rule: use the real mineral's colour (gold=yellow, copper=green/red, pyrite=brass, magnetite=black,
+  hematite/cinnabar=red, malachite=green); a fictional/arcane ore picks a plausible saturated hue that beats the host value.
+
+## 2026-07-21 — a pale gangue halo sells "natural deposit" (O4)
+- Rule: real vein ore sits in pale quartz/calcite; a thin pale rim around the ore mineral reads as
+  grown-in rock, not a sticker slapped on.
+
+## 2026-07-21 — contrast + sharp edges = ore readability (O5)
+- Rule: dark host + bright mineral, sharp pixel edges, strong value gap so it reads at 16px; reserve a
+  subtle glow for magic/emissive ores only.
+
+## 2026-07-21 — polish = darker + saturated + a sheen streak; raw = lighter, matte (P1)
+- Rule: polishing "consolidates" scattered light into one direction → paint polished stone as slightly
+  DARKER + more SATURATED base + ONE bright specular sheen streak; raw stone is lighter, desaturated, matte
+  (no specular). The darkening is a diffuse→specular shift, not pigment.
+
+## 2026-07-21 — polish reveals structure (P2)
+- Rule: sharpen grain/vein contrast on the polished version; blur/hide it on the raw (a pitted matte
+  surface obscures the internal pattern; polishing shows it at max definition).
+
+## 2026-07-21 — the finish spectrum is a value+busyness+edge progression (P3)
+- Rule: raw (pale, matte, busy/pitted, broken rounded edges) → cut/sawn (flat geometric faces, matte) →
+  honed (smooth even, low busyness) → polished (darker, saturated, sharp veins, sheen, crisp edges). Author a stone's variants along this axis.
+
+## 2026-07-21 — edges tell the finish (P4)
+- Rule: raw = irregular/broken/rounded; cut = sharp straight geometric; polished = crisp + a bright bevel/rim highlight.
+
+## 2026-07-21 — game-idiom caveat: MC "polished" is smooth+even+geometric, not literal darkening (P5)
+- Rule: Minecraft's polished variants (andesite/diorite/granite/blackstone/deepslate) are stylised as
+  smooth + even-toned + geometric (sometimes lighter), because the engine has no real specular. Match that
+  convention (even tone + geometric + optional subtle sheen) unless deliberately going for a glossy "gallery" look.
