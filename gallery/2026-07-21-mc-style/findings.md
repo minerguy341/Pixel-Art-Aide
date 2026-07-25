@@ -52,5 +52,30 @@ stop here and hand that decision to Jacob rather than thrash it with the oracle.
 > shift from execution to concept. A *mod* reference (UBC) is the wrong target for *vanilla* fit —
 > mod stones run hotter/busier on purpose.
 
+## Phase 3 — reference-anchored review (real vanilla as the oracle's anchor)
+The memory-only judge's weakness (round 8 flagged granite on a *concept* claim that was arguably a
+memory error — vanilla granite really is a warm mottled stone) motivated giving the oracle a real
+anchor. Pulled actual vanilla textures into scratchpad (reference-policy: never committed) and built:
+- `ref_blind_test.py` — our stones beside an authentic vanilla wall.
+- `scene_ref.py` — a world **cross-section** (grass→dirt→stone strata w/ igneous blobs+ores→deepslate,
+  desert sand→sandstone), our stones woven in as veins, vanilla sandstone beside ours for direct compare.
+
+**Reframed the ask** (user's idea): don't tell the fresh instance the blocks aren't vanilla — ask it
+*how to make them fit*. This flipped the output from an adversarial rotating-outlier hunt into concrete
+per-block craft direction. Applied, with a new engine feature:
+- Engine: `apply_columns` (vertical striations) for basalt's columnar-jointing signature.
+- basalt: near-black → medium warm-grey + vertical columns (distinct from deepslate).
+- granite: re-warmed to vanilla's pink-brown, `mineral_cluster:0` to kill a diagonal grain artifact
+  (the one defect two independent reviewers agreed on).
+- marble: capped highlights (no pure white 255→~236) + more visible veins.
+- shale: warmer, finer laminae, lifted darkest value (distinct from slate, not a silhouette).
+- sandstone: strong horizontal bedding to match vanilla sandstone beside it.
+
+**Convergence signal:** by the final review, independent fresh instances gave *contradictory* notes
+(granite too-pink ↔ too-brown; sandstone bedding too-strong ↔ too-faint). Cross-reviewer contradiction
+on the remaining nits = the taste/variance floor, i.e. converged. The only cross-reviewer-consistent
+defect (granite's directional grain) was fixed; the rest is preference.
+
 ## Not verified
-In-game read at real scale/lighting/tiling across a wall — flat upscaled previews only. Jacob's eye.
+In-game read at real scale/lighting/tiling across a wall — flat upscaled previews only. Every reviewer
+flagged this as the real remaining unknown. Jacob's eye.
