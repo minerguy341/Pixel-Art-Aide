@@ -1,11 +1,11 @@
 size: 16x16
 [palette]
-a = B08369
-b = C6A184
-c = D8CFC4
+a = A9836B
+b = BE9C82
+c = C8BFB4
 d = 5A4438
-e = 9E7259
-f = C89886
+e = 96705A
+f = BC8E7E
 [grid]
 aaaababbccbabdaa
 aabbaabbecadbdaa

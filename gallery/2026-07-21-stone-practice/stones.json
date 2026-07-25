@@ -2,11 +2,11 @@
   "marble": {
     "desc": "pale calcite, capped highlights (no pure white) + visible grey veins",
     "ramp": ["D8D6CE", "E4E2DC", "ECEAE4"],
-    "structure": "speckle", "busy_lo": 0.10, "busy_hi": 0.10, "seed": 41, "orient": "d4", "cluster": 3,
+    "structure": "speckle", "busy_lo": 0.14, "busy_hi": 0.12, "seed": 41, "orient": "d4", "cluster": 3,
     "anchor_veins": {
       "crossings": [4, 11],
-      "soft": "DEDCD4", "core": "B0AEA4",
-      "amp": 2.8, "dot": 0.74, "dark_bias": 2.4,
+      "soft": "DEDCD4", "core": "AAA89E",
+      "amp": 2.8, "dot": 0.78, "dark_bias": 2.2,
       "pairs": [["T0", "R1"], ["R0", "B1"], ["B0", "L1"], ["L0", "T1"]]
     }
   },
@@ -22,25 +22,25 @@
   },
   "shale": {
     "desc": "warm dark mudstone, fine tight laminae (distinct from slate)",
-    "ramp": ["302B28", "3C3733", "48423E"],
-    "structure": "speckle", "busy_lo": 0.16, "busy_hi": 0.12, "seed": 91, "orient": "hflip", "cluster": 2,
+    "ramp": ["302B28", "3C3733", "524B46"],
+    "structure": "speckle", "busy_lo": 0.16, "busy_hi": 0.16, "seed": 91, "orient": "hflip", "cluster": 2,
     "laminae": {"rows": [2, 5, 8, 11, 14], "color": "282320", "density": 0.5, "wavy": true}
   },
   "granite": {
-    "desc": "warm pink-orange granite matching vanilla, coarse quartz/mineral speckle",
-    "ramp": ["9E7259", "B08369", "C6A184"],
+    "desc": "muddy warm-brown granite (vanilla-matched, desaturated, dimmed quartz)",
+    "ramp": ["96705A", "A9836B", "BE9C82"],
     "structure": "speckle", "busy_lo": 0.24, "busy_hi": 0.22, "seed": 101,
     "cluster": 2, "mineral_cluster": 2,
     "minerals": [
-      {"color": "5A4438", "p": 0.10}, {"color": "C89886", "p": 0.10},
-      {"color": "D8CFC4", "p": 0.09}
+      {"color": "5A4438", "p": 0.10}, {"color": "BC8E7E", "p": 0.10},
+      {"color": "C8BFB4", "p": 0.08}
     ]
   },
   "basalt": {
     "desc": "medium-dark grey basalt, vertical column striations + faint purple undertone",
-    "ramp": ["343339", "45444B", "585661"],
+    "ramp": ["383734", "47453F", "5A574E"],
     "structure": "speckle", "busy_lo": 0.30, "busy_hi": 0.24, "seed": 111, "cluster": 2, "orient": "hflip",
-    "columns": {"cols": [2, 5, 8, 11, 14], "color": "2A2A30", "density": 0.5, "wavy": true}
+    "columns": {"cols": [2, 5, 8, 11, 14], "color": "2C2A26", "density": 0.6, "wavy": true}
   },
   "sandstone": {
     "desc": "warm tan grains + strong horizontal bedding like vanilla sandstone",
